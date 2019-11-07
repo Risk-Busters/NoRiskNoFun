@@ -1,0 +1,73 @@
+application {
+    config {
+       baseName NoRiskNoFun,
+       clientFramework react,
+       devDatabaseType h2Memory,
+       enableSwaggerCodegen true,
+       languages [en],
+       packageName com.riskbusters.norisknofun,
+       prodDatabaseType postgresql,
+       websocket spring-websocket
+    }
+
+}
+
+entity Risk {
+    name String required,
+    description String required,
+    severity SeverityType,
+    probability ProbabilityType,
+    inRiskpool Boolean required
+}
+
+entity RiskResponse {
+    type RiskResponseType required,
+    description String required,
+    status StatusType required
+}
+
+entity Project {
+    name String required,
+    description String,
+    start LocalDate required,
+    end LocalDate required
+}
+
+entity ProjectRisks {
+    projectSeverity SeverityType,
+    projectProbability ProbabilityType,
+    hasOccured Boolean required
+}
+
+enum StatusType {
+    TODO, WIP, DONE
+}
+
+enum SeverityType {
+    BAD, LESSBAD, NEUTRAL, SOSO, OK
+}
+
+enum RiskResponseType {
+    PREVENTION, CONTINGENCY, MITIGATION, TOLERANCE
+}
+
+enum ProbabilityType {
+    SURE, PROBABLY, MAYBE, NOTLIKELY, NOTGONNAHAPPEN
+}
+
+
+relationship OneToOne {
+    Project{owner} to User
+}
+
+relationship ManyToOne {
+    Project to User
+}
+
+relationship OneToMany {
+    Risk to RiskResponse,
+    ProjectRisks to RiskResponse,
+    Project to ProjectRisks
+}
+
+

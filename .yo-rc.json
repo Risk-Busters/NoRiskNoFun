@@ -38,5 +38,5 @@
     "otherModules": [],
     "blueprints": []
   },
-  "entities": []
+  "entities": ["Risk", "RiskResponse", "Project", "ProjectRisks"]
 }

@@ -1,0 +1,11 @@
+id;project_severity;project_probability;has_occured
+1;LESSBAD;NOTLIKELY;false
+2;BAD;SURE;true
+3;LESSBAD;NOTGONNAHAPPEN;false
+4;BAD;NOTLIKELY;false
+5;OK;PROBABLY;true
+6;BAD;SURE;false
+7;LESSBAD;SURE;false
+8;LESSBAD;NOTGONNAHAPPEN;false
+9;NEUTRAL;NOTLIKELY;true
+10;LESSBAD;SURE;false

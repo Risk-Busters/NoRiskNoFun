@@ -1,0 +1,56 @@
+{
+    "name": "Risk",
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "severity",
+            "fieldType": "SeverityType",
+            "fieldValues": "BAD,LESSBAD,NEUTRAL,SOSO,OK"
+        },
+        {
+            "fieldName": "probability",
+            "fieldType": "ProbabilityType",
+            "fieldValues": "SURE,PROBABLY,MAYBE,NOTLIKELY,NOTGONNAHAPPEN"
+        },
+        {
+            "fieldName": "inRiskpool",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "riskResponse",
+            "otherEntityRelationshipName": "risk",
+            "relationshipName": "riskResponse"
+        }
+    ],
+    "changelogDate": "20191107120727",
+    "entityTableName": "risk",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "NoRiskNoFun"
+    ]
+}

@@ -1,0 +1,56 @@
+{
+    "name": "RiskResponse",
+    "fields": [
+        {
+            "fieldName": "type",
+            "fieldType": "RiskResponseType",
+            "fieldValues": "PREVENTION,CONTINGENCY,MITIGATION,TOLERANCE",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "StatusType",
+            "fieldValues": "TODO,WIP,DONE",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "risk",
+            "otherEntityRelationshipName": "riskResponse",
+            "relationshipName": "risk",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "projectRisks",
+            "otherEntityRelationshipName": "riskResponse",
+            "relationshipName": "projectRisks",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191107120728",
+    "entityTableName": "risk_response",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "NoRiskNoFun"
+    ]
+}

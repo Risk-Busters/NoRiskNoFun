@@ -1,0 +1,10 @@
+{
+  "noRiskNoFunApp": {
+    "StatusType": {
+      "null": "",
+      "TODO": "TODO",
+      "WIP": "WIP",
+      "DONE": "DONE"
+    }
+  }
+}

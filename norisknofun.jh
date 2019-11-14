@@ -10,6 +10,7 @@ application {
        websocket spring-websocket
     }
 
+    entities *
 }
 
 entity Risk {

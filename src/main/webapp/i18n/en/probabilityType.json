@@ -1,0 +1,12 @@
+{
+  "noRiskNoFunApp": {
+    "ProbabilityType": {
+      "null": "",
+      "SURE": "SURE",
+      "PROBABLY": "PROBABLY",
+      "MAYBE": "MAYBE",
+      "NOTLIKELY": "NOTLIKELY",
+      "NOTGONNAHAPPEN": "NOTGONNAHAPPEN"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "noRiskNoFunApp": {
+    "SeverityType": {
+      "null": "",
+      "BAD": "BAD",
+      "LESSBAD": "LESSBAD",
+      "NEUTRAL": "NEUTRAL",
+      "SOSO": "SOSO",
+      "OK": "OK"
+    }
+  }
+}

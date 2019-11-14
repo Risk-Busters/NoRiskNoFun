@@ -1,0 +1,26 @@
+{
+  "noRiskNoFunApp": {
+    "projectRisks": {
+      "home": {
+        "title": "Project Risks",
+        "createLabel": "Create a new Project Risks",
+        "createOrEditLabel": "Create or edit a Project Risks",
+        "notFound": "No Project Risks found"
+      },
+      "created": "A new Project Risks is created with identifier {{ param }}",
+      "updated": "A Project Risks is updated with identifier {{ param }}",
+      "deleted": "A Project Risks is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Project Risks {{ id }}?"
+      },
+      "detail": {
+        "title": "Project Risks"
+      },
+      "projectSeverity": "Project Severity",
+      "projectProbability": "Project Probability",
+      "hasOccured": "Has Occured",
+      "riskResponse": "Risk Response",
+      "project": "Project"
+    }
+  }
+}

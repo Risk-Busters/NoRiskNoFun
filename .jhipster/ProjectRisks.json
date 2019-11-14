@@ -1,0 +1,49 @@
+{
+    "name": "ProjectRisks",
+    "fields": [
+        {
+            "fieldName": "projectSeverity",
+            "fieldType": "SeverityType",
+            "fieldValues": "BAD,LESSBAD,NEUTRAL,SOSO,OK"
+        },
+        {
+            "fieldName": "projectProbability",
+            "fieldType": "ProbabilityType",
+            "fieldValues": "SURE,PROBABLY,MAYBE,NOTLIKELY,NOTGONNAHAPPEN"
+        },
+        {
+            "fieldName": "hasOccured",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "riskResponse",
+            "otherEntityRelationshipName": "projectRisks",
+            "relationshipName": "riskResponse"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "project",
+            "otherEntityRelationshipName": "projectRisks",
+            "relationshipName": "project",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191107120730",
+    "entityTableName": "project_risks",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "NoRiskNoFun"
+    ]
+}

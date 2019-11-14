@@ -1,0 +1,65 @@
+{
+    "name": "Project",
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "start",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "end",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "user",
+            "otherEntityRelationshipName": "project",
+            "relationshipName": "owner",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "projectRisks",
+            "otherEntityRelationshipName": "project",
+            "relationshipName": "projectRisks"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "user",
+            "otherEntityRelationshipName": "project",
+            "relationshipName": "user",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191107120729",
+    "entityTableName": "project",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": [
+        "NoRiskNoFun"
+    ]
+}

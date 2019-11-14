@@ -1,0 +1,26 @@
+{
+  "noRiskNoFunApp": {
+    "riskResponse": {
+      "home": {
+        "title": "Risk Responses",
+        "createLabel": "Create a new Risk Response",
+        "createOrEditLabel": "Create or edit a Risk Response",
+        "notFound": "No Risk Responses found"
+      },
+      "created": "A new Risk Response is created with identifier {{ param }}",
+      "updated": "A Risk Response is updated with identifier {{ param }}",
+      "deleted": "A Risk Response is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Risk Response {{ id }}?"
+      },
+      "detail": {
+        "title": "Risk Response"
+      },
+      "type": "Type",
+      "description": "Description",
+      "status": "Status",
+      "risk": "Risk",
+      "projectRisks": "Project Risks"
+    }
+  }
+}

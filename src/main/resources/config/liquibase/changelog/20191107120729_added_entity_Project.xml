@@ -30,15 +30,23 @@
             <column name="owner_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_project_owner_id" />
             </column>
-            <column name="user_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
     </changeSet>
 
     <changeSet id="20191107120729-1-relations" author="jhipster">
 
+        <createTable tableName="project_user">
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="project_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="project_id, user_id" tableName="project_user"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 

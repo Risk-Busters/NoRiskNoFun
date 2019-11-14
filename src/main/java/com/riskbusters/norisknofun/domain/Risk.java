@@ -50,6 +50,13 @@ public class Risk implements Serializable {
 
     @OneToMany(mappedBy = "risk")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<ProjectRisks> projectRisks = new HashSet<>();
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "risk_risk_response",
+               joinColumns = @JoinColumn(name = "risk_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "risk_response_id", referencedColumnName = "id"))
     private Set<RiskResponse> riskResponses = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -126,6 +133,31 @@ public class Risk implements Serializable {
         this.inRiskpool = inRiskpool;
     }
 
+    public Set<ProjectRisks> getProjectRisks() {
+        return projectRisks;
+    }
+
+    public Risk projectRisks(Set<ProjectRisks> projectRisks) {
+        this.projectRisks = projectRisks;
+        return this;
+    }
+
+    public Risk addProjectRisks(ProjectRisks projectRisks) {
+        this.projectRisks.add(projectRisks);
+        projectRisks.setRisk(this);
+        return this;
+    }
+
+    public Risk removeProjectRisks(ProjectRisks projectRisks) {
+        this.projectRisks.remove(projectRisks);
+        projectRisks.setRisk(null);
+        return this;
+    }
+
+    public void setProjectRisks(Set<ProjectRisks> projectRisks) {
+        this.projectRisks = projectRisks;
+    }
+
     public Set<RiskResponse> getRiskResponses() {
         return riskResponses;
     }
@@ -137,13 +169,13 @@ public class Risk implements Serializable {
 
     public Risk addRiskResponse(RiskResponse riskResponse) {
         this.riskResponses.add(riskResponse);
-        riskResponse.setRisk(this);
+        riskResponse.getRisks().add(this);
         return this;
     }
 
     public Risk removeRiskResponse(RiskResponse riskResponse) {
         this.riskResponses.remove(riskResponse);
-        riskResponse.setRisk(null);
+        riskResponse.getRisks().remove(this);
         return this;
     }
 

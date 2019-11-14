@@ -1,11 +1,11 @@
 id;type;description;status
-1;TOLERANCE;knowledge base Buckinghamshire;DONE
-2;PREVENTION;Money Market Account;WIP
-3;MITIGATION;maroon;DONE
-4;MITIGATION;withdrawal;TODO
-5;CONTINGENCY;magenta Concrete;TODO
-6;PREVENTION;facilitate Tasty Concrete Chips Exclusive;DONE
-7;CONTINGENCY;Berkshire Small Plastic Pants Investor;DONE
-8;CONTINGENCY;Credit Card Account;TODO
+1;CONTINGENCY;knowledge base Buckinghamshire;TODO
+2;TOLERANCE;Money Market Account;DONE
+3;PREVENTION;maroon;WIP
+4;MITIGATION;withdrawal;WIP
+5;MITIGATION;magenta Concrete;WIP
+6;PREVENTION;facilitate Tasty Concrete Chips Exclusive;TODO
+7;TOLERANCE;Berkshire Small Plastic Pants Investor;WIP
+8;TOLERANCE;Credit Card Account;TODO
 9;MITIGATION;web-enabled invoice withdrawal;TODO
-10;PREVENTION;Argentine Peso;DONE
+10;MITIGATION;Argentine Peso;TODO

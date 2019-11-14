@@ -8,8 +8,8 @@ export interface IRiskResponse {
   type?: RiskResponseType;
   description?: string;
   status?: StatusType;
-  risk?: IRisk;
-  projectRisks?: IProjectRisks;
+  risks?: IRisk[];
+  projectRisks?: IProjectRisks[];
 }
 
 export const defaultValue: Readonly<IRiskResponse> = {};

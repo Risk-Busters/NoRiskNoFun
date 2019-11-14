@@ -43,11 +43,12 @@
             "relationshipName": "projectRisks"
         },
         {
-            "relationshipType": "many-to-one",
+            "relationshipType": "many-to-many",
             "otherEntityName": "user",
             "otherEntityRelationshipName": "project",
             "relationshipName": "user",
-            "otherEntityField": "id"
+            "otherEntityField": "id",
+            "ownerSide": true
         }
     ],
     "changelogDate": "20191107120729",

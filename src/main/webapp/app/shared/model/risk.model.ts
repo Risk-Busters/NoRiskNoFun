@@ -1,3 +1,4 @@
+import { IProjectRisks } from 'app/shared/model/project-risks.model';
 import { IRiskResponse } from 'app/shared/model/risk-response.model';
 import { SeverityType } from 'app/shared/model/enumerations/severity-type.model';
 import { ProbabilityType } from 'app/shared/model/enumerations/probability-type.model';
@@ -9,6 +10,7 @@ export interface IRisk {
   severity?: SeverityType;
   probability?: ProbabilityType;
   inRiskpool?: boolean;
+  projectRisks?: IProjectRisks[];
   riskResponses?: IRiskResponse[];
 }
 

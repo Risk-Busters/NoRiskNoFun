@@ -1,5 +1,6 @@
 import { IRiskResponse } from 'app/shared/model/risk-response.model';
 import { IProject } from 'app/shared/model/project.model';
+import { IRisk } from 'app/shared/model/risk.model';
 import { SeverityType } from 'app/shared/model/enumerations/severity-type.model';
 import { ProbabilityType } from 'app/shared/model/enumerations/probability-type.model';
 
@@ -10,6 +11,7 @@ export interface IProjectRisks {
   hasOccured?: boolean;
   riskResponses?: IRiskResponse[];
   project?: IProject;
+  risk?: IRisk;
 }
 
 export const defaultValue: Readonly<IProjectRisks> = {

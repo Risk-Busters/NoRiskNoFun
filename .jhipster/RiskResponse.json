@@ -27,18 +27,20 @@
     ],
     "relationships": [
         {
-            "relationshipType": "many-to-one",
+            "relationshipType": "many-to-many",
             "otherEntityName": "risk",
             "otherEntityRelationshipName": "riskResponse",
             "relationshipName": "risk",
-            "otherEntityField": "id"
+            "otherEntityField": "id",
+            "ownerSide": false
         },
         {
-            "relationshipType": "many-to-one",
+            "relationshipType": "many-to-many",
             "otherEntityName": "projectRisks",
             "otherEntityRelationshipName": "riskResponse",
             "relationshipName": "projectRisks",
-            "otherEntityField": "id"
+            "otherEntityField": "id",
+            "ownerSide": false
         }
     ],
     "changelogDate": "20191107120728",

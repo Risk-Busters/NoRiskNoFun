@@ -45,9 +45,26 @@ export class ProjectRisksDetail extends React.Component<IProjectRisksDetailProps
             </dt>
             <dd>{projectRisksEntity.hasOccured ? 'true' : 'false'}</dd>
             <dt>
+              <Translate contentKey="noRiskNoFunApp.projectRisks.riskResponse">Risk Response</Translate>
+            </dt>
+            <dd>
+              {projectRisksEntity.riskResponses
+                ? projectRisksEntity.riskResponses.map((val, i) => (
+                    <span key={val.id}>
+                      <a>{val.id}</a>
+                      {i === projectRisksEntity.riskResponses.length - 1 ? '' : ', '}
+                    </span>
+                  ))
+                : null}
+            </dd>
+            <dt>
               <Translate contentKey="noRiskNoFunApp.projectRisks.project">Project</Translate>
             </dt>
             <dd>{projectRisksEntity.project ? projectRisksEntity.project.id : ''}</dd>
+            <dt>
+              <Translate contentKey="noRiskNoFunApp.projectRisks.risk">Risk</Translate>
+            </dt>
+            <dd>{projectRisksEntity.risk ? projectRisksEntity.risk.id : ''}</dd>
           </dl>
           <Button tag={Link} to="/entity/project-risks" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

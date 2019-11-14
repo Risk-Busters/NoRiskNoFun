@@ -46,12 +46,6 @@ export class RiskResponse extends React.Component<IRiskResponseProps> {
                   <th>
                     <Translate contentKey="noRiskNoFunApp.riskResponse.status">Status</Translate>
                   </th>
-                  <th>
-                    <Translate contentKey="noRiskNoFunApp.riskResponse.risk">Risk</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="noRiskNoFunApp.riskResponse.projectRisks">Project Risks</Translate>
-                  </th>
                   <th />
                 </tr>
               </thead>
@@ -69,14 +63,6 @@ export class RiskResponse extends React.Component<IRiskResponseProps> {
                     <td>{riskResponse.description}</td>
                     <td>
                       <Translate contentKey={`noRiskNoFunApp.StatusType.${riskResponse.status}`} />
-                    </td>
-                    <td>{riskResponse.risk ? <Link to={`risk/${riskResponse.risk.id}`}>{riskResponse.risk.id}</Link> : ''}</td>
-                    <td>
-                      {riskResponse.projectRisks ? (
-                        <Link to={`project-risks/${riskResponse.projectRisks.id}`}>{riskResponse.projectRisks.id}</Link>
-                      ) : (
-                        ''
-                      )}
                     </td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">

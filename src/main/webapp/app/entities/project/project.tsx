@@ -75,7 +75,16 @@ export class Project extends React.Component<IProjectProps> {
                       <TextFormat type="date" value={project.end} format={APP_LOCAL_DATE_FORMAT} />
                     </td>
                     <td>{project.owner ? project.owner.id : ''}</td>
-                    <td>{project.user ? project.user.id : ''}</td>
+                    <td>
+                      {project.users
+                        ? project.users.map((val, j) => (
+                            <span key={j}>
+                              {val.id}
+                              {j === project.users.length - 1 ? '' : ', '}
+                            </span>
+                          ))
+                        : null}
+                    </td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${project.id}`} color="info" size="sm">

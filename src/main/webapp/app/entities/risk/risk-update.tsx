@@ -7,6 +7,8 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
+import { IRiskResponse } from 'app/shared/model/risk-response.model';
+import { getEntities as getRiskResponses } from 'app/entities/risk-response/risk-response.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './risk.reducer';
 import { IRisk } from 'app/shared/model/risk.model';
 import { convertDateTimeFromServer, convertDateTimeToServer } from 'app/shared/util/date-utils';
@@ -16,12 +18,14 @@ export interface IRiskUpdateProps extends StateProps, DispatchProps, RouteCompon
 
 export interface IRiskUpdateState {
   isNew: boolean;
+  idsriskResponse: any[];
 }
 
 export class RiskUpdate extends React.Component<IRiskUpdateProps, IRiskUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
+      idsriskResponse: [],
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -38,6 +42,8 @@ export class RiskUpdate extends React.Component<IRiskUpdateProps, IRiskUpdateSta
     } else {
       this.props.getEntity(this.props.match.params.id);
     }
+
+    this.props.getRiskResponses();
   }
 
   saveEntity = (event, errors, values) => {
@@ -45,7 +51,8 @@ export class RiskUpdate extends React.Component<IRiskUpdateProps, IRiskUpdateSta
       const { riskEntity } = this.props;
       const entity = {
         ...riskEntity,
-        ...values
+        ...values,
+        riskResponses: mapIdList(values.riskResponses)
       };
 
       if (this.state.isNew) {
@@ -61,7 +68,7 @@ export class RiskUpdate extends React.Component<IRiskUpdateProps, IRiskUpdateSta
   };
 
   render() {
-    const { riskEntity, loading, updating } = this.props;
+    const { riskEntity, riskResponses, loading, updating } = this.props;
     const { isNew } = this.state;
 
     return (
@@ -155,6 +162,28 @@ export class RiskUpdate extends React.Component<IRiskUpdateProps, IRiskUpdateSta
                     <Translate contentKey="noRiskNoFunApp.risk.inRiskpool">In Riskpool</Translate>
                   </Label>
                 </AvGroup>
+                <AvGroup>
+                  <Label for="risk-riskResponse">
+                    <Translate contentKey="noRiskNoFunApp.risk.riskResponse">Risk Response</Translate>
+                  </Label>
+                  <AvInput
+                    id="risk-riskResponse"
+                    type="select"
+                    multiple
+                    className="form-control"
+                    name="riskResponses"
+                    value={riskEntity.riskResponses && riskEntity.riskResponses.map(e => e.id)}
+                  >
+                    <option value="" key="0" />
+                    {riskResponses
+                      ? riskResponses.map(otherEntity => (
+                          <option value={otherEntity.id} key={otherEntity.id}>
+                            {otherEntity.id}
+                          </option>
+                        ))
+                      : null}
+                  </AvInput>
+                </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/risk" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />
                   &nbsp;
@@ -178,6 +207,7 @@ export class RiskUpdate extends React.Component<IRiskUpdateProps, IRiskUpdateSta
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
+  riskResponses: storeState.riskResponse.entities,
   riskEntity: storeState.risk.entity,
   loading: storeState.risk.loading,
   updating: storeState.risk.updating,
@@ -185,6 +215,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  getRiskResponses,
   getEntity,
   updateEntity,
   createEntity,

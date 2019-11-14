@@ -82,13 +82,13 @@ public class ProjectResource {
     /**
      * {@code GET  /projects} : get all the projects.
      *
-
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projects in body.
      */
     @GetMapping("/projects")
-    public List<Project> getAllProjects() {
+    public List<Project> getAllProjects(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Projects");
-        return projectRepository.findAll();
+        return projectRepository.findAllWithEagerRelationships();
     }
 
     /**
@@ -100,7 +100,7 @@ public class ProjectResource {
     @GetMapping("/projects/{id}")
     public ResponseEntity<Project> getProject(@PathVariable Long id) {
         log.debug("REST request to get Project : {}", id);
-        Optional<Project> project = projectRepository.findById(id);
+        Optional<Project> project = projectRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(project);
     }
 

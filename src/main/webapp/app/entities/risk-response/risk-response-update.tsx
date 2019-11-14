@@ -144,36 +144,6 @@ export class RiskResponseUpdate extends React.Component<IRiskResponseUpdateProps
                     <option value="DONE">{translate('noRiskNoFunApp.StatusType.DONE')}</option>
                   </AvInput>
                 </AvGroup>
-                <AvGroup>
-                  <Label for="risk-response-risk">
-                    <Translate contentKey="noRiskNoFunApp.riskResponse.risk">Risk</Translate>
-                  </Label>
-                  <AvInput id="risk-response-risk" type="select" className="form-control" name="risk.id">
-                    <option value="" key="0" />
-                    {risks
-                      ? risks.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
-                </AvGroup>
-                <AvGroup>
-                  <Label for="risk-response-projectRisks">
-                    <Translate contentKey="noRiskNoFunApp.riskResponse.projectRisks">Project Risks</Translate>
-                  </Label>
-                  <AvInput id="risk-response-projectRisks" type="select" className="form-control" name="projectRisks.id">
-                    <option value="" key="0" />
-                    {projectRisks
-                      ? projectRisks.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
-                </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/risk-response" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />
                   &nbsp;

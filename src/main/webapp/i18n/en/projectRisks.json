@@ -20,7 +20,8 @@
       "projectProbability": "Project Probability",
       "hasOccured": "Has Occured",
       "riskResponse": "Risk Response",
-      "project": "Project"
+      "project": "Project",
+      "risk": "Risk"
     }
   }
 }

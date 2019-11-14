@@ -1,5 +1,4 @@
 package com.riskbusters.norisknofun.domain;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -49,9 +48,12 @@ public class Project implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<ProjectRisks> projectRisks = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("projects")
-    private User user;
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "project_user",
+               joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+    private Set<User> users = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -152,17 +154,27 @@ public class Project implements Serializable {
         this.projectRisks = projectRisks;
     }
 
-    public User getUser() {
-        return user;
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public Project user(User user) {
-        this.user = user;
+    public Project users(Set<User> users) {
+        this.users = users;
         return this;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public Project addUser(User user) {
+        this.users.add(user);
+        return this;
+    }
+
+    public Project removeUser(User user) {
+        this.users.remove(user);
+        return this;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

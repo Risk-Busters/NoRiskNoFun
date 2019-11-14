@@ -1,7 +1,10 @@
 package com.riskbusters.norisknofun.web.rest;
 
 import com.riskbusters.norisknofun.domain.Project;
+import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.repository.ProjectRepository;
+import com.riskbusters.norisknofun.repository.UserRepository;
+import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -9,6 +12,7 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +20,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,9 +39,11 @@ public class ProjectResource {
     private String applicationName;
 
     private final ProjectRepository projectRepository;
+    private final UserService userService;
 
-    public ProjectResource(ProjectRepository projectRepository) {
+    public ProjectResource(ProjectRepository projectRepository, UserService userService) {
         this.projectRepository = projectRepository;
+        this.userService = userService;
     }
 
     /**
@@ -88,7 +95,8 @@ public class ProjectResource {
     @GetMapping("/projects")
     public List<Project> getAllProjects(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Projects");
-        return projectRepository.findAllWithEagerRelationships();
+        User user = userService.getUserWithAuthorities().get();
+        return projectRepository.findAllByUsersIsContaining(user);
     }
 
     /**

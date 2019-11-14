@@ -44,7 +44,6 @@ export const Home = (props: IHomeProp) => {
                 <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
               </Translate>
             </Alert>
-
             <Alert color="warning">
               <Translate contentKey="global.messages.info.register.noaccount">You do not have an account yet?</Translate>&nbsp;
               <Link to="/account/register" className="alert-link">

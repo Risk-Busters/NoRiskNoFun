@@ -96,7 +96,7 @@ public class ProjectResource {
     public List<Project> getAllProjects(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Projects");
         User user = userService.getUserWithAuthorities().get();
-        return projectRepository.findAllByUsersIsContaining(user);
+        return projectRepository.findAllByUsersIsContainingOrOwnerEquals(user, user);
     }
 
     /**

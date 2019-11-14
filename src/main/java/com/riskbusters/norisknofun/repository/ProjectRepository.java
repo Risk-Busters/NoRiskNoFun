@@ -20,7 +20,8 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
         countQuery = "select count(distinct project) from Project project")
     Page<Project> findAllWithEagerRelationships(Pageable pageable);
 
-    List<Project> findAllByUsersIsContaining(User user);
+    // TODO: Rewrite to Query to avoid having user parameter twice
+    List<Project> findAllByUsersIsContainingOrOwnerEquals(User user, User owner);
 
     @Query("select distinct project from Project project left join fetch project.users")
     List<Project> findAllWithEagerRelationships();

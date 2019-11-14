@@ -2,6 +2,7 @@ package com.riskbusters.norisknofun.web.rest;
 
 import com.riskbusters.norisknofun.NoRiskNoFunApp;
 import com.riskbusters.norisknofun.domain.Project;
+import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.repository.ProjectRepository;
 import com.riskbusters.norisknofun.repository.UserRepository;
 import com.riskbusters.norisknofun.service.UserService;
@@ -29,6 +30,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.riskbusters.norisknofun.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -83,6 +85,8 @@ public class ProjectResourceIT {
 
     private Project project;
 
+    private User user;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -126,7 +130,11 @@ public class ProjectResourceIT {
 
     @BeforeEach
     public void initTest() {
+        user = UserResourceIT.createEntity(em);
+        em.persist(user);
+
         project = createEntity(em);
+        project.addUser(user);
     }
 
     @Test
@@ -229,6 +237,8 @@ public class ProjectResourceIT {
     public void getAllProjects() throws Exception {
         // Initialize the database
         projectRepository.saveAndFlush(project);
+
+        when(userServiceMock.getUserWithAuthorities()).thenReturn(Optional.of(user));
 
         // Get all the projectList
         restProjectMockMvc.perform(get("/api/projects?sort=id,desc"))

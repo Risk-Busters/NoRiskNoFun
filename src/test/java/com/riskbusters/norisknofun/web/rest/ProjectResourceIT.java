@@ -3,6 +3,8 @@ package com.riskbusters.norisknofun.web.rest;
 import com.riskbusters.norisknofun.NoRiskNoFunApp;
 import com.riskbusters.norisknofun.domain.Project;
 import com.riskbusters.norisknofun.repository.ProjectRepository;
+import com.riskbusters.norisknofun.repository.UserRepository;
+import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -58,6 +61,9 @@ public class ProjectResourceIT {
     @Mock
     private ProjectRepository projectRepositoryMock;
 
+    @Mock
+    private UserService userServiceMock;
+
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
@@ -80,7 +86,7 @@ public class ProjectResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ProjectResource projectResource = new ProjectResource(projectRepository);
+        final ProjectResource projectResource = new ProjectResource(projectRepository, userServiceMock);
         this.restProjectMockMvc = MockMvcBuilders.standaloneSetup(projectResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -234,10 +240,10 @@ public class ProjectResourceIT {
             .andExpect(jsonPath("$.[*].start").value(hasItem(DEFAULT_START.toString())))
             .andExpect(jsonPath("$.[*].end").value(hasItem(DEFAULT_END.toString())));
     }
-    
+
     @SuppressWarnings({"unchecked"})
     public void getAllProjectsWithEagerRelationshipsIsEnabled() throws Exception {
-        ProjectResource projectResource = new ProjectResource(projectRepositoryMock);
+        ProjectResource projectResource = new ProjectResource(projectRepositoryMock, userServiceMock);
         when(projectRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
         MockMvc restProjectMockMvc = MockMvcBuilders.standaloneSetup(projectResource)
@@ -254,7 +260,7 @@ public class ProjectResourceIT {
 
     @SuppressWarnings({"unchecked"})
     public void getAllProjectsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        ProjectResource projectResource = new ProjectResource(projectRepositoryMock);
+        ProjectResource projectResource = new ProjectResource(projectRepositoryMock, userServiceMock);
             when(projectRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
             MockMvc restProjectMockMvc = MockMvcBuilders.standaloneSetup(projectResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)

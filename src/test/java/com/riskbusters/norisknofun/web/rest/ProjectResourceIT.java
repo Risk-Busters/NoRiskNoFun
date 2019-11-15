@@ -2,14 +2,21 @@ package com.riskbusters.norisknofun.web.rest;
 
 import com.riskbusters.norisknofun.NoRiskNoFunApp;
 import com.riskbusters.norisknofun.domain.Project;
+import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.repository.ProjectRepository;
+import com.riskbusters.norisknofun.repository.UserRepository;
+import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -21,11 +28,14 @@ import org.springframework.validation.Validator;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.riskbusters.norisknofun.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -50,6 +60,12 @@ public class ProjectResourceIT {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Mock
+    private ProjectRepository projectRepositoryMock;
+
+    @Mock
+    private UserService userServiceMock;
+
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
@@ -69,10 +85,12 @@ public class ProjectResourceIT {
 
     private Project project;
 
+    private User user;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ProjectResource projectResource = new ProjectResource(projectRepository);
+        final ProjectResource projectResource = new ProjectResource(projectRepository, userServiceMock);
         this.restProjectMockMvc = MockMvcBuilders.standaloneSetup(projectResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -112,7 +130,11 @@ public class ProjectResourceIT {
 
     @BeforeEach
     public void initTest() {
+        user = UserResourceIT.createEntity(em);
+        em.persist(user);
+
         project = createEntity(em);
+        project.addUser(user);
     }
 
     @Test
@@ -216,6 +238,8 @@ public class ProjectResourceIT {
         // Initialize the database
         projectRepository.saveAndFlush(project);
 
+        when(userServiceMock.getUserWithAuthorities()).thenReturn(Optional.of(user));
+
         // Get all the projectList
         restProjectMockMvc.perform(get("/api/projects?sort=id,desc"))
             .andExpect(status().isOk())
@@ -226,7 +250,40 @@ public class ProjectResourceIT {
             .andExpect(jsonPath("$.[*].start").value(hasItem(DEFAULT_START.toString())))
             .andExpect(jsonPath("$.[*].end").value(hasItem(DEFAULT_END.toString())));
     }
-    
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllProjectsWithEagerRelationshipsIsEnabled() throws Exception {
+        ProjectResource projectResource = new ProjectResource(projectRepositoryMock, userServiceMock);
+        when(projectRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restProjectMockMvc = MockMvcBuilders.standaloneSetup(projectResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restProjectMockMvc.perform(get("/api/projects?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(projectRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllProjectsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        ProjectResource projectResource = new ProjectResource(projectRepositoryMock, userServiceMock);
+            when(projectRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restProjectMockMvc = MockMvcBuilders.standaloneSetup(projectResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restProjectMockMvc.perform(get("/api/projects?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(projectRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getProject() throws Exception {

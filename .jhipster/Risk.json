@@ -36,9 +36,17 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
+            "otherEntityName": "projectRisks",
+            "otherEntityRelationshipName": "risk",
+            "relationshipName": "projectRisks"
+        },
+        {
+            "relationshipType": "many-to-many",
             "otherEntityName": "riskResponse",
             "otherEntityRelationshipName": "risk",
-            "relationshipName": "riskResponse"
+            "relationshipName": "riskResponse",
+            "otherEntityField": "id",
+            "ownerSide": true
         }
     ],
     "changelogDate": "20191107120727",

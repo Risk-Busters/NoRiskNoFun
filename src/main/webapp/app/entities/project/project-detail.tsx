@@ -61,7 +61,16 @@ export class ProjectDetail extends React.Component<IProjectDetailProps> {
             <dt>
               <Translate contentKey="noRiskNoFunApp.project.user">User</Translate>
             </dt>
-            <dd>{projectEntity.user ? projectEntity.user.id : ''}</dd>
+            <dd>
+              {projectEntity.users
+                ? projectEntity.users.map((val, i) => (
+                    <span key={val.id}>
+                      <a>{val.id}</a>
+                      {i === projectEntity.users.length - 1 ? '' : ', '}
+                    </span>
+                  ))
+                : null}{' '}
+            </dd>
           </dl>
           <Button tag={Link} to="/entity/project" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

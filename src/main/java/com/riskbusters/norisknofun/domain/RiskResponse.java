@@ -1,5 +1,5 @@
 package com.riskbusters.norisknofun.domain;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -7,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.riskbusters.norisknofun.domain.enumeration.RiskResponseType;
 
@@ -41,13 +43,15 @@ public class RiskResponse implements Serializable {
     @Column(name = "status", nullable = false)
     private StatusType status;
 
-    @ManyToOne
-    @JsonIgnoreProperties("riskResponses")
-    private Risk risk;
+    @ManyToMany(mappedBy = "riskResponses")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<Risk> risks = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("riskResponses")
-    private ProjectRisks projectRisks;
+    @ManyToMany(mappedBy = "riskResponses")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<ProjectRisks> projectRisks = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -97,29 +101,53 @@ public class RiskResponse implements Serializable {
         this.status = status;
     }
 
-    public Risk getRisk() {
-        return risk;
+    public Set<Risk> getRisks() {
+        return risks;
     }
 
-    public RiskResponse risk(Risk risk) {
-        this.risk = risk;
+    public RiskResponse risks(Set<Risk> risks) {
+        this.risks = risks;
         return this;
     }
 
-    public void setRisk(Risk risk) {
-        this.risk = risk;
+    public RiskResponse addRisk(Risk risk) {
+        this.risks.add(risk);
+        risk.getRiskResponses().add(this);
+        return this;
     }
 
-    public ProjectRisks getProjectRisks() {
+    public RiskResponse removeRisk(Risk risk) {
+        this.risks.remove(risk);
+        risk.getRiskResponses().remove(this);
+        return this;
+    }
+
+    public void setRisks(Set<Risk> risks) {
+        this.risks = risks;
+    }
+
+    public Set<ProjectRisks> getProjectRisks() {
         return projectRisks;
     }
 
-    public RiskResponse projectRisks(ProjectRisks projectRisks) {
+    public RiskResponse projectRisks(Set<ProjectRisks> projectRisks) {
         this.projectRisks = projectRisks;
         return this;
     }
 
-    public void setProjectRisks(ProjectRisks projectRisks) {
+    public RiskResponse addProjectRisks(ProjectRisks projectRisks) {
+        this.projectRisks.add(projectRisks);
+        projectRisks.getRiskResponses().add(this);
+        return this;
+    }
+
+    public RiskResponse removeProjectRisks(ProjectRisks projectRisks) {
+        this.projectRisks.remove(projectRisks);
+        projectRisks.getRiskResponses().remove(this);
+        return this;
+    }
+
+    public void setProjectRisks(Set<ProjectRisks> projectRisks) {
         this.projectRisks = projectRisks;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove

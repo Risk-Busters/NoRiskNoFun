@@ -47,7 +47,13 @@ export class ProjectRisks extends React.Component<IProjectRisksProps> {
                     <Translate contentKey="noRiskNoFunApp.projectRisks.hasOccured">Has Occured</Translate>
                   </th>
                   <th>
+                    <Translate contentKey="noRiskNoFunApp.projectRisks.riskResponse">Risk Response</Translate>
+                  </th>
+                  <th>
                     <Translate contentKey="noRiskNoFunApp.projectRisks.project">Project</Translate>
+                  </th>
+                  <th>
+                    <Translate contentKey="noRiskNoFunApp.projectRisks.risk">Risk</Translate>
                   </th>
                   <th />
                 </tr>
@@ -67,7 +73,18 @@ export class ProjectRisks extends React.Component<IProjectRisksProps> {
                       <Translate contentKey={`noRiskNoFunApp.ProbabilityType.${projectRisks.projectProbability}`} />
                     </td>
                     <td>{projectRisks.hasOccured ? 'true' : 'false'}</td>
+                    <td>
+                      {projectRisks.riskResponses
+                        ? projectRisks.riskResponses.map((val, j) => (
+                            <span key={j}>
+                              <Link to={`risk-response/${val.id}`}>{val.id}</Link>
+                              {j === projectRisks.riskResponses.length - 1 ? '' : ', '}
+                            </span>
+                          ))
+                        : null}
+                    </td>
                     <td>{projectRisks.project ? <Link to={`project/${projectRisks.project.id}`}>{projectRisks.project.id}</Link> : ''}</td>
+                    <td>{projectRisks.risk ? <Link to={`risk/${projectRisks.risk.id}`}>{projectRisks.risk.id}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${projectRisks.id}`} color="info" size="sm">

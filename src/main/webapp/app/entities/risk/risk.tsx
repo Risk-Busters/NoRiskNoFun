@@ -52,6 +52,9 @@ export class Risk extends React.Component<IRiskProps> {
                   <th>
                     <Translate contentKey="noRiskNoFunApp.risk.inRiskpool">In Riskpool</Translate>
                   </th>
+                  <th>
+                    <Translate contentKey="noRiskNoFunApp.risk.riskResponse">Risk Response</Translate>
+                  </th>
                   <th />
                 </tr>
               </thead>
@@ -72,6 +75,16 @@ export class Risk extends React.Component<IRiskProps> {
                       <Translate contentKey={`noRiskNoFunApp.ProbabilityType.${risk.probability}`} />
                     </td>
                     <td>{risk.inRiskpool ? 'true' : 'false'}</td>
+                    <td>
+                      {risk.riskResponses
+                        ? risk.riskResponses.map((val, j) => (
+                            <span key={j}>
+                              <Link to={`risk-response/${val.id}`}>{val.id}</Link>
+                              {j === risk.riskResponses.length - 1 ? '' : ', '}
+                            </span>
+                          ))
+                        : null}
+                    </td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${risk.id}`} color="info" size="sm">

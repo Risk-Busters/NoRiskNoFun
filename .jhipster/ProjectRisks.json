@@ -21,16 +21,25 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-many",
+            "relationshipType": "many-to-many",
             "otherEntityName": "riskResponse",
             "otherEntityRelationshipName": "projectRisks",
-            "relationshipName": "riskResponse"
+            "relationshipName": "riskResponse",
+            "otherEntityField": "id",
+            "ownerSide": true
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "project",
             "otherEntityRelationshipName": "projectRisks",
             "relationshipName": "project",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "risk",
+            "otherEntityRelationshipName": "projectRisks",
+            "relationshipName": "risk",
             "otherEntityField": "id"
         }
     ],

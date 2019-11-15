@@ -18,16 +18,16 @@ export interface IProjectUpdateProps extends StateProps, DispatchProps, RouteCom
 
 export interface IProjectUpdateState {
   isNew: boolean;
+  idsuser: any[];
   ownerId: string;
-  userId: string;
 }
 
 export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProjectUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
+      idsuser: [],
       ownerId: '0',
-      userId: '0',
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -53,7 +53,8 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
       const { projectEntity } = this.props;
       const entity = {
         ...projectEntity,
-        ...values
+        ...values,
+        users: mapIdList(values.users)
       };
 
       if (this.state.isNew) {
@@ -161,7 +162,14 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
                   <Label for="project-user">
                     <Translate contentKey="noRiskNoFunApp.project.user">User</Translate>
                   </Label>
-                  <AvInput id="project-user" type="select" className="form-control" name="user.id">
+                  <AvInput
+                    id="project-user"
+                    type="select"
+                    multiple
+                    className="form-control"
+                    name="users"
+                    value={projectEntity.users && projectEntity.users.map(e => e.id)}
+                  >
                     <option value="" key="0" />
                     {users
                       ? users.map(otherEntity => (

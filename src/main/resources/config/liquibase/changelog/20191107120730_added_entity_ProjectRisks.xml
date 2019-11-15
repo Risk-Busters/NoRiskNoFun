@@ -27,12 +27,26 @@
             <column name="project_id" type="bigint">
                 <constraints nullable="true" />
             </column>
+            <column name="risk_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
     </changeSet>
 
     <changeSet id="20191107120730-1-relations" author="jhipster">
 
+        <createTable tableName="project_risks_risk_response">
+            <column name="risk_response_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="project_risks_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="project_risks_id, risk_response_id" tableName="project_risks_risk_response"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 

@@ -41,13 +41,20 @@ public class ProjectRisks implements Serializable {
     @Column(name = "has_occured", nullable = false)
     private Boolean hasOccured;
 
-    @OneToMany(mappedBy = "projectRisks")
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "project_risks_risk_response",
+               joinColumns = @JoinColumn(name = "project_risks_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "risk_response_id", referencedColumnName = "id"))
     private Set<RiskResponse> riskResponses = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties("projectRisks")
     private Project project;
+
+    @ManyToOne
+    @JsonIgnoreProperties("projectRisks")
+    private Risk risk;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -108,13 +115,13 @@ public class ProjectRisks implements Serializable {
 
     public ProjectRisks addRiskResponse(RiskResponse riskResponse) {
         this.riskResponses.add(riskResponse);
-        riskResponse.setProjectRisks(this);
+        riskResponse.getProjectRisks().add(this);
         return this;
     }
 
     public ProjectRisks removeRiskResponse(RiskResponse riskResponse) {
         this.riskResponses.remove(riskResponse);
-        riskResponse.setProjectRisks(null);
+        riskResponse.getProjectRisks().remove(this);
         return this;
     }
 
@@ -133,6 +140,19 @@ public class ProjectRisks implements Serializable {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public Risk getRisk() {
+        return risk;
+    }
+
+    public ProjectRisks risk(Risk risk) {
+        this.risk = risk;
+        return this;
+    }
+
+    public void setRisk(Risk risk) {
+        this.risk = risk;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

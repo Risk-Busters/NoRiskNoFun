@@ -8,11 +8,29 @@
     -->
     <changeSet id="20191107120730-2" author="jhipster">
         
+        <addForeignKeyConstraint baseColumnNames="project_risks_id"
+                                 baseTableName="project_risks_risk_response"
+                                 constraintName="fk_project_risks_risk_response_project_risks_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="project_risks"/>
+
+        <addForeignKeyConstraint baseColumnNames="risk_response_id"
+                                 baseTableName="project_risks_risk_response"
+                                 constraintName="fk_project_risks_risk_response_risk_response_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="risk_response"/>
+        
         <addForeignKeyConstraint baseColumnNames="project_id"
                                  baseTableName="project_risks"
                                  constraintName="fk_project_risks_project_id"
                                  referencedColumnNames="id"
                                  referencedTableName="project"/>
+
+        <addForeignKeyConstraint baseColumnNames="risk_id"
+                                 baseTableName="project_risks"
+                                 constraintName="fk_project_risks_risk_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="risk"/>
 
     </changeSet>
 </databaseChangeLog>

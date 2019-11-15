@@ -82,13 +82,13 @@ public class ProjectRisksResource {
     /**
      * {@code GET  /project-risks} : get all the projectRisks.
      *
-
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projectRisks in body.
      */
     @GetMapping("/project-risks")
-    public List<ProjectRisks> getAllProjectRisks() {
+    public List<ProjectRisks> getAllProjectRisks(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all ProjectRisks");
-        return projectRisksRepository.findAll();
+        return projectRisksRepository.findAllWithEagerRelationships();
     }
 
     /**
@@ -100,7 +100,7 @@ public class ProjectRisksResource {
     @GetMapping("/project-risks/{id}")
     public ResponseEntity<ProjectRisks> getProjectRisks(@PathVariable Long id) {
         log.debug("REST request to get ProjectRisks : {}", id);
-        Optional<ProjectRisks> projectRisks = projectRisksRepository.findById(id);
+        Optional<ProjectRisks> projectRisks = projectRisksRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(projectRisks);
     }
 

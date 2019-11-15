@@ -10,7 +10,7 @@ export interface IProject {
   end?: Moment;
   owner?: IUser;
   projectRisks?: IProjectRisks[];
-  user?: IUser;
+  users?: IUser[];
 }
 
 export const defaultValue: Readonly<IProject> = {};

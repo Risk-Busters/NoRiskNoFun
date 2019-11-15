@@ -44,14 +44,6 @@ export class RiskResponseDetail extends React.Component<IRiskResponseDetailProps
               </span>
             </dt>
             <dd>{riskResponseEntity.status}</dd>
-            <dt>
-              <Translate contentKey="noRiskNoFunApp.riskResponse.risk">Risk</Translate>
-            </dt>
-            <dd>{riskResponseEntity.risk ? riskResponseEntity.risk.id : ''}</dd>
-            <dt>
-              <Translate contentKey="noRiskNoFunApp.riskResponse.projectRisks">Project Risks</Translate>
-            </dt>
-            <dd>{riskResponseEntity.projectRisks ? riskResponseEntity.projectRisks.id : ''}</dd>
           </dl>
           <Button tag={Link} to="/entity/risk-response" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

@@ -7,8 +7,12 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
+import { IRiskResponse } from 'app/shared/model/risk-response.model';
+import { getEntities as getRiskResponses } from 'app/entities/risk-response/risk-response.reducer';
 import { IProject } from 'app/shared/model/project.model';
 import { getEntities as getProjects } from 'app/entities/project/project.reducer';
+import { IRisk } from 'app/shared/model/risk.model';
+import { getEntities as getRisks } from 'app/entities/risk/risk.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './project-risks.reducer';
 import { IProjectRisks } from 'app/shared/model/project-risks.model';
 import { convertDateTimeFromServer, convertDateTimeToServer } from 'app/shared/util/date-utils';
@@ -18,14 +22,18 @@ export interface IProjectRisksUpdateProps extends StateProps, DispatchProps, Rou
 
 export interface IProjectRisksUpdateState {
   isNew: boolean;
+  idsriskResponse: any[];
   projectId: string;
+  riskId: string;
 }
 
 export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps, IProjectRisksUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
+      idsriskResponse: [],
       projectId: '0',
+      riskId: '0',
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -43,7 +51,9 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
       this.props.getEntity(this.props.match.params.id);
     }
 
+    this.props.getRiskResponses();
     this.props.getProjects();
+    this.props.getRisks();
   }
 
   saveEntity = (event, errors, values) => {
@@ -51,7 +61,8 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
       const { projectRisksEntity } = this.props;
       const entity = {
         ...projectRisksEntity,
-        ...values
+        ...values,
+        riskResponses: mapIdList(values.riskResponses)
       };
 
       if (this.state.isNew) {
@@ -67,7 +78,7 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
   };
 
   render() {
-    const { projectRisksEntity, projects, loading, updating } = this.props;
+    const { projectRisksEntity, riskResponses, projects, risks, loading, updating } = this.props;
     const { isNew } = this.state;
 
     return (
@@ -136,6 +147,28 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
                   </Label>
                 </AvGroup>
                 <AvGroup>
+                  <Label for="project-risks-riskResponse">
+                    <Translate contentKey="noRiskNoFunApp.projectRisks.riskResponse">Risk Response</Translate>
+                  </Label>
+                  <AvInput
+                    id="project-risks-riskResponse"
+                    type="select"
+                    multiple
+                    className="form-control"
+                    name="riskResponses"
+                    value={projectRisksEntity.riskResponses && projectRisksEntity.riskResponses.map(e => e.id)}
+                  >
+                    <option value="" key="0" />
+                    {riskResponses
+                      ? riskResponses.map(otherEntity => (
+                          <option value={otherEntity.id} key={otherEntity.id}>
+                            {otherEntity.id}
+                          </option>
+                        ))
+                      : null}
+                  </AvInput>
+                </AvGroup>
+                <AvGroup>
                   <Label for="project-risks-project">
                     <Translate contentKey="noRiskNoFunApp.projectRisks.project">Project</Translate>
                   </Label>
@@ -143,6 +176,21 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
                     <option value="" key="0" />
                     {projects
                       ? projects.map(otherEntity => (
+                          <option value={otherEntity.id} key={otherEntity.id}>
+                            {otherEntity.id}
+                          </option>
+                        ))
+                      : null}
+                  </AvInput>
+                </AvGroup>
+                <AvGroup>
+                  <Label for="project-risks-risk">
+                    <Translate contentKey="noRiskNoFunApp.projectRisks.risk">Risk</Translate>
+                  </Label>
+                  <AvInput id="project-risks-risk" type="select" className="form-control" name="risk.id">
+                    <option value="" key="0" />
+                    {risks
+                      ? risks.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
                             {otherEntity.id}
                           </option>
@@ -173,7 +221,9 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
 }
 
 const mapStateToProps = (storeState: IRootState) => ({
+  riskResponses: storeState.riskResponse.entities,
   projects: storeState.project.entities,
+  risks: storeState.risk.entities,
   projectRisksEntity: storeState.projectRisks.entity,
   loading: storeState.projectRisks.loading,
   updating: storeState.projectRisks.updating,
@@ -181,7 +231,9 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  getRiskResponses,
   getProjects,
+  getRisks,
   getEntity,
   updateEntity,
   createEntity,

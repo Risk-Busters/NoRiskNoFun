@@ -21,6 +21,7 @@
       "severity": "Severity",
       "probability": "Probability",
       "inRiskpool": "In Riskpool",
+      "projectRisks": "Project Risks",
       "riskResponse": "Risk Response"
     }
   }

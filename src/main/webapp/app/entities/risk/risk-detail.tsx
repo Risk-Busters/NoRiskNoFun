@@ -56,6 +56,19 @@ export class RiskDetail extends React.Component<IRiskDetailProps> {
               </span>
             </dt>
             <dd>{riskEntity.inRiskpool ? 'true' : 'false'}</dd>
+            <dt>
+              <Translate contentKey="noRiskNoFunApp.risk.riskResponse">Risk Response</Translate>
+            </dt>
+            <dd>
+              {riskEntity.riskResponses
+                ? riskEntity.riskResponses.map((val, i) => (
+                    <span key={val.id}>
+                      <a>{val.id}</a>
+                      {i === riskEntity.riskResponses.length - 1 ? '' : ', '}
+                    </span>
+                  ))
+                : null}
+            </dd>
           </dl>
           <Button tag={Link} to="/entity/risk" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

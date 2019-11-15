@@ -15,13 +15,14 @@ export const Home = (props: IHomeProp) => {
 
   return (
     <Row>
-      <Col md="9">
+      <Col sm="6" md="9" lg="6">
         <h2>
           <Translate contentKey="home.title">Welcome, Java Hipster!</Translate>
         </h2>
         <p className="lead">
           <Translate contentKey="home.subtitle">This is your homepage</Translate>
         </p>
+        <p>Hello World!</p>
         {account && account.login ? (
           <div>
             <Alert color="success">
@@ -43,7 +44,6 @@ export const Home = (props: IHomeProp) => {
                 <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
               </Translate>
             </Alert>
-
             <Alert color="warning">
               <Translate contentKey="global.messages.info.register.noaccount">You do not have an account yet?</Translate>&nbsp;
               <Link to="/account/register" className="alert-link">
@@ -92,7 +92,7 @@ export const Home = (props: IHomeProp) => {
           !
         </p>
       </Col>
-      <Col md="3" className="pad">
+      <Col sm="6" md="3" lg="6" className="pad">
         <span className="hipster rounded" />
       </Col>
     </Row>

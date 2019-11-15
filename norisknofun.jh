@@ -61,14 +61,15 @@ relationship OneToOne {
     Project{owner} to User
 }
 
-relationship ManyToOne {
-    Project to User
+relationship ManyToMany {
+     Project to User,
+     Risk to RiskResponse,
+     ProjectRisks to RiskResponse
 }
 
 relationship OneToMany {
-    Risk to RiskResponse,
-    ProjectRisks to RiskResponse,
-    Project to ProjectRisks
+    Project to ProjectRisks,
+    Risk to ProjectRisks
 }
 
 

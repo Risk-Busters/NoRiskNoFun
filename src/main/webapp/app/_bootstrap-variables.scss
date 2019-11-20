@@ -30,9 +30,11 @@ $body-bg: #e4e5e6;
 // Brand Colors
 $theme-colors: (
   primary: #00838f,
-  secondary: #4dd0e1
+  secondary: #4dd0e1,
+  critical: #ef5350,
+  check: #ffb300,
+  ok: #4caf50
 );
 $theme-color-interval: 8%;
-$primary: #00838f;
 
 @import '~bootstrap/scss/bootstrap';

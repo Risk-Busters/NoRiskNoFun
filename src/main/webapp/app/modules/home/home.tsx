@@ -51,46 +51,46 @@ export const Home = (props: IHomeProp) => {
             </Alert>
           </div>
         )}
-        <p>
-          <Translate contentKey="home.question">If you have any question on JHipster:</Translate>
-        </p>
 
-        <ul>
-          <li>
-            <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.homepage">JHipster homepage</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.stackoverflow">JHipster on Stack Overflow</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank"
-               rel="noopener noreferrer">
-              <Translate contentKey="home.link.bugtracker">JHipster bug tracker</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.chat">JHipster public chat room</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="https://twitter.com/java_hipster" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.follow">follow @java_hipster on Twitter</Translate>
-            </a>
-          </li>
-        </ul>
+        <h3>Color concept:</h3>
+        <h2>Overall</h2>
+        <Alert color="primary">
+          This is a primary alert — check it out!
+        </Alert>
+        <Alert color="secondary">
+          This is a secondary alert — check it out!
+        </Alert>
+        <h2>Risk classification</h2>
+        <Alert color="critical">
+          critical
+        </Alert>
+        <Alert color="check">
+          check
+        </Alert>
+        <Alert color="ok">
+          ok
+        </Alert>
 
-        <p>
-          <Translate contentKey="home.like">If you like JHipster, do not forget to give us a star on</Translate>{' '}
-          <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-            Github
-          </a>
-          !
-        </p>
+        <h2>Further default colors</h2>
+        <Alert color="success">
+          This is a success alert — check it out!
+        </Alert>
+        <Alert color="danger">
+          This is a danger alert — check it out!
+        </Alert>
+        <Alert color="warning">
+          This is a warning alert — check it out!
+        </Alert>
+        <Alert color="info">
+          This is a info alert — check it out!
+        </Alert>
+        <Alert color="light">
+          This is a light alert — check it out!
+        </Alert>
+        <Alert color="dark">
+          This is a dark alert — check it out!
+        </Alert>
+
       </Col>
       <Col sm="6" md="3" lg="6" className="pad">
         <span className="hipster rounded"/>

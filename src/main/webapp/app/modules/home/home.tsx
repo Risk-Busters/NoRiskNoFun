@@ -1,17 +1,15 @@
 import './home.scss';
 
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Translate } from 'react-jhipster';
-import { connect } from 'react-redux';
-import { Row, Col, Alert } from 'reactstrap';
-
-import { IRootState } from 'app/shared/reducers';
+import {Link} from 'react-router-dom';
+import {Translate} from 'react-jhipster';
+import {connect} from 'react-redux';
+import {Alert, Col, Row} from 'reactstrap';
 
 export type IHomeProp = StateProps;
 
 export const Home = (props: IHomeProp) => {
-  const { account } = props;
+  const {account} = props;
 
   return (
     <Row>
@@ -26,7 +24,7 @@ export const Home = (props: IHomeProp) => {
         {account && account.login ? (
           <div>
             <Alert color="success">
-              <Translate contentKey="home.logged.message" interpolate={{ username: account.login }}>
+              <Translate contentKey="home.logged.message" interpolate={{username: account.login}}>
                 You are logged in as user {account.login}.
               </Translate>
             </Alert>
@@ -40,60 +38,62 @@ export const Home = (props: IHomeProp) => {
               </Link>
               <Translate contentKey="global.messages.info.authenticated.suffix">
                 , you can try the default accounts:
-                <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
-                <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
+                <br/>- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
+                <br/>- User (login=&quot;user&quot; and password=&quot;user&quot;).
               </Translate>
             </Alert>
             <Alert color="warning">
-              <Translate contentKey="global.messages.info.register.noaccount">You do not have an account yet?</Translate>&nbsp;
+              <Translate contentKey="global.messages.info.register.noaccount">You do not have an account
+                yet?</Translate>&nbsp;
               <Link to="/account/register" className="alert-link">
                 <Translate contentKey="global.messages.info.register.link">Register a new account</Translate>
               </Link>
             </Alert>
           </div>
         )}
-        <p>
-          <Translate contentKey="home.question">If you have any question on JHipster:</Translate>
-        </p>
 
-        <ul>
-          <li>
-            <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.homepage">JHipster homepage</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.stackoverflow">JHipster on Stack Overflow</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.bugtracker">JHipster bug tracker</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.chat">JHipster public chat room</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="https://twitter.com/java_hipster" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.follow">follow @java_hipster on Twitter</Translate>
-            </a>
-          </li>
-        </ul>
+        <h3>Color concept:</h3>
+        <h2>Overall</h2>
+        <Alert color="primary">
+          This is a primary alert — check it out!
+        </Alert>
+        <Alert color="secondary">
+          This is a secondary alert — check it out!
+        </Alert>
+        <h2>Risk classification</h2>
+        <Alert color="critical">
+          critical
+        </Alert>
+        <Alert color="check">
+          check
+        </Alert>
+        <Alert color="ok">
+          ok
+        </Alert>
 
-        <p>
-          <Translate contentKey="home.like">If you like JHipster, do not forget to give us a star on</Translate>{' '}
-          <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-            Github
-          </a>
-          !
-        </p>
+        <h2>Further default colors</h2>
+        <Alert color="success">
+          This is a success alert — check it out!
+        </Alert>
+        <Alert color="danger">
+          This is a danger alert — check it out!
+        </Alert>
+        <Alert color="warning">
+          This is a warning alert — check it out!
+        </Alert>
+        <Alert color="info">
+          This is a info alert — check it out!
+        </Alert>
+        <Alert color="light">
+          This is a light alert — check it out!
+        </Alert>
+        <Alert color="dark">
+          This is a dark alert — check it out!
+        </Alert>
+
       </Col>
       <Col sm="6" md="3" lg="6" className="pad">
-        <span className="hipster rounded" />
+        <span className="hipster rounded"/>
       </Col>
     </Row>
   );

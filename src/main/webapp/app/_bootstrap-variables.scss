@@ -26,3 +26,15 @@ $border-radius-sm: 0.1rem;
 // Settings for the `<body>` element.
 
 $body-bg: #e4e5e6;
+
+// Brand Colors
+$theme-colors: (
+  primary: #00838f,
+  secondary: #4dd0e1,
+  critical: #ef5350,
+  check: #ffb300,
+  ok: #4caf50
+);
+$theme-color-interval: 8%;
+
+@import '~bootstrap/scss/bootstrap';

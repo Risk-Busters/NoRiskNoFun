@@ -595,8 +595,8 @@
                     <configuration>
                         <changeLogFile>${project.basedir}/src/main/resources/config/liquibase/master.xml</changeLogFile>
                         <diffChangeLogFile>${project.basedir}/src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
-                        <driver></driver>
-                        <url></url>
+                        <driver>org.h2.Driver</driver>
+                        <url>jdbc:h2:mem:norisknofun</url>
                         <defaultSchemaName></defaultSchemaName>
                         <username>NoRiskNoFun</username>
                         <password></password>

@@ -1,7 +1,8 @@
 package com.riskbusters.norisknofun.web.rest;
 
 import com.riskbusters.norisknofun.domain.ProjectRisks;
-import com.riskbusters.norisknofun.repository.ProjectRisksRepository;
+import com.riskbusters.norisknofun.domain.projectrisks.ProposedProjectRisk;
+import com.riskbusters.norisknofun.repository.ProposedProjectRiskRepository;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -33,10 +34,10 @@ public class ProjectRisksResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final ProjectRisksRepository projectRisksRepository;
+    private final ProposedProjectRiskRepository proposedProjectRiskRepository;
 
-    public ProjectRisksResource(ProjectRisksRepository projectRisksRepository) {
-        this.projectRisksRepository = projectRisksRepository;
+    public ProjectRisksResource(ProposedProjectRiskRepository proposedProjectRiskRepository) {
+        this.proposedProjectRiskRepository = proposedProjectRiskRepository;
     }
 
     /**
@@ -52,7 +53,9 @@ public class ProjectRisksResource {
         if (projectRisks.getId() != null) {
             throw new BadRequestAlertException("A new projectRisks cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        ProjectRisks result = projectRisksRepository.save(projectRisks);
+        //TODO: hier den Typ anpassen?????????
+        //TODO fox den cast hier!!!!!!!!!
+        ProposedProjectRisk result = proposedProjectRiskRepository.save((ProposedProjectRisk) projectRisks);
         return ResponseEntity.created(new URI("/api/project-risks/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -73,7 +76,7 @@ public class ProjectRisksResource {
         if (projectRisks.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        ProjectRisks result = projectRisksRepository.save(projectRisks);
+        ProjectRisks result = proposedProjectRiskRepository.save((ProposedProjectRisk) projectRisks);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, projectRisks.getId().toString()))
             .body(result);
@@ -86,9 +89,9 @@ public class ProjectRisksResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projectRisks in body.
      */
     @GetMapping("/project-risks")
-    public List<ProjectRisks> getAllProjectRisks(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public List<ProposedProjectRisk> getAllProjectRisks(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all ProjectRisks");
-        return projectRisksRepository.findAllWithEagerRelationships();
+        return proposedProjectRiskRepository.findAll(); //findAllWithEagerRelationships();
     }
 
     /**
@@ -98,9 +101,9 @@ public class ProjectRisksResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the projectRisks, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/project-risks/{id}")
-    public ResponseEntity<ProjectRisks> getProjectRisks(@PathVariable Long id) {
+    public ResponseEntity<ProposedProjectRisk> getProjectRisks(@PathVariable Long id) {
         log.debug("REST request to get ProjectRisks : {}", id);
-        Optional<ProjectRisks> projectRisks = projectRisksRepository.findOneWithEagerRelationships(id);
+        Optional<ProposedProjectRisk> projectRisks = proposedProjectRiskRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(projectRisks);
     }
 
@@ -113,7 +116,7 @@ public class ProjectRisksResource {
     @DeleteMapping("/project-risks/{id}")
     public ResponseEntity<Void> deleteProjectRisks(@PathVariable Long id) {
         log.debug("REST request to delete ProjectRisks : {}", id);
-        projectRisksRepository.deleteById(id);
+        proposedProjectRiskRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 }

@@ -15,38 +15,30 @@ export const Home = (props: IHomeProp) => {
     <Row>
       <Col sm="6" md="9" lg="6">
         <h2>
-          <Translate contentKey="home.title">Welcome, Java Hipster!</Translate>
+          <Translate contentKey="home.title"/>
         </h2>
-        <p className="lead">
-          <Translate contentKey="home.subtitle">This is your homepage</Translate>
-        </p>
-        <p>Hello World!</p>
+        <div className="lead">
+          <Translate contentKey="home.subtitle"/>
+    </div>
         {account && account.login ? (
           <div>
             <Alert color="success">
-              <Translate contentKey="home.logged.message" interpolate={{username: account.login}}>
-                You are logged in as user {account.login}.
-              </Translate>
+              <Translate contentKey="home.logged.message" interpolate={{username: account.login}}/>
             </Alert>
           </div>
         ) : (
           <div>
             <Alert color="warning">
-              <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
+              <Translate contentKey="global.messages.info.authenticated.prefix"/>
               <Link to="/login" className="alert-link">
-                <Translate contentKey="global.messages.info.authenticated.link"> sign in</Translate>
+                <Translate contentKey="global.messages.info.authenticated.link"/>
               </Link>
-              <Translate contentKey="global.messages.info.authenticated.suffix">
-                , you can try the default accounts:
-                <br/>- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
-                <br/>- User (login=&quot;user&quot; and password=&quot;user&quot;).
-              </Translate>
+              <Translate contentKey="global.messages.info.authenticated.suffix"/>
             </Alert>
             <Alert color="warning">
-              <Translate contentKey="global.messages.info.register.noaccount">You do not have an account
-                yet?</Translate>&nbsp;
+              <Translate contentKey="global.messages.info.register.noaccount"/>&nbsp;
               <Link to="/account/register" className="alert-link">
-                <Translate contentKey="global.messages.info.register.link">Register a new account</Translate>
+                <Translate contentKey="global.messages.info.register.link"/>
               </Link>
             </Alert>
           </div>
@@ -91,9 +83,6 @@ export const Home = (props: IHomeProp) => {
           This is a dark alert — check it out!
         </Alert>
 
-      </Col>
-      <Col sm="6" md="3" lg="6" className="pad">
-        <span className="hipster rounded"/>
       </Col>
     </Row>
   );

@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,21 +42,19 @@ public class ProjectRisksResource {
     }
 
     /**
-     * {@code POST  /project-risks} : Create a new projectRisks.
+     * {@code POST  /project-risks} : Create a new proposedProjectRisk.
      *
-     * @param projectRisks the projectRisks to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new projectRisks, or with status {@code 400 (Bad Request)} if the projectRisks has already an ID.
+     * @param proposedProjectRisk the proposedProjectRisk to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new proposedProjectRisk, or with status {@code 400 (Bad Request)} if the proposedProjectRisk has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/project-risks")
-    public ResponseEntity<ProjectRisks> createProjectRisks(@Valid @RequestBody ProjectRisks projectRisks) throws URISyntaxException {
-        log.debug("REST request to save ProjectRisks : {}", projectRisks);
-        if (projectRisks.getId() != null) {
-            throw new BadRequestAlertException("A new projectRisks cannot already have an ID", ENTITY_NAME, "idexists");
+    public ResponseEntity<ProjectRisks> createProjectRisks(@Valid @RequestBody ProposedProjectRisk proposedProjectRisk) throws URISyntaxException {
+        log.debug("REST request to save ProjectRisks : {}", proposedProjectRisk);
+        if (proposedProjectRisk.getId() != null) {
+            throw new BadRequestAlertException("A new proposedProjectRisk cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        //TODO: hier den Typ anpassen?????????
-        //TODO fox den cast hier!!!!!!!!!
-        ProposedProjectRisk result = proposedProjectRiskRepository.save((ProposedProjectRisk) projectRisks);
+        ProposedProjectRisk result = proposedProjectRiskRepository.save(proposedProjectRisk);
         return ResponseEntity.created(new URI("/api/project-risks/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);

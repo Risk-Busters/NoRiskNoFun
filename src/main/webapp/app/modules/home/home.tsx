@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom';
 import {Translate} from 'react-jhipster';
 import {connect} from 'react-redux';
 import {Alert, Col, Row} from 'reactstrap';
+import Activity from 'app/entities/activity/';
 
 export type IHomeProp = StateProps;
 
@@ -13,7 +14,7 @@ export const Home = (props: IHomeProp) => {
 
   return (
     <Row>
-      <Col sm="6" md="9" lg="6">
+      <Col sm="12" md="9" lg="6">
         <h2>
           <Translate contentKey="home.title"/>
         </h2>

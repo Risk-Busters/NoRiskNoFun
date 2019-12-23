@@ -53,6 +53,8 @@ public class CacheConfiguration {
             createCache(cm, com.riskbusters.norisknofun.domain.Project.class.getName() + ".users");
             createCache(cm, com.riskbusters.norisknofun.domain.ProjectRisks.class.getName());
             createCache(cm, com.riskbusters.norisknofun.domain.ProjectRisks.class.getName() + ".riskResponses");
+            createCache(cm, com.riskbusters.norisknofun.domain.Activity.class.getName());
+            createCache(cm, com.riskbusters.norisknofun.domain.Activity.class.getName() + ".users");
             // jhipster-needle-ehcache-add-entry
         };
     }

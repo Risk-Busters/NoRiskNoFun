@@ -13,6 +13,7 @@ import java.util.Set;
 import com.riskbusters.norisknofun.domain.enumeration.SeverityType;
 
 import com.riskbusters.norisknofun.domain.enumeration.ProbabilityType;
+import org.hibernate.annotations.Cascade;
 
 /**
  * A ProjectRisks.
@@ -20,7 +21,9 @@ import com.riskbusters.norisknofun.domain.enumeration.ProbabilityType;
 @Entity
 @Table(name = "project_risks")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class ProjectRisks implements Serializable {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "risk_discussion_status")
+public abstract class ProjectRisks implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

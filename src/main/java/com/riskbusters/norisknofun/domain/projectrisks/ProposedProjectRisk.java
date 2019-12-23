@@ -6,7 +6,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("Proposed")
+@DiscriminatorValue("proposed")
 public class ProposedProjectRisk extends ProjectRisks {
 
     public ProposedProjectRisk() {

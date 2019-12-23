@@ -6,7 +6,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("ToBeDiscussed")
+@DiscriminatorValue("toBeDiscussed")
 public class ToBeDiscussedProjectRisk extends ProjectRisks {
 
     public ToBeDiscussedProjectRisk() {

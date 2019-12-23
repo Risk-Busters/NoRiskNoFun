@@ -28,9 +28,9 @@ import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle';
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 import { faRoad } from '@fortawesome/free-solid-svg-icons/faRoad';
 import { faCloud } from '@fortawesome/free-solid-svg-icons/faCloud';
-import { faObjectGroup } from '@fortawesome/free-solid-svg-icons/faObjectGroup';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { faObjectGroup } from '@fortawesome/free-solid-svg-icons';
 
 export const loadIcons = () => {
   library.add(

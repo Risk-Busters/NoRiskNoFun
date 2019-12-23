@@ -22,7 +22,7 @@ import org.hibernate.annotations.Cascade;
 @Table(name = "project_risks")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "Risk_Discussion_Status")
+@DiscriminatorColumn(name = "risk_discussion_status")
 public abstract class ProjectRisks implements Serializable {
 
     private static final long serialVersionUID = 1L;

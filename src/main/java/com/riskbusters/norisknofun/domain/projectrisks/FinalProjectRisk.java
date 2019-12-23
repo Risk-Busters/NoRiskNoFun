@@ -6,7 +6,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("Final")
+@DiscriminatorValue("final")
 public class FinalProjectRisk extends ProjectRisks {
 
     public FinalProjectRisk() {

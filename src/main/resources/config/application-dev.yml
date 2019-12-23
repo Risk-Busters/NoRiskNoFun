@@ -29,13 +29,11 @@ spring:
   devtools:
     restart:
       enabled: true
-      additional-exclude: .h2.server.properties
     livereload:
       enabled: false # we use Webpack dev server + BrowserSync for livereload
   jackson:
     serialization:
       indent-output: true
-
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:5432/NoRiskNoFun
@@ -47,35 +45,12 @@ spring:
   jpa:
     database-platform: io.github.jhipster.domain.util.FixedPostgreSQL95Dialect
     database: POSTGRESQL
-    show-sql: false
     properties:
       hibernate.id.new_generator_mappings: true
       hibernate.connection.provider_disables_autocommit: true
       hibernate.cache.use_second_level_cache: true
       hibernate.cache.use_query_cache: false
       hibernate.generate_statistics: false
-
-  #datasource:
-  #  type: com.zaxxer.hikari.HikariDataSource
-  #  url: jdbc:h2:mem:norisknofun;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-  #  username: NoRiskNoFun
-  #  password:
-  #  hikari:
-  #    poolName: Hikari
-  #    auto-commit: false
-  #h2:
-  #  console:
-  #    enabled: false
-  #jpa:
-  #  database-platform: io.github.jhipster.domain.util.FixedH2Dialect
-  #  database: H2
-  #  show-sql: true
-  #  properties:
-  #    hibernate.id.new_generator_mappings: true
-  #    hibernate.connection.provider_disables_autocommit: true
-  #    hibernate.cache.use_second_level_cache: true
-  #    hibernate.cache.use_query_cache: false
-  #    hibernate.generate_statistics: false
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker

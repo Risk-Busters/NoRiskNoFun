@@ -1,9 +1,10 @@
 package com.riskbusters.norisknofun;
 
-import com.google.firebase.FirebaseApp;
 import com.riskbusters.norisknofun.config.ApplicationProperties;
 import com.riskbusters.norisknofun.config.DefaultProfileUtil;
+
 import io.github.jhipster.config.JHipsterConstants;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +62,6 @@ public class NoRiskNoFunApp implements InitializingBean {
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
         logApplicationStartup(env);
-        FirebaseApp.initializeApp();
     }
 
     private static void logApplicationStartup(Environment env) {

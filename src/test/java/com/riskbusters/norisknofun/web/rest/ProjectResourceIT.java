@@ -4,7 +4,7 @@ import com.riskbusters.norisknofun.NoRiskNoFunApp;
 import com.riskbusters.norisknofun.domain.Project;
 import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.repository.ProjectRepository;
-import com.riskbusters.norisknofun.service.MessagingService;
+import com.riskbusters.norisknofun.repository.UserRepository;
 import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.web.rest.errors.ExceptionTranslator;
 
@@ -13,8 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -58,9 +60,6 @@ public class ProjectResourceIT {
     @Autowired
     private ProjectRepository projectRepository;
 
-    @Autowired
-    private MessagingService messagingService;
-
     @Mock
     private ProjectRepository projectRepositoryMock;
 
@@ -91,7 +90,7 @@ public class ProjectResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ProjectResource projectResource = new ProjectResource(projectRepository, userServiceMock, messagingService);
+        final ProjectResource projectResource = new ProjectResource(projectRepository, userServiceMock);
         this.restProjectMockMvc = MockMvcBuilders.standaloneSetup(projectResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -254,7 +253,7 @@ public class ProjectResourceIT {
 
     @SuppressWarnings({"unchecked"})
     public void getAllProjectsWithEagerRelationshipsIsEnabled() throws Exception {
-        ProjectResource projectResource = new ProjectResource(projectRepositoryMock, userServiceMock, messagingService);
+        ProjectResource projectResource = new ProjectResource(projectRepositoryMock, userServiceMock);
         when(projectRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
         MockMvc restProjectMockMvc = MockMvcBuilders.standaloneSetup(projectResource)
@@ -271,7 +270,7 @@ public class ProjectResourceIT {
 
     @SuppressWarnings({"unchecked"})
     public void getAllProjectsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        ProjectResource projectResource = new ProjectResource(projectRepositoryMock, userServiceMock, messagingService);
+        ProjectResource projectResource = new ProjectResource(projectRepositoryMock, userServiceMock);
             when(projectRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
             MockMvc restProjectMockMvc = MockMvcBuilders.standaloneSetup(projectResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)

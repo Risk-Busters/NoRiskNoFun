@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
+const WorkboxPlugin = require('workbox-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
@@ -100,6 +100,10 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false
+    }),
+    new WorkboxPlugin.GenerateSW({
+      clientsClaim: true,
+      skipWaiting: true,
     })
   ]
 });

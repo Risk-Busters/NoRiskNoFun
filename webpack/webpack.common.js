@@ -1,4 +1,3 @@
-const {InjectManifest} = require('workbox-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 const { BaseHrefWebpackPlugin } = require('base-href-webpack-plugin');
@@ -118,7 +117,6 @@ module.exports = options => ({
       { from: './src/main/webapp/content/', to: 'content' },
       { from: './src/main/webapp/favicon.ico', to: 'favicon.ico' },
       { from: './src/main/webapp/manifest.webapp', to: 'manifest.webapp' },
-      { from: './src/main/webapp/firebase-messaging-sw.js', to: 'firebase-messaging-sw.js' },
       // jhipster-needle-add-assets-to-webpack - JHipster will add/remove third-party resources in this array
       { from: './src/main/webapp/robots.txt', to: 'robots.txt' }
     ]),
@@ -136,9 +134,5 @@ module.exports = options => ({
                 ]
       }
     }),
-    new InjectManifest({
-      swSrc: 'firebase-messaging-sw.js',
-      swDest: 'service-worker.js'
-    })
   ]
 });

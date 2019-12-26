@@ -1,10 +1,6 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-    <changeSet author="st (generated)" id="1577108537613-4">
-        <addColumn tableName="project_risks">
-            <column name="risk_discussion_status" type="varchar(31)" defaultValue="toBeDiscussed">
-                <constraints nullable="false"/>
-            </column>
-        </addColumn>
+    <changeSet author="morit (generated)" id="1577389734567-1">
+        <dropNotNullConstraint columnDataType="timestamp" columnName="date" tableName="activity"/>
     </changeSet>
 </databaseChangeLog>

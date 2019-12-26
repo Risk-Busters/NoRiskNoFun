@@ -1,5 +1,6 @@
 package com.riskbusters.norisknofun.service;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.BatchResponse;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
@@ -28,6 +29,9 @@ public class MessagingService {
     public MessagingService(ActivityRepository activityRepository, DeviceTokenRepository deviceTokenRepository) {
         this.activityRepository = activityRepository;
         this.deviceTokenRepository = deviceTokenRepository;
+        if(FirebaseApp.getApps().isEmpty()) {
+            FirebaseApp.initializeApp();
+        }
     }
 
     public void addActivityWithNotification(Activity activity) throws FirebaseMessagingException {

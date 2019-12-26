@@ -6,14 +6,12 @@ import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.repository.ActivityRepository;
 import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.web.rest.errors.ExceptionTranslator;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -23,17 +21,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static com.riskbusters.norisknofun.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -47,9 +43,6 @@ public class ActivityResourceIT {
 
     private static final String DEFAULT_TARGET_URL = "AAAAAAAAAA";
     private static final String UPDATED_TARGET_URL = "BBBBBBBBBB";
-
-    private static final LocalDate DEFAULT_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_DATE = LocalDate.now(ZoneId.systemDefault());
 
     @Autowired
     private ActivityRepository activityRepository;
@@ -99,8 +92,7 @@ public class ActivityResourceIT {
     public static Activity createEntity(EntityManager em) {
         Activity activity = new Activity()
             .description(DEFAULT_DESCRIPTION)
-            .targetUrl(DEFAULT_TARGET_URL)
-            .date(DEFAULT_DATE);
+            .targetUrl(DEFAULT_TARGET_URL);
         return activity;
     }
     /**
@@ -112,8 +104,7 @@ public class ActivityResourceIT {
     public static Activity createUpdatedEntity(EntityManager em) {
         Activity activity = new Activity()
             .description(UPDATED_DESCRIPTION)
-            .targetUrl(UPDATED_TARGET_URL)
-            .date(UPDATED_DATE);
+            .targetUrl(UPDATED_TARGET_URL);
         return activity;
     }
 
@@ -139,7 +130,6 @@ public class ActivityResourceIT {
         Activity testActivity = activityList.get(activityList.size() - 1);
         assertThat(testActivity.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testActivity.getTargetUrl()).isEqualTo(DEFAULT_TARGET_URL);
-        assertThat(testActivity.getDate()).isEqualTo(DEFAULT_DATE);
     }
 
     @Test
@@ -167,8 +157,7 @@ public class ActivityResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(activity.getId().intValue())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].targetUrl").value(hasItem(DEFAULT_TARGET_URL)))
-            .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())));
+            .andExpect(jsonPath("$.[*].targetUrl").value(hasItem(DEFAULT_TARGET_URL)));
     }
 
     @Test
@@ -191,8 +180,7 @@ public class ActivityResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(activity.getId().intValue()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
-            .andExpect(jsonPath("$.targetUrl").value(DEFAULT_TARGET_URL))
-            .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()));
+            .andExpect(jsonPath("$.targetUrl").value(DEFAULT_TARGET_URL));
     }
 
     @Test

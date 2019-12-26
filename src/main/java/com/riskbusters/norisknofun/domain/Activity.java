@@ -1,13 +1,14 @@
 package com.riskbusters.norisknofun.domain;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 /**
@@ -35,9 +36,10 @@ public class Activity implements Serializable {
     @Column(name = "target_url")
     private String targetUrl;
 
-    @NotNull
-    @Column(name = "date", nullable = false)
-    private LocalDate date;
+    @CreatedDate
+    @Column(name = "date", insertable = true, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
     @JsonIgnore
     @ManyToMany
@@ -82,16 +84,16 @@ public class Activity implements Serializable {
         this.targetUrl = targetUrl;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public Activity date(LocalDate date) {
+    public Activity date(Date date) {
         this.date = date;
         return this;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

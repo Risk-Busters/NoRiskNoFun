@@ -14,6 +14,8 @@
     <property name="uuidType" value="uuid" dbms="h2, postgresql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191226191543_changelog.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191226194846_changelog.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <!--<include file="config/liquibase/changelog/20191223134212_changelog_risk_object_hierachy_database_mapping.xml" relativeToChangelogFile="false"/>-->
 </databaseChangeLog>

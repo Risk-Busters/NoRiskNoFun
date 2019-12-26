@@ -14,15 +14,6 @@
     <property name="uuidType" value="uuid" dbms="h2, postgresql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191107120727_added_entity_Risk.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191107120728_added_entity_RiskResponse.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191107120729_added_entity_Project.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191107120730_added_entity_ProjectRisks.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191223184648_added_entity_Activity.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
-    <include file="config/liquibase/changelog/20191107120727_added_entity_constraints_Risk.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191107120729_added_entity_constraints_Project.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191107120730_added_entity_constraints_ProjectRisks.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20191223184648_added_entity_constraints_Activity.xml" relativeToChangelogFile="false"/>
-    <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+    <!--<include file="config/liquibase/changelog/20191223134212_changelog_risk_object_hierachy_database_mapping.xml" relativeToChangelogFile="false"/>-->
 </databaseChangeLog>

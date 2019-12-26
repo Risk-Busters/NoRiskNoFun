@@ -1,7 +1,7 @@
 {
   "generator-jhipster": {
     "databaseType": "sql",
-    "devDatabaseType": "h2Memory",
+    "devDatabaseType": "postgresql",
     "enableHibernateCache": true,
     "enableSwaggerCodegen": true,
     "enableTranslation": true,

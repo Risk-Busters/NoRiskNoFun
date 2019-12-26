@@ -1,16 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Row, Col } from 'reactstrap';
-import { Translate, ICrudGetAction } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {connect} from 'react-redux';
+import {Link, RouteComponentProps} from 'react-router-dom';
+import {Button, Col, Row} from 'reactstrap';
+import {Translate} from 'react-jhipster';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
-import { IRootState } from 'app/shared/reducers';
-import { getEntity } from './risk.reducer';
-import { IRisk } from 'app/shared/model/risk.model';
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import {IRootState} from 'app/shared/reducers';
+import {getEntity} from './risk.reducer';
 
-export interface IRiskDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IRiskDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
+}
 
 export class RiskDetail extends React.Component<IRiskDetailProps> {
   componentDidMount() {
@@ -18,69 +17,77 @@ export class RiskDetail extends React.Component<IRiskDetailProps> {
   }
 
   render() {
-    const { riskEntity } = this.props;
+    const {riskEntity} = this.props;
     return (
       <Row>
         <Col md="8">
           <h2>
-            <Translate contentKey="noRiskNoFunApp.risk.detail.title">Risk</Translate> [<b>{riskEntity.id}</b>]
+            <Translate contentKey="noRiskNoFunApp.risk.detail.title"/> [<b>{riskEntity.id}</b>]
           </h2>
           <dl className="jh-entity-details">
             <dt>
               <span id="name">
-                <Translate contentKey="noRiskNoFunApp.risk.name">Name</Translate>
+                <Translate contentKey="noRiskNoFunApp.risk.name"/>
               </span>
             </dt>
             <dd>{riskEntity.name}</dd>
             <dt>
               <span id="description">
-                <Translate contentKey="noRiskNoFunApp.risk.description">Description</Translate>
+                <Translate contentKey="noRiskNoFunApp.risk.description"/>
               </span>
             </dt>
             <dd>{riskEntity.description}</dd>
             <dt>
               <span id="severity">
-                <Translate contentKey="noRiskNoFunApp.risk.severity">Severity</Translate>
+                <Translate contentKey="noRiskNoFunApp.risk.severity"/>
               </span>
             </dt>
-            <dd>{riskEntity.severity}</dd>
+            <dd>
+              {riskEntity.severity == null ? (
+                <Translate contentKey={`noRiskNoFunApp.risk.notSet`}/>
+              ) : (<Translate contentKey="noRiskNoFunApp.risk.severity"/>)}
+            </dd>
             <dt>
               <span id="probability">
-                <Translate contentKey="noRiskNoFunApp.risk.probability">Probability</Translate>
+                <Translate contentKey="noRiskNoFunApp.risk.probability"/>
               </span>
             </dt>
-            <dd>{riskEntity.probability}</dd>
+            <dd>
+              {riskEntity.probability == null ? (
+                <Translate contentKey={`noRiskNoFunApp.risk.notSet`}/>
+              ) : (<Translate contentKey="noRiskNoFunApp.risk.probability"/>)}
+            </dd>
             <dt>
               <span id="inRiskpool">
-                <Translate contentKey="noRiskNoFunApp.risk.inRiskpool">In Riskpool</Translate>
+                <Translate contentKey="noRiskNoFunApp.risk.inRiskpool"/>
               </span>
             </dt>
             <dd>{riskEntity.inRiskpool ? 'true' : 'false'}</dd>
             <dt>
-              <Translate contentKey="noRiskNoFunApp.risk.riskResponse">Risk Response</Translate>
+              <Translate contentKey="noRiskNoFunApp.risk.riskResponse"/>
             </dt>
             <dd>
-              {riskEntity.riskResponses
+              {riskEntity.riskResponses.length !== 0
                 ? riskEntity.riskResponses.map((val, i) => (
-                    <span key={val.id}>
+                  <span key={val.id}>
                       <a>{val.id}</a>
-                      {i === riskEntity.riskResponses.length - 1 ? '' : ', '}
+                    {i === riskEntity.riskResponses.length - 1 ? '' : ', '}
                     </span>
-                  ))
-                : null}
+                ))
+                : <Translate contentKey={`noRiskNoFunApp.risk.notSet`}/>}
             </dd>
           </dl>
           <Button tag={Link} to="/entity/risk" replace color="info">
-            <FontAwesomeIcon icon="arrow-left" />{' '}
+            <FontAwesomeIcon icon="arrow-left"/>{' '}
             <span className="d-none d-md-inline">
-              <Translate contentKey="entity.action.back">Back</Translate>
+              <Translate contentKey="entity.action.back"/>
             </span>
           </Button>
           &nbsp;
           <Button tag={Link} to={`/entity/risk/${riskEntity.id}/edit`} replace color="primary">
-            <FontAwesomeIcon icon="pencil-alt" />{' '}
+            <FontAwesomeIcon icon="pencil-alt"/>{' '}
             <span className="d-none d-md-inline">
-              <Translate contentKey="entity.action.edit">Edit</Translate>
+              <Translate contentKey="entity.action.edit"/>
             </span>
           </Button>
         </Col>
@@ -89,11 +96,11 @@ export class RiskDetail extends React.Component<IRiskDetailProps> {
   }
 }
 
-const mapStateToProps = ({ risk }: IRootState) => ({
+const mapStateToProps = ({risk}: IRootState) => ({
   riskEntity: risk.entity
 });
 
-const mapDispatchToProps = { getEntity };
+const mapDispatchToProps = {getEntity};
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

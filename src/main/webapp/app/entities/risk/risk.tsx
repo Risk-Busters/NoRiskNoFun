@@ -1,16 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
-import { Translate, ICrudGetAllAction } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {connect} from 'react-redux';
+import {Link, RouteComponentProps} from 'react-router-dom';
+import {Button, Table} from 'reactstrap';
+import {Translate} from 'react-jhipster';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
-import { IRootState } from 'app/shared/reducers';
-import { getEntities } from './risk.reducer';
-import { IRisk } from 'app/shared/model/risk.model';
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import {IRootState} from 'app/shared/reducers';
+import {getEntities} from './risk.reducer';
 
-export interface IRiskProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
+export interface IRiskProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {
+}
 
 export class Risk extends React.Component<IRiskProps> {
   componentDidMount() {
@@ -18,102 +17,106 @@ export class Risk extends React.Component<IRiskProps> {
   }
 
   render() {
-    const { riskList, match } = this.props;
+    const {riskList, match} = this.props;
     return (
       <div>
         <h2 id="risk-heading">
-          <Translate contentKey="noRiskNoFunApp.risk.home.title">Risks</Translate>
+          <Translate contentKey="noRiskNoFunApp.risk.home.title"/>
           <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
-            <FontAwesomeIcon icon="plus" />
+            <FontAwesomeIcon icon="plus"/>
             &nbsp;
-            <Translate contentKey="noRiskNoFunApp.risk.home.createLabel">Create a new Risk</Translate>
+            <Translate contentKey="noRiskNoFunApp.risk.home.createLabel"/>
           </Link>
         </h2>
         <div className="table-responsive">
           {riskList && riskList.length > 0 ? (
             <Table responsive aria-describedby="risk-heading">
               <thead>
-                <tr>
-                  <th>
-                    <Translate contentKey="global.field.id">ID</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="noRiskNoFunApp.risk.name">Name</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="noRiskNoFunApp.risk.description">Description</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="noRiskNoFunApp.risk.severity">Severity</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="noRiskNoFunApp.risk.probability">Probability</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="noRiskNoFunApp.risk.inRiskpool">In Riskpool</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="noRiskNoFunApp.risk.riskResponse">Risk Response</Translate>
-                  </th>
-                  <th />
-                </tr>
+              <tr>
+                <th>
+                  <Translate contentKey="global.field.id"/>
+                </th>
+                <th>
+                  <Translate contentKey="noRiskNoFunApp.risk.name"/>
+                </th>
+                <th>
+                  <Translate contentKey="noRiskNoFunApp.risk.description"/>
+                </th>
+                <th>
+                  <Translate contentKey="noRiskNoFunApp.risk.severity"/>
+                </th>
+                <th>
+                  <Translate contentKey="noRiskNoFunApp.risk.probability"/>
+                </th>
+                <th>
+                  <Translate contentKey="noRiskNoFunApp.risk.inRiskpool"/>
+                </th>
+                <th>
+                  <Translate contentKey="noRiskNoFunApp.risk.riskResponse"/>
+                </th>
+                <th/>
+              </tr>
               </thead>
               <tbody>
-                {riskList.map((risk, i) => (
-                  <tr key={`entity-${i}`}>
-                    <td>
-                      <Button tag={Link} to={`${match.url}/${risk.id}`} color="link" size="sm">
-                        {risk.id}
-                      </Button>
-                    </td>
-                    <td>{risk.name}</td>
-                    <td>{risk.description}</td>
-                    <td>
-                      <Translate contentKey={`noRiskNoFunApp.SeverityType.${risk.severity}`} />
-                    </td>
-                    <td>
-                      <Translate contentKey={`noRiskNoFunApp.ProbabilityType.${risk.probability}`} />
-                    </td>
-                    <td>{risk.inRiskpool ? 'true' : 'false'}</td>
-                    <td>
-                      {risk.riskResponses
-                        ? risk.riskResponses.map((val, j) => (
-                            <span key={j}>
+              {riskList.map((risk, i) => (
+                <tr key={`entity-${i}`}>
+                  <td>
+                    <Button tag={Link} to={`${match.url}/${risk.id}`} color="link" size="sm">
+                      {risk.id}
+                    </Button>
+                  </td>
+                  <td>{risk.name}</td>
+                  <td>{risk.description}</td>
+                  <td>
+                    {risk.severity == null ? (
+                      <Translate contentKey={`noRiskNoFunApp.risk.notSet`}/>
+                    ) : (<Translate contentKey={`noRiskNoFunApp.SeverityType.${risk.severity}`}/>)}
+                  </td>
+                  <td>
+                    {risk.probability == null ? (
+                      <Translate contentKey={`noRiskNoFunApp.risk.notSet`}/>
+                    ) : (<Translate contentKey={`noRiskNoFunApp.ProbabilityType.${risk.probability}`}/>)}
+                  </td>
+                  <td>{risk.inRiskpool ? 'true' : 'false'}</td>
+                  <td>
+                    {risk.riskResponses.length !== 0
+                      ? risk.riskResponses.map((val, j) => (
+                        <span key={j}>
                               <Link to={`risk-response/${val.id}`}>{val.id}</Link>
-                              {j === risk.riskResponses.length - 1 ? '' : ', '}
+                          {j === risk.riskResponses.length - 1 ? '' : ', '}
                             </span>
-                          ))
-                        : null}
-                    </td>
-                    <td className="text-right">
-                      <div className="btn-group flex-btn-group-container">
-                        <Button tag={Link} to={`${match.url}/${risk.id}`} color="info" size="sm">
-                          <FontAwesomeIcon icon="eye" />{' '}
-                          <span className="d-none d-md-inline">
-                            <Translate contentKey="entity.action.view">View</Translate>
+                      ))
+                      : <Translate contentKey={`noRiskNoFunApp.risk.notSet`}/>}
+                  </td>
+                  <td className="text-right">
+                    <div className="btn-group flex-btn-group-container">
+                      <Button tag={Link} to={`${match.url}/${risk.id}`} color="info" size="sm">
+                        <FontAwesomeIcon icon="eye"/>{' '}
+                        <span className="d-none d-md-inline">
+                            <Translate contentKey="entity.action.view"/>
                           </span>
-                        </Button>
-                        <Button tag={Link} to={`${match.url}/${risk.id}/edit`} color="primary" size="sm">
-                          <FontAwesomeIcon icon="pencil-alt" />{' '}
-                          <span className="d-none d-md-inline">
-                            <Translate contentKey="entity.action.edit">Edit</Translate>
+                      </Button>
+                      <Button tag={Link} to={`${match.url}/${risk.id}/edit`} color="primary" size="sm">
+                        <FontAwesomeIcon icon="pencil-alt"/>{' '}
+                        <span className="d-none d-md-inline">
+                            <Translate contentKey="entity.action.edit"/>
                           </span>
-                        </Button>
-                        <Button tag={Link} to={`${match.url}/${risk.id}/delete`} color="danger" size="sm">
-                          <FontAwesomeIcon icon="trash" />{' '}
-                          <span className="d-none d-md-inline">
-                            <Translate contentKey="entity.action.delete">Delete</Translate>
+                      </Button>
+                      <Button tag={Link} to={`${match.url}/${risk.id}/delete`} color="danger" size="sm">
+                        <FontAwesomeIcon icon="trash"/>{' '}
+                        <span className="d-none d-md-inline">
+                            <Translate contentKey="entity.action.delete"/>
                           </span>
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
               </tbody>
             </Table>
           ) : (
             <div className="alert alert-warning">
-              <Translate contentKey="noRiskNoFunApp.risk.home.notFound">No Risks found</Translate>
+              <Translate contentKey="noRiskNoFunApp.risk.home.notFound"/>
             </div>
           )}
         </div>
@@ -122,7 +125,7 @@ export class Risk extends React.Component<IRiskProps> {
   }
 }
 
-const mapStateToProps = ({ risk }: IRootState) => ({
+const mapStateToProps = ({risk}: IRootState) => ({
   riskList: risk.entities
 });
 

@@ -13,12 +13,6 @@ application {
     entities *
 }
 
-entity Activity {
-    description String required,
-    targetUrl String,
-    date LocalDate required
-}
-
 entity Risk {
     name String required,
     description String required,
@@ -71,7 +65,6 @@ relationship ManyToMany {
      Project to User,
      Risk to RiskResponse,
      ProjectRisks to RiskResponse
-     Activity to User
 }
 
 relationship OneToMany {
@@ -79,5 +72,4 @@ relationship OneToMany {
     Risk to ProjectRisks
 }
 
-paginate Activity with infinite-scroll
 

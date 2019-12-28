@@ -22,7 +22,8 @@
       "end": "End",
       "owner": "Owner",
       "projectRisks": "Project Risks",
-      "user": "User"
+      "user": "User",
+      "toProjectRisks": "to Project Risks"
     }
   }
 }

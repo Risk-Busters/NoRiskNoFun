@@ -4,7 +4,6 @@ import com.riskbusters.norisknofun.domain.ProjectRisks;
 import com.riskbusters.norisknofun.domain.projectrisks.ProposedProjectRisk;
 import com.riskbusters.norisknofun.repository.ProposedProjectRiskRepository;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
-
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -16,8 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
-import java.util.Collections;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,10 +65,9 @@ public class ProjectRisksResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated projectRisks,
      * or with status {@code 400 (Bad Request)} if the projectRisks is not valid,
      * or with status {@code 500 (Internal Server Error)} if the projectRisks couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/project-risks")
-    public ResponseEntity<ProjectRisks> updateProjectRisks(@Valid @RequestBody ProjectRisks projectRisks) throws URISyntaxException {
+    public ResponseEntity<ProjectRisks> updateProjectRisks(@Valid @RequestBody ProjectRisks projectRisks) {
         log.debug("REST request to update ProjectRisks : {}", projectRisks);
         if (projectRisks.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -88,9 +85,18 @@ public class ProjectRisksResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projectRisks in body.
      */
     @GetMapping("/project-risks")
-    public List<ProposedProjectRisk> getAllProjectRisks(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
-        log.debug("REST request to get all ProjectRisks");
-        return proposedProjectRiskRepository.findAll(); //findAllWithEagerRelationships();
+    public List<ProposedProjectRisk> getAllProjectRisks(@RequestHeader("referer") URL url, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+        long projectId;
+        try {
+            //TODO: maybe not the best way (hacky to get projectId out of referer URL)
+            projectId = Long.parseLong(url.getPath().split("/")[3]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            log.debug("Error while getting projectId. Set projectId to -1");
+            projectId = -1L;
+        }
+
+        log.debug("REST request to get all ProjectRisks for project with id " + projectId);
+        return proposedProjectRiskRepository.findAllByProject_Id(projectId);
     }
 
     /**

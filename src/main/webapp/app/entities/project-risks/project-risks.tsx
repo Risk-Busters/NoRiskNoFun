@@ -1,20 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
-import { Translate, ICrudGetAllAction } from 'react-jhipster';
+import { Button, Table } from 'reactstrap';
+import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntities } from './project-risks.reducer';
-import { IProjectRisks } from 'app/shared/model/project-risks.model';
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 
 export interface IProjectRisksProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
 export class ProjectRisks extends React.Component<IProjectRisksProps> {
   componentDidMount() {
     this.props.getEntities();
+    console.log("Match in Project risks");
+    console.log(this.props.match);
+    console.log("Porject risks (should be all");
+    console.log(this.props.projectRisksList);
   }
 
   render() {

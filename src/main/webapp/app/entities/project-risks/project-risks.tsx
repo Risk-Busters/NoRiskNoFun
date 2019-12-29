@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
@@ -10,18 +10,18 @@ import { getEntities } from './project-risks.reducer';
 
 export interface IProjectRisksProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
-export class ProjectRisks extends React.Component<IProjectRisksProps> {
-  componentDidMount() {
-    this.props.getEntities();
-    console.log("Match in Project risks");
-    console.log(this.props.match);
-    console.log("Porject risks (should be all");
-    console.log(this.props.projectRisksList);
-  }
+function ProjectRisks(props) {
 
-  render() {
-    const { projectRisksList, match } = this.props;
-    return (
+  useEffect(() => {
+    props.getEntities();
+    console.log("Match in Project risks");
+    console.log(props.match);
+    console.log("Porject risks (should be all");
+    console.log(props.projectRisksList);
+  }, []);
+
+  const { projectRisksList, match } = props;
+  return (
       <div>
         <h2 id="project-risks-heading">
           <Translate contentKey="noRiskNoFunApp.projectRisks.home.title">Project Risks</Translate>
@@ -121,7 +121,6 @@ export class ProjectRisks extends React.Component<IProjectRisksProps> {
         </div>
       </div>
     );
-  }
 }
 
 const mapStateToProps = ({ projectRisks }: IRootState) => ({

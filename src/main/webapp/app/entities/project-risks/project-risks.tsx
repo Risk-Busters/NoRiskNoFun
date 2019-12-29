@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 import { getEntities } from './project-risks.reducer';
 
-export interface IProjectRisksProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
+export interface IProjectRisksProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export class ProjectRisks extends React.Component<IProjectRisksProps> {
   componentDidMount() {
@@ -64,7 +64,7 @@ export class ProjectRisks extends React.Component<IProjectRisksProps> {
                 {projectRisksList.map((projectRisks, i) => (
                   <tr key={`entity-${i}`}>
                     <td>
-                      <Button tag={Link} to={`${match.url}/${projectRisks.id}`} color="link" size="sm">
+                      <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}`} color="link" size="sm">
                         {projectRisks.id}
                       </Button>
                     </td>

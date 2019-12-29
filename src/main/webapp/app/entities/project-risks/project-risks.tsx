@@ -25,7 +25,7 @@ function ProjectRisks(props) {
       <div>
         <h2 id="project-risks-heading">
           <Translate contentKey="noRiskNoFunApp.projectRisks.home.title">Project Risks</Translate>
-          <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
+          <Link to={`${match.url}/project-risks/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
             <Translate contentKey="noRiskNoFunApp.projectRisks.home.createLabel">Create a new Project Risks</Translate>

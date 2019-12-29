@@ -1,25 +1,24 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
-import { Translate, ICrudGetAction } from 'react-jhipster';
+import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntity } from './project-risks.reducer';
-import { IProjectRisks } from 'app/shared/model/project-risks.model';
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 
 export interface IProjectRisksDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
-export class ProjectRisksDetail extends React.Component<IProjectRisksDetailProps> {
-  componentDidMount() {
-    this.props.getEntity(this.props.match.params.id);
-  }
+function ProjectRisksDetail(props) {
 
-  render() {
-    const { projectRisksEntity } = this.props;
-    return (
+  const { projectRisksEntity } = props;
+
+  useEffect(() => {
+    props.getEntity(props.match.params.id);
+  }, []);
+
+  return (
       <Row>
         <Col md="8">
           <h2>
@@ -66,7 +65,7 @@ export class ProjectRisksDetail extends React.Component<IProjectRisksDetailProps
             </dt>
             <dd>{projectRisksEntity.risk ? projectRisksEntity.risk.id : ''}</dd>
           </dl>
-          <Button tag={Link} to="/entity/project-risks" replace color="info">
+          <Button tag={Link} to={`/entity/project/${projectRisksEntity.project ? projectRisksEntity.project.id : ''}`} replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}
             <span className="d-none d-md-inline">
               <Translate contentKey="entity.action.back">Back</Translate>
@@ -82,7 +81,6 @@ export class ProjectRisksDetail extends React.Component<IProjectRisksDetailProps
         </Col>
       </Row>
     );
-  }
 }
 
 const mapStateToProps = ({ projectRisks }: IRootState) => ({

@@ -133,13 +133,13 @@ function ProjectDetail(props) {
         </Nav>
         <TabContent activeTab={activeTab}>
           <TabPane tabId="1">
-            <ProjectRisks projectRisksList={projectEntity.projectRisks} match={props.match} location={props.location} history={props.history} />
+            <ProjectRisks riskDiscussionStatus={"final"} match={props.match} location={props.location} history={props.history} />
           </TabPane>
           <TabPane tabId="2">
             TODO: 2 Discussions
           </TabPane>
           <TabPane tabId="3">
-            TODO: 3 Proposals
+            <ProjectRisks riskDiscussionStatus={"proposed"} match={props.match} location={props.location} history={props.history} />
           </TabPane>
         </TabContent>
       </div>

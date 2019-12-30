@@ -23,6 +23,8 @@ import org.hibernate.annotations.Cascade;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "risk_discussion_status")
+//@AttributeOverride(name = "risk_discussion_status", column = @Column(name="risk_discussion_status",
+//    nullable=false, insertable = false, updatable = false))
 public abstract class ProjectRisks implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,6 +60,9 @@ public abstract class ProjectRisks implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("projectRisks")
     private Risk risk;
+
+    @Column(name = "risk_discussion_status", insertable = false, updatable = false)
+    public String riskDiscussionStatus;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {

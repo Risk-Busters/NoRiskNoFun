@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
@@ -6,21 +6,27 @@ import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getEntities } from './project-risks.reducer';
+import {getEntities, getProposedProjectRisks} from "app/entities/project-risks/project-risks.reducer";
 
 export interface IProjectRisksProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 function ProjectRisks(props) {
 
+  const [projectRisksList, setProjectRisksList] = useState();
+
   useEffect(() => {
-    props.getEntities();
-    console.log("Match in Project risks");
-    console.log(props.match);
-    console.log("Porject risks (should be all");
+    if(props.riskDiscussionStatus === "proposed") {
+      props.getProposedProjectRisks();
+      setProjectRisksList(props.proposedProjectRisksList);
+    } else if(props.riskDiscussionStatus === "final") {
+      props.getEntities;
+      setProjectRisksList(props.projectRisksList);
+    }
     console.log(props.projectRisksList);
+    console.log(props);
   }, []);
 
-  const { projectRisksList, match } = props;
+  const { match } = props;
   return (
       <div>
         <h2 id="project-risks-heading">
@@ -124,11 +130,13 @@ function ProjectRisks(props) {
 }
 
 const mapStateToProps = ({ projectRisks }: IRootState) => ({
-  projectRisksList: projectRisks.entities
+  projectRisksList: projectRisks.entities,
+  proposedProjectRisksList: projectRisks.entities
 });
 
 const mapDispatchToProps = {
-  getEntities
+  getEntities,
+  getProposedProjectRisks
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

@@ -1,7 +1,9 @@
 package com.riskbusters.norisknofun.web.rest;
 
 import com.riskbusters.norisknofun.domain.ProjectRisks;
+import com.riskbusters.norisknofun.domain.projectrisks.FinalProjectRisk;
 import com.riskbusters.norisknofun.domain.projectrisks.ProposedProjectRisk;
+import com.riskbusters.norisknofun.repository.FinalProjectRiskRepository;
 import com.riskbusters.norisknofun.repository.ProposedProjectRiskRepository;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
@@ -34,9 +36,11 @@ public class ProjectRisksResource {
     private String applicationName;
 
     private final ProposedProjectRiskRepository proposedProjectRiskRepository;
+    private final FinalProjectRiskRepository finalProjectRiskRepository;
 
-    public ProjectRisksResource(ProposedProjectRiskRepository proposedProjectRiskRepository) {
+    public ProjectRisksResource(ProposedProjectRiskRepository proposedProjectRiskRepository, FinalProjectRiskRepository finalProjectRiskRepository) {
         this.proposedProjectRiskRepository = proposedProjectRiskRepository;
+        this.finalProjectRiskRepository = finalProjectRiskRepository;
     }
 
     /**
@@ -85,7 +89,7 @@ public class ProjectRisksResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projectRisks in body.
      */
     @GetMapping("/project-risks")
-    public List<ProposedProjectRisk> getAllProjectRisks(@RequestHeader("referer") URL url, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public List<FinalProjectRisk> getAllProjectRisks(@RequestHeader("referer") URL url, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         long projectId;
         try {
             //TODO: maybe not the best way (hacky to get projectId out of referer URL)
@@ -95,8 +99,9 @@ public class ProjectRisksResource {
             projectId = -1L;
         }
 
-        log.debug("REST request to get all ProjectRisks for project with id " + projectId);
-        return proposedProjectRiskRepository.findAllByProject_Id(projectId);
+        log.debug("REST request to get all finalProjectRisks for project with id " + projectId);
+        log.debug("all finalProjectRisks" + finalProjectRiskRepository.findAllByProject_Id(projectId).toString());
+        return finalProjectRiskRepository.findAllByProject_Id(projectId);
     }
 
     /**

@@ -8,6 +8,7 @@ import { IProjectRisks, defaultValue } from 'app/shared/model/project-risks.mode
 
 export const ACTION_TYPES = {
   FETCH_PROJECTRISKS_LIST: 'projectRisks/FETCH_PROJECTRISKS_LIST',
+  FETCH_PROPOSEDPROJECTRISKS_LIST: 'projectRisks/FETCH_PROPOSEDPROJECTRISKS_LIST',
   FETCH_PROJECTRISKS: 'projectRisks/FETCH_PROJECTRISKS',
   CREATE_PROJECTRISKS: 'projectRisks/CREATE_PROJECTRISKS',
   UPDATE_PROJECTRISKS: 'projectRisks/UPDATE_PROJECTRISKS',
@@ -31,6 +32,7 @@ export type ProjectRisksState = Readonly<typeof initialState>;
 export default (state: ProjectRisksState = initialState, action): ProjectRisksState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.FETCH_PROJECTRISKS_LIST):
+    case REQUEST(ACTION_TYPES.FETCH_PROPOSEDPROJECTRISKS_LIST):
     case REQUEST(ACTION_TYPES.FETCH_PROJECTRISKS):
       return {
         ...state,
@@ -48,6 +50,7 @@ export default (state: ProjectRisksState = initialState, action): ProjectRisksSt
         updating: true
       };
     case FAILURE(ACTION_TYPES.FETCH_PROJECTRISKS_LIST):
+    case FAILURE(ACTION_TYPES.FETCH_PROPOSEDPROJECTRISKS_LIST):
     case FAILURE(ACTION_TYPES.FETCH_PROJECTRISKS):
     case FAILURE(ACTION_TYPES.CREATE_PROJECTRISKS):
     case FAILURE(ACTION_TYPES.UPDATE_PROJECTRISKS):
@@ -60,6 +63,12 @@ export default (state: ProjectRisksState = initialState, action): ProjectRisksSt
         errorMessage: action.payload
       };
     case SUCCESS(ACTION_TYPES.FETCH_PROJECTRISKS_LIST):
+      return {
+        ...state,
+        loading: false,
+        entities: action.payload.data
+      };
+    case SUCCESS(ACTION_TYPES.FETCH_PROPOSEDPROJECTRISKS_LIST):
       return {
         ...state,
         loading: false,
@@ -96,12 +105,18 @@ export default (state: ProjectRisksState = initialState, action): ProjectRisksSt
 };
 
 const apiUrl = 'api/project-risks';
+const apiUrlProposedProjectRisks = 'api/proposed-project-risks';
 
 // Actions
 
 export const getEntities: ICrudGetAllAction<IProjectRisks> = (page, size, sort) => ({
   type: ACTION_TYPES.FETCH_PROJECTRISKS_LIST,
   payload: axios.get<IProjectRisks>(`${apiUrl}?cacheBuster=${new Date().getTime()}`)
+});
+
+export const getProposedProjectRisks: ICrudGetAllAction<IProjectRisks> = (page, size, sort) => ({
+  type: ACTION_TYPES.FETCH_PROPOSEDPROJECTRISKS_LIST,
+  payload: axios.get<IProjectRisks>(`${apiUrlProposedProjectRisks}?cacheBuster=${new Date().getTime()}`)
 });
 
 export const getEntity: ICrudGetAction<IProjectRisks> = id => {

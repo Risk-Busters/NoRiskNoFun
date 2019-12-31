@@ -31,6 +31,7 @@ describe('Entities reducer tests', () => {
     errorMessage: null,
     projectRiskEntities: [] as ReadonlyArray<IProjectRisks>,
     proposedProjectRiskEntities: [] as ReadonlyArray<IProjectRisks>,
+    toBeDiscussedProjectRiskEntities: [] as ReadonlyArray<IProjectRisks>,
     entity: defaultValue,
     updating: false,
     updateSuccess: false

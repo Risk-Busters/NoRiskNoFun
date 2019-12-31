@@ -98,36 +98,20 @@ function ProjectDetail(props) {
           </Col>
         </Row>
 
-
-        <Button tag={Link} to={`/entity/project/${projectEntity.id}/project-risks`} replace color="info">
-          <span className="d-none d-md-inline">
-              <Translate contentKey="noRiskNoFunApp.project.toProjectRisks" />
-            </span>
-        </Button>
-
         <Nav tabs>
           <NavItem>
-            <NavLink
-              className={classnames({ active: activeTab === '1' })}
-              onClick={() => { toggle('1'); }}
-            >
-              Final
+            <NavLink className={classnames({ active: activeTab === '1' })} onClick={() => { toggle('1'); }} >
+              <Translate contentKey="noRiskNoFunApp.project.riskCategories.final"/>
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink
-              className={classnames({ active: activeTab === '2' })}
-              onClick={() => { toggle('2'); }}
-            >
-              Discussions
+            <NavLink className={classnames({ active: activeTab === '2' })} onClick={() => { toggle('2'); }} >
+              <Translate contentKey="noRiskNoFunApp.project.riskCategories.toBeDiscussed"/>
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink
-              className={classnames({ active: activeTab === '3' })}
-              onClick={() => { toggle('3'); }}
-            >
-              Proposals
+            <NavLink className={classnames({ active: activeTab === '3' })} onClick={() => { toggle('3'); }} >
+              <Translate contentKey="noRiskNoFunApp.project.riskCategories.proposed"/>
             </NavLink>
           </NavItem>
         </Nav>

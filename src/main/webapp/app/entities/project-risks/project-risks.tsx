@@ -17,7 +17,7 @@ export interface IProjectRisksProps extends StateProps, DispatchProps, ProjectRi
 
 function ProjectRisks(props: IProjectRisksProps) {
 
-  const [riskList, setRiskList] = useState();
+  const [riskList, setRiskList] = useState([]);
 
   useEffect(() => {
     if(props.riskDiscussionStatus === "proposed") {
@@ -29,9 +29,9 @@ function ProjectRisks(props: IProjectRisksProps) {
 
   useEffect(() => {
     if(props.riskDiscussionStatus === "proposed") {
-      setRiskList(props.proposedProjectRiskEntities);
+      setRiskList(Array.from(props.proposedProjectRiskEntities));
     } else if(props.riskDiscussionStatus === "final") {
-      setRiskList(props.projectRisksList);
+      setRiskList(Array.from(props.projectRisksList));
     }
   }, [props.projectRisksList, props.proposedProjectRiskEntities]);
 

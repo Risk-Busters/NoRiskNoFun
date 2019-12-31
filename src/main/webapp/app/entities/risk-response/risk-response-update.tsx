@@ -168,7 +168,7 @@ export class RiskResponseUpdate extends React.Component<IRiskResponseUpdateProps
 
 const mapStateToProps = (storeState: IRootState) => ({
   risks: storeState.risk.entities,
-  projectRisks: storeState.projectRisks.entities,
+  projectRisks: storeState.riskResponse.entities,
   riskResponseEntity: storeState.riskResponse.entity,
   loading: storeState.riskResponse.loading,
   updating: storeState.riskResponse.updating,

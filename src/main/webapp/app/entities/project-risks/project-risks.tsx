@@ -6,8 +6,7 @@ import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import {getEntities, getProposedProjectRisks} from "app/entities/project-risks/project-risks.reducer";
-import {IProjectRisks} from "app/shared/model/project-risks.model";
+import {getEntities, getProposedProjectRisks, getToBeDiscussedProjectRisks} from "app/entities/project-risks/project-risks.reducer";
 
 type ProjectRisksProps = {
   riskDiscussionStatus: string
@@ -22,6 +21,8 @@ function ProjectRisks(props: IProjectRisksProps) {
   useEffect(() => {
     if(props.riskDiscussionStatus === "proposed") {
       props.getProposedProjectRisks();
+    } else if(props.riskDiscussionStatus === "toBeDiscussed") {
+      props.getToBeDiscussedProjectRisks();
     } else if(props.riskDiscussionStatus === "final") {
       props.getEntities();
     }
@@ -30,10 +31,12 @@ function ProjectRisks(props: IProjectRisksProps) {
   useEffect(() => {
     if(props.riskDiscussionStatus === "proposed") {
       setRiskList(Array.from(props.proposedProjectRiskEntities));
+    } else if(props.riskDiscussionStatus === "toBeDiscussed") {
+      setRiskList(Array.from(props.toBeDiscussedProjectRiskEntities));
     } else if(props.riskDiscussionStatus === "final") {
       setRiskList(Array.from(props.projectRisksList));
     }
-  }, [props.projectRisksList, props.proposedProjectRiskEntities]);
+  }, [props.projectRisksList, props.proposedProjectRiskEntities, props.toBeDiscussedProjectRiskEntities]);
 
   const { match } = props;
   return (
@@ -140,12 +143,14 @@ function ProjectRisks(props: IProjectRisksProps) {
 
 const mapStateToProps = ({ projectRisks }: IRootState) => ({
   projectRisksList: projectRisks.projectRiskEntities,
-  proposedProjectRiskEntities: projectRisks.proposedProjectRiskEntities
+  proposedProjectRiskEntities: projectRisks.proposedProjectRiskEntities,
+  toBeDiscussedProjectRiskEntities: projectRisks.toBeDiscussedProjectRiskEntities
 });
 
 const mapDispatchToProps = {
   getEntities,
-  getProposedProjectRisks
+  getProposedProjectRisks,
+  getToBeDiscussedProjectRisks
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

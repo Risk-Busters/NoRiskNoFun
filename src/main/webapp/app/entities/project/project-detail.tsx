@@ -136,7 +136,7 @@ function ProjectDetail(props) {
             <ProjectRisks riskDiscussionStatus={"final"} match={props.match} location={props.location} history={props.history} />
           </TabPane>
           <TabPane tabId="2">
-            TODO: 2 Discussions
+            <ProjectRisks riskDiscussionStatus={"toBeDiscussed"} match={props.match} location={props.location} history={props.history} />
           </TabPane>
           <TabPane tabId="3">
             <ProjectRisks riskDiscussionStatus={"proposed"} match={props.match} location={props.location} history={props.history} />
@@ -145,9 +145,6 @@ function ProjectDetail(props) {
       </div>
     );
 }
-
-// TODO: insert directly as component and not as link
-// <ProjectRisks projectRisksList={projectEntity.projectRisks} match={this.props.match} />
 
 const mapStateToProps = ({project}: IRootState) => ({
   projectEntity: project.entity

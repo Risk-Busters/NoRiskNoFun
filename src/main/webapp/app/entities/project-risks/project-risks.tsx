@@ -12,19 +12,21 @@ export interface IProjectRisksProps extends StateProps, DispatchProps, RouteComp
 
 function ProjectRisks(props) {
 
-  const [projectRisksList, setProjectRisksList] = useState();
+  const [projectRisksList, setProjectRisksList] = useState([]);
 
   useEffect(() => {
     if(props.riskDiscussionStatus === "proposed") {
       props.getProposedProjectRisks();
-      setProjectRisksList(props.proposedProjectRisksList);
     } else if(props.riskDiscussionStatus === "final") {
-      props.getEntities;
-      setProjectRisksList(props.projectRisksList);
+      props.getEntities();
     }
     console.log(props.projectRisksList);
     console.log(props);
   }, []);
+
+  useEffect(() => {
+    setProjectRisksList(props.projectRisksList);
+  }, [props.projectRisksList]);
 
   const { match } = props;
   return (
@@ -38,7 +40,7 @@ function ProjectRisks(props) {
           </Link>
         </h2>
         <div className="table-responsive">
-          {projectRisksList && projectRisksList.length > 0 ? (
+          {projectRisksList.length > 0 ? (
             <Table responsive aria-describedby="project-risks-heading">
               <thead>
                 <tr>
@@ -131,7 +133,6 @@ function ProjectRisks(props) {
 
 const mapStateToProps = ({ projectRisks }: IRootState) => ({
   projectRisksList: projectRisks.entities,
-  proposedProjectRisksList: projectRisks.entities
 });
 
 const mapDispatchToProps = {

@@ -62,13 +62,8 @@ export default (state: ProjectRisksState = initialState, action): ProjectRisksSt
         updateSuccess: false,
         errorMessage: action.payload
       };
-    case SUCCESS(ACTION_TYPES.FETCH_PROJECTRISKS_LIST):
-      return {
-        ...state,
-        loading: false,
-        entities: action.payload.data
-      };
     case SUCCESS(ACTION_TYPES.FETCH_PROPOSEDPROJECTRISKS_LIST):
+    case SUCCESS(ACTION_TYPES.FETCH_PROJECTRISKS_LIST):
       return {
         ...state,
         loading: false,

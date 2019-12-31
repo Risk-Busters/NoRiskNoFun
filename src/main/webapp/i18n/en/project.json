@@ -22,7 +22,13 @@
       "end": "End",
       "owner": "Owner",
       "projectRisks": "Project Risks",
-      "user": "User"
+      "user": "User",
+      "toProjectRisks": "to Project Risks",
+      "riskCategories": {
+        "final": "Final risks",
+        "toBeDiscussed": "Risks in discussion",
+        "proposed": "Proposed risks"
+      }
     }
   }
 }

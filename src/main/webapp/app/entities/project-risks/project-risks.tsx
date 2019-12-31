@@ -7,12 +7,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import {getEntities, getProposedProjectRisks} from "app/entities/project-risks/project-risks.reducer";
+import {IProjectRisks} from "app/shared/model/project-risks.model";
 
-export interface IProjectRisksProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+type ProjectRisksProps = {
+  riskDiscussionStatus: string
+};
 
-function ProjectRisks(props) {
+export interface IProjectRisksProps extends StateProps, DispatchProps, ProjectRisksProps, RouteComponentProps<{ id: string }> {}
 
-  const [projectRisksList, setProjectRisksList] = useState([]);
+function ProjectRisks(props: IProjectRisksProps) {
+
+  const [riskList, setRiskList] = useState();
 
   useEffect(() => {
     if(props.riskDiscussionStatus === "proposed") {
@@ -20,13 +25,15 @@ function ProjectRisks(props) {
     } else if(props.riskDiscussionStatus === "final") {
       props.getEntities();
     }
-    console.log(props.projectRisksList);
-    console.log(props);
   }, []);
 
   useEffect(() => {
-    setProjectRisksList(props.projectRisksList);
-  }, [props.projectRisksList]);
+    if(props.riskDiscussionStatus === "proposed") {
+      setRiskList(props.proposedProjectRiskEntities);
+    } else if(props.riskDiscussionStatus === "final") {
+      setRiskList(props.projectRisksList);
+    }
+  }, [props.projectRisksList, props.proposedProjectRiskEntities]);
 
   const { match } = props;
   return (
@@ -40,7 +47,7 @@ function ProjectRisks(props) {
           </Link>
         </h2>
         <div className="table-responsive">
-          {projectRisksList.length > 0 ? (
+          {riskList.length > 0 ? (
             <Table responsive aria-describedby="project-risks-heading">
               <thead>
                 <tr>
@@ -69,7 +76,7 @@ function ProjectRisks(props) {
                 </tr>
               </thead>
               <tbody>
-                {projectRisksList.map((projectRisks, i) => (
+                {riskList.map((projectRisks, i) => (
                   <tr key={`entity-${i}`}>
                     <td>
                       <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}`} color="link" size="sm">
@@ -132,7 +139,8 @@ function ProjectRisks(props) {
 }
 
 const mapStateToProps = ({ projectRisks }: IRootState) => ({
-  projectRisksList: projectRisks.entities,
+  projectRisksList: projectRisks.projectRiskEntities,
+  proposedProjectRiskEntities: projectRisks.proposedProjectRiskEntities
 });
 
 const mapDispatchToProps = {

@@ -29,7 +29,8 @@ describe('Entities reducer tests', () => {
   const initialState = {
     loading: false,
     errorMessage: null,
-    entities: [] as ReadonlyArray<IProjectRisks>,
+    projectRiskEntities: [] as ReadonlyArray<IProjectRisks>,
+    proposedProjectRiskEntities: [] as ReadonlyArray<IProjectRisks>,
     entity: defaultValue,
     updating: false,
     updateSuccess: false
@@ -42,7 +43,8 @@ describe('Entities reducer tests', () => {
       updating: false,
       updateSuccess: false
     });
-    expect(isEmpty(state.entities));
+    expect(isEmpty(state.projectRiskEntities));
+    expect(isEmpty(state.proposedProjectRiskEntities));
     expect(isEmpty(state.entity));
   }
 
@@ -130,7 +132,7 @@ describe('Entities reducer tests', () => {
       ).toEqual({
         ...initialState,
         loading: false,
-        entities: payload.data
+        projectRiskEntities: payload.data
       });
     });
 

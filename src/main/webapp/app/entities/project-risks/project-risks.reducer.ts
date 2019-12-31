@@ -19,7 +19,8 @@ export const ACTION_TYPES = {
 const initialState = {
   loading: false,
   errorMessage: null,
-  entities: [] as ReadonlyArray<IProjectRisks>,
+  projectRiskEntities: [] as ReadonlyArray<IProjectRisks>,
+  proposedProjectRiskEntities: [] as ReadonlyArray<IProjectRisks>,
   entity: defaultValue,
   updating: false,
   updateSuccess: false
@@ -63,11 +64,16 @@ export default (state: ProjectRisksState = initialState, action): ProjectRisksSt
         errorMessage: action.payload
       };
     case SUCCESS(ACTION_TYPES.FETCH_PROPOSEDPROJECTRISKS_LIST):
+      return {
+        ...state,
+        loading: false,
+        proposedProjectRiskEntities: action.payload.data
+      };
     case SUCCESS(ACTION_TYPES.FETCH_PROJECTRISKS_LIST):
       return {
         ...state,
         loading: false,
-        entities: action.payload.data
+        projectRiskEntities: action.payload.data
       };
     case SUCCESS(ACTION_TYPES.FETCH_PROJECTRISKS):
       return {

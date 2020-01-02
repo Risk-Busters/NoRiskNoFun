@@ -35,6 +35,8 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons/faCalendarAlt';
 import { faTrophy } from '@fortawesome/free-solid-svg-icons/faTrophy';
 import { faMedal } from '@fortawesome/free-solid-svg-icons/faMedal';
 import { faAward } from '@fortawesome/free-solid-svg-icons/faAward';
+import { faUsers } from '@fortawesome/free-solid-svg-icons/faUsers';
+import { faCrown } from '@fortawesome/free-solid-svg-icons/faCrown';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 
@@ -76,6 +78,8 @@ export const loadIcons = () => {
     faCalendarAlt,
     faTrophy,
     faMedal,
+    faUsers,
+    faCrown,
     faAward
   );
 };

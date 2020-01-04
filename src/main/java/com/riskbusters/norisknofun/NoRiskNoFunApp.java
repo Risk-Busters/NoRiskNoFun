@@ -22,7 +22,7 @@ import java.util.Collection;
 
 @SpringBootApplication
 @EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
-public class NoRiskNoFunApp implements InitializingBean {
+public class NoRiskNoFunApp implements InitializingBean  {
 
     private static final Logger log = LoggerFactory.getLogger(NoRiskNoFunApp.class);
 

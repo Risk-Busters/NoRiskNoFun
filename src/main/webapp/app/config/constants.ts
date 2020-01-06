@@ -15,6 +15,17 @@ export const messages = {
   DATA_ERROR_ALERT: 'Internal Error'
 };
 
+export const firebaseConfig = {
+  apiKey: 'AIzaSyC5nc4-bbHxNoGQ178UD0E8lRGcziXeYA4',
+  authDomain: 'norisknofun-id.firebaseapp.com',
+  databaseURL: 'https://norisknofun-id.firebaseio.com',
+  projectId: 'norisknofun-id',
+  storageBucket: 'norisknofun-id.appspot.com',
+  messagingSenderId: '878002592319',
+  appId: '1:878002592319:web:150c69d4a3eb844107f68a',
+  measurementId: 'G-QBCFL7G5TB'
+};
+
 export const APP_DATE_FORMAT = 'DD/MM/YY HH:mm';
 export const APP_TIMESTAMP_FORMAT = 'DD/MM/YY HH:mm:ss';
 export const APP_LOCAL_DATE_FORMAT = 'DD/MM/YYYY';

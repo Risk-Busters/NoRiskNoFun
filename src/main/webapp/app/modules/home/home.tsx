@@ -6,6 +6,7 @@ import {Translate} from 'react-jhipster';
 import {connect} from 'react-redux';
 import {Alert, Col, Row} from 'reactstrap';
 import Activity from 'app/entities/activity/';
+import {Notification} from "app/modules/notification/notification";
 
 export type IHomeProp = StateProps;
 
@@ -18,11 +19,9 @@ export const Home = (props: IHomeProp) => {
         <h2>
           <Translate contentKey="home.title"/>
         </h2>
-        <div className="lead">
-          <Translate contentKey="home.subtitle"/>
-    </div>
         {account && account.login ? (
           <div>
+            <Notification/>
             <Alert color="success">
               <Translate contentKey="home.logged.message" interpolate={{username: account.login}}/>
             </Alert>

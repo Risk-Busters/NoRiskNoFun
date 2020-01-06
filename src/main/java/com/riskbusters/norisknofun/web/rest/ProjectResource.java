@@ -1,5 +1,7 @@
 package com.riskbusters.norisknofun.web.rest;
 
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.riskbusters.norisknofun.domain.Activity;
 import com.riskbusters.norisknofun.domain.Project;
 import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.repository.ProjectRepository;
@@ -17,8 +19,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * REST controller for managing {@link com.riskbusters.norisknofun.domain.Project}.
@@ -91,7 +95,7 @@ public class ProjectResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projects in body.
      */
     @GetMapping("/projects")
-    public List<Project> getAllProjects(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public List<Project> getAllProjects(@RequestParam(required = false, defaultValue = "false") boolean eagerload) throws FirebaseMessagingException {
         log.debug("REST request to get all Projects");
         User user = userService.getUserWithAuthorities().get();
         return projectRepository.findAllByUsersIsContainingOrOwnerEquals(user, user);

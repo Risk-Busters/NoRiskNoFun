@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -36,6 +37,9 @@ class MessagingServiceT {
     private MessagingService messagingService;
 
     @Autowired
+    private MessageSource messageSource;
+
+    @Autowired
     private EntityManager em;
 
     private DeviceToken deviceToken;
@@ -46,7 +50,7 @@ class MessagingServiceT {
 
     @BeforeEach
     public void init() {
-        final MessagingService messagingService = new MessagingService(activityRepository, deviceTokenRepository);
+        final MessagingService messagingService = new MessagingService(activityRepository, deviceTokenRepository, messageSource);
         deviceToken = new DeviceToken();
         deviceTokenTwo = new DeviceToken();
 

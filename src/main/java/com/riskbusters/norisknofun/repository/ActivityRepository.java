@@ -16,7 +16,7 @@ import java.util.Optional;
 @Repository
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
 
-    Page<Activity> findAllByUsersIsContaining(Pageable pageable, User user);
+    Optional<Page<Activity>> findAllByUsersIsContaining(Pageable pageable, User user);
 
     @Query("select activity from Activity activity left join fetch activity.users where activity.id =:id")
     Optional<Activity> findOneWithEagerRelationships(@Param("id") Long id);

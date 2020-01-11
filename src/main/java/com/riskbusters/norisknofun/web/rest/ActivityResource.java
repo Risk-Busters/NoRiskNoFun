@@ -3,8 +3,8 @@ package com.riskbusters.norisknofun.web.rest;
 import com.riskbusters.norisknofun.domain.Activity;
 import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.repository.ActivityRepository;
+import com.riskbusters.norisknofun.service.ActivityService;
 import com.riskbusters.norisknofun.service.UserService;
-import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -15,14 +15,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,10 +40,12 @@ public class ActivityResource {
 
     private final ActivityRepository activityRepository;
     private final UserService userService;
+    private final ActivityService activityService;
 
-    public ActivityResource(ActivityRepository activityRepository, UserService userService) {
+    public ActivityResource(ActivityRepository activityRepository, UserService userService, ActivityService activityService) {
         this.activityRepository = activityRepository;
         this.userService = userService;
+        this.activityService = activityService;
     }
 
     /**
@@ -60,7 +59,7 @@ public class ActivityResource {
     public ResponseEntity<List<Activity>> getAllActivities(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of Activities");
         User user = userService.getUserWithAuthorities().get();
-        Page<Activity> page = activityRepository.findAllByUsersIsContaining(pageable, user);
+        Page<Activity> page = activityService.getTranslatedActivityPage(pageable, user);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

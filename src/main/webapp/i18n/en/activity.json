@@ -2,10 +2,10 @@
   "noRiskNoFunApp": {
     "activity": {
       "home": {
-        "title": "Activities",
-        "createLabel": "Create a new Activity",
-        "createOrEditLabel": "Create or edit a Activity",
-        "notFound": "No Activities found"
+        "title": "Latest Activities",
+        "notFound": "No Activities found",
+        "targetButton": "Take me there!",
+        "placeholderText": "You want to know what this is all about?"
       },
       "created": "A new Activity is created with identifier {{ param }}",
       "updated": "A Activity is updated with identifier {{ param }}",

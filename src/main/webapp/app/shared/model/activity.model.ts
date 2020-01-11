@@ -3,7 +3,7 @@ import { IUser } from 'app/shared/model/user.model';
 
 export interface IActivity {
   id?: number;
-  description?: string;
+  activityDescriptionKey?: string;
   targetUrl?: string;
   date?: Moment;
   users?: IUser[];

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,6 +21,7 @@ import java.util.Set;
 @Entity
 @Table(name = "activity")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@EntityListeners(AuditingEntityListener.class)
 public class Activity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,8 +32,8 @@ public class Activity implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "description", nullable = false)
-    private String description;
+    @Column(name = "descriptionKey", nullable = false)
+    private String activityDescriptionKey;
 
     @Column(name = "target_url")
     private String targetUrl;
@@ -58,17 +60,17 @@ public class Activity implements Serializable {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getActivityDescriptionKey() {
+        return activityDescriptionKey;
     }
 
-    public Activity description(String description) {
-        this.description = description;
+    public Activity activityDescriptionKey(String activityDescriptionKey) {
+        this.activityDescriptionKey = activityDescriptionKey;
         return this;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setActivityDescriptionKey(String activityDescriptionKey) {
+        this.activityDescriptionKey = activityDescriptionKey;
     }
 
     public String getTargetUrl() {
@@ -141,7 +143,7 @@ public class Activity implements Serializable {
     public String toString() {
         return "Activity{" +
             "id=" + getId() +
-            ", description='" + getDescription() + "'" +
+            ", activityDescriptionKey='" + getActivityDescriptionKey() + "'" +
             ", targetUrl='" + getTargetUrl() + "'" +
             ", date='" + getDate() + "'" +
             "}";

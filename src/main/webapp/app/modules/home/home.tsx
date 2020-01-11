@@ -5,7 +5,6 @@ import {Link, RouteComponentProps} from 'react-router-dom';
 import {Translate} from 'react-jhipster';
 import {connect} from 'react-redux';
 import {Alert, Col, Row} from 'reactstrap';
-import Activity from 'app/entities/activity/';
 import {Notification} from "app/modules/notification/notification";
 import ActivityStream from "app/modules/home/activity-stream";
 

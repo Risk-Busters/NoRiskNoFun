@@ -5,7 +5,8 @@
         "title": "Latest Activities",
         "notFound": "No Activities found",
         "targetButton": "Take me there!",
-        "placeholderText": "You want to know what this is all about?"
+        "placeholderText": "You want to know what this is all about?",
+        "text": "What is happening right now?"
       },
       "created": "A new Activity is created with identifier {{ param }}",
       "updated": "A Activity is updated with identifier {{ param }}",

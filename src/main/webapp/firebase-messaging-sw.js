@@ -32,5 +32,9 @@ messaging.setBackgroundMessageHandler(function(payload) {
 
 workbox.core.skipWaiting();
 workbox.core.clientsClaim();
+workbox.routing.registerRoute(
+  new RegExp('/'),
+  new workbox.strategies.NetworkFirst()
+);
 
 workbox.precaching.precacheAndRoute(self.__precacheManifest);

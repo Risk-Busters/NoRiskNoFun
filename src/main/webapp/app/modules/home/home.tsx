@@ -4,7 +4,7 @@ import React from 'react';
 import {Link, RouteComponentProps} from 'react-router-dom';
 import {Translate} from 'react-jhipster';
 import {connect} from 'react-redux';
-import {Alert, Col, Row} from 'reactstrap';
+import {Alert, Col, Row, Container} from 'reactstrap';
 import {Notification} from "app/modules/notification/notification";
 import ActivityStream from "app/modules/home/activity-stream";
 
@@ -14,18 +14,30 @@ export const Home = (props: IHomeProp) => {
   const {account} = props;
 
   return (
-    <Row>
-      <Col sm="12" md="12" lg="12">
+    <Container fluid="true">
         {account && account.login ? (
-          <div>
-            <h2>
-              <Translate contentKey="home.logged.title" interpolate={{username: account.login}}/>
-            </h2>
-            <Notification/>
-            <ActivityStream match={props.match} location={props.location} history={props.history} />
-          </div>
+          <>
+          <Row sm="12">
+              <h2>
+                <Translate contentKey="home.logged.title" interpolate={{username: account.login}}/>
+              </h2>
+          </Row>
+          <Row sm="12" className="flex-md-row-reverse">
+            <Col sm="12" md="12" lg="4">
+              <h2>
+                <Translate contentKey="home.logged.information">Information</Translate>
+                <p className="lead"><Translate contentKey="home.logged.informationText">Valuable information about your application can be found here!</Translate></p>
+              </h2>
+              <Notification/>
+            </Col>
+            <Col sm="12" md="12" lg="8">
+              <ActivityStream match={props.match} location={props.location} history={props.history} />
+            </Col>
+          </Row>
+          </>
         ) : (
-          <div>
+          <Row>
+          <Col sm="12" md="12" lg="8">
             <h2>
               <Translate contentKey="home.title"/>
             </h2>
@@ -42,11 +54,11 @@ export const Home = (props: IHomeProp) => {
                 <Translate contentKey="global.messages.info.register.link"/>
               </Link>
             </Alert>
-          </div>
+          </Col>
+          </Row>
         )}
+    </Container>
 
-      </Col>
-    </Row>
   );
 };
 

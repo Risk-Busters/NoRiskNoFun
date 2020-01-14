@@ -66,6 +66,7 @@ export class ActivityStream extends React.Component<IActivityProps, IActivitySta
       <div>
         <h2 id="activity-heading">
           <Translate contentKey="noRiskNoFunApp.activity.home.title">Latest Activities</Translate>
+          <p className="lead"><Translate contentKey="noRiskNoFunApp.activity.home.text">What is happening right now?</Translate></p>
         </h2>
         <div className="table-responsive">
           <InfiniteScroll
@@ -78,31 +79,16 @@ export class ActivityStream extends React.Component<IActivityProps, IActivitySta
           >
             {activityList && activityList.length > 0 ?
                 activityList.map((activity, i) => (
-                  <Jumbotron key={`entity-${activity.id}`} style={{padding: '10px'}}>
-                    <Row >
-                      <Col sm="12" md="6">
-                        <h4 className="lead">{activity.activityDescriptionKey}</h4>
-                      </Col>
-                      <Col sm="12" md="6">
-                        <p className="float-md-right"><TextFormat type="date" value={activity.date} format={APP_LOCAL_DATE_FORMAT} /></p>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col sm="12">
-                        <p><Translate contentKey="noRiskNoFunApp.activity.home.placeholderText">You want to know what this is all about?</Translate></p>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col sm="12">
-                        <Button tag={Link} to={activity.targetUrl} color="primary"><Translate contentKey="noRiskNoFunApp.activity.home.targetButton">No Activities found</Translate></Button>
-                      </Col>
-                    </Row>
+                  <Jumbotron key={`entity-${activity.id}`} style={{padding: '10px', marginBottom: '10px'}}>
+                    <p className="float-md-right"><TextFormat type="date" value={activity.date} format={APP_LOCAL_DATE_FORMAT} /></p>
+                    <h4 className="lead">{activity.activityDescriptionKey}</h4>
+                    <p><Translate contentKey="noRiskNoFunApp.activity.home.placeholderText">You want to know what this is all about?</Translate></p>
+                    <Button tag={Link} to={activity.targetUrl} color="primary"><Translate contentKey="noRiskNoFunApp.activity.home.targetButton">No Activities found</Translate></Button>
                   </Jumbotron>
                   ))
              : (
               <div className="alert alert-warning">
                 <Translate contentKey="noRiskNoFunApp.activity.home.notFound">No Activities found</Translate>
-
               </div>
             )}
           </InfiniteScroll>

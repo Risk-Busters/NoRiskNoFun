@@ -11,20 +11,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLanguage } from '@fortawesome/free-solid-svg-icons/faLanguage';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons/faCalendarAlt';
 import { convertDateTimeFromServer } from 'app/shared/util/date-utils';
-import Achievements from "app/entities/user-gamification/achievements";
-import {IconDefinition} from "@fortawesome/fontawesome-common-types";
-import {faMedal} from '@fortawesome/free-solid-svg-icons/faMedal';
-import {faTrophy} from '@fortawesome/free-solid-svg-icons/faTrophy';
-import {faUsers} from '@fortawesome/free-solid-svg-icons/faUsers';
-import {faCrown} from '@fortawesome/free-solid-svg-icons/faCrown';
-import {faAward} from '@fortawesome/free-solid-svg-icons/faAward';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { faMedal } from '@fortawesome/free-solid-svg-icons/faMedal';
+import { faTrophy } from '@fortawesome/free-solid-svg-icons/faTrophy';
+import { faUsers } from '@fortawesome/free-solid-svg-icons/faUsers';
+import { faCrown } from '@fortawesome/free-solid-svg-icons/faCrown';
+import { faAward } from '@fortawesome/free-solid-svg-icons/faAward';
 
-// TODO: needs to be removed later when redux actions is correctly implemented
+// TODO: Interface and Achievement List to be replaced when Gamification Concept is done.
 interface AchievementMock {
   title: string;
   description: string;
   icon: IconDefinition;
 }
+
+// TODO: adapt amounts
 const achievementList: Array<AchievementMock> = [
   { title: 'Project member', description: 'Achievement for being a respectable project member.', icon: faUsers },
   { title: 'Risk owner', description: 'Achievement for owning TODO: XYZ risks (being the person in charge).', icon: faTrophy },
@@ -53,6 +54,26 @@ export const Profile = (props: IProfileProps) => {
 
   const getProfileName = (): string => {
     return user.firstName && user.lastName ? `${user.firstName} ${user.lastName} (${user.login})` : user.login;
+  };
+
+  const achievementCards = (achievements: Array<AchievementMock>) => {
+    return achievements.map((achievement, index) => {
+      return (
+        <Col key={`achievement-id-${index}`} sm="6" md="4" lg="3">
+          <Card className="achievement">
+            <CardBody>
+              <CardTitle>
+                <FontAwesomeIcon icon={achievement.icon} size="10x" />
+              </CardTitle>
+              <CardSubtitle>
+                <b>{achievement.title}</b>
+              </CardSubtitle>
+              <CardText>{achievement.description}</CardText>
+            </CardBody>
+          </Card>
+        </Col>
+      );
+    });
   };
 
   return (
@@ -98,9 +119,7 @@ export const Profile = (props: IProfileProps) => {
         </Media>
       </Row>
       <h4>Achievements</h4>
-      <Row>
-        <Achievements personalAchievementList={achievementList}/>
-      </Row>
+      <Row>{achievementCards(achievementList)}</Row>
     </div>
   );
 };

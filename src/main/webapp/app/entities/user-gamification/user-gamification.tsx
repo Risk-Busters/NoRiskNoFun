@@ -12,15 +12,9 @@ export interface IUserGamificationProps extends StateProps, DispatchProps, Route
 
 function UserGamification(props: IUserGamificationProps) {
 
-  const [userGamificationList, setUserGamificationList] = useState([]);
-
   useEffect(() => {
     props.getEntities();
   }, []);
-
-  useEffect(() => {
-    setUserGamificationList(Array.from(props.userGamificationList));
-  }, [props.userGamificationList]);
 
   const {match} = props;
   return (
@@ -36,7 +30,7 @@ function UserGamification(props: IUserGamificationProps) {
         </Link>
       </h2>
       <div className="table-responsive">
-        {userGamificationList.length > 0 ? (
+        {props.userGamificationList.length > 0 ? (
           <Table responsive aria-describedby="user-gamification-heading">
             <thead>
             <tr>
@@ -56,7 +50,7 @@ function UserGamification(props: IUserGamificationProps) {
             </tr>
             </thead>
             <tbody>
-            {userGamificationList.map((userGamification, i) => (
+            {props.userGamificationList.map((userGamification, i) => (
               <tr key={`entity-${i}`}>
                 <td>
                   <Button tag={Link} to={`${match.url}/${userGamification.id}`} color="link" size="sm">

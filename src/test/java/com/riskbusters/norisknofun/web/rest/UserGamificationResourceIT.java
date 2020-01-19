@@ -4,6 +4,7 @@ import com.riskbusters.norisknofun.NoRiskNoFunApp;
 import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.repository.UserGamificationRepository;
 import com.riskbusters.norisknofun.service.UserGamificationService;
+import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.service.dto.UserGamificationDTO;
 import com.riskbusters.norisknofun.service.mapper.UserGamificationMapper;
 import com.riskbusters.norisknofun.web.rest.errors.ExceptionTranslator;
@@ -60,6 +61,9 @@ public class UserGamificationResourceIT {
     private UserGamificationService userGamificationService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -81,7 +85,7 @@ public class UserGamificationResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final UserGamificationResource userGamificationResource = new UserGamificationResource(userGamificationService);
+        final UserGamificationResource userGamificationResource = new UserGamificationResource(userGamificationService, userService);
         this.restUserGamificationMockMvc = MockMvcBuilders.standaloneSetup(userGamificationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

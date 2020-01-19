@@ -53,7 +53,7 @@ public class UserGamificationService {
      * @return the list of userGamifications for one specific user.
      */
     @Transactional(readOnly = true)
-    public UserGamification findAllForOneUser(Long id) {
+    public List<UserGamification> findAllForOneUser(Long id) {
         log.debug("Request to get all UserGamifications for user {}", id);
         return userGamificationRepository.findByUserId(id);
     }

@@ -90,7 +90,7 @@ public class UserGamificationResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of userGamifications in body.
      */
     @GetMapping("/user-gamifications")
-    public UserGamification getAllUserGamifications(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public List<UserGamification> getAllUserGamifications(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         Long userId = userService.getUserWithAuthorities().get().getId();
         log.debug("REST request to get all UserGamifications for user with id: {}", userId);
         return userGamificationService.findAllForOneUser(userId);

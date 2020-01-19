@@ -1,4 +1,4 @@
-export const enum AchievmentType {
+export enum AchievmentType {
   PROJECT_MEMBER,
   RISK_OWNER,
   RISK_SAGE,

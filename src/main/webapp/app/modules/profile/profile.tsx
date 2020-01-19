@@ -17,6 +17,7 @@ import { faTrophy } from '@fortawesome/free-solid-svg-icons/faTrophy';
 import { faUsers } from '@fortawesome/free-solid-svg-icons/faUsers';
 import { faCrown } from '@fortawesome/free-solid-svg-icons/faCrown';
 import { faAward } from '@fortawesome/free-solid-svg-icons/faAward';
+import {getUserGamification} from "app/entities/user-gamification/user-gamification.reducer";
 
 // TODO: Interface and Achievement List to be replaced when Gamification Concept is done.
 interface AchievementMock {
@@ -50,6 +51,10 @@ export const Profile = (props: IProfileProps) => {
     props.getUser(getUserLogin());
   }, []);
 
+  useEffect(() => {
+    props.getUserGamification();
+  }, []);
+
   const { user } = props;
 
   const getProfileName = (): string => {
@@ -57,6 +62,8 @@ export const Profile = (props: IProfileProps) => {
   };
 
   const achievementCards = (achievements: Array<AchievementMock>) => {
+    console.log(">>>>>>>>>>>>>");
+    console.log(props.userAchievements);
     return achievements.map((achievement, index) => {
       return (
         <Col key={`achievement-id-${index}`} sm="6" md="4" lg="3">
@@ -126,10 +133,14 @@ export const Profile = (props: IProfileProps) => {
 
 const mapStateToProps = (storeState: IRootState) => ({
   user: storeState.userManagement.user,
-  currentLogin: storeState.authentication.account.login
+  currentLogin: storeState.authentication.account.login,
+  userAchievements: storeState.userGamification.entities
 });
 
-const mapDispatchToProps = { getUser };
+const mapDispatchToProps = {
+  getUser,
+  getUserGamification
+};
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

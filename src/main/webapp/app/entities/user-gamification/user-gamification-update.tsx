@@ -13,6 +13,7 @@ import { getEntity, updateEntity, createEntity, reset } from './user-gamificatio
 import { IUserGamification } from 'app/shared/model/user-gamification.model';
 import { convertDateTimeFromServer, convertDateTimeToServer } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
+import {AchievmentType} from "app/shared/model/enumerations/achievment-type.model";
 
 export interface IUserGamificationUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -71,8 +72,9 @@ export class UserGamificationUpdate extends React.Component<IUserGamificationUpd
   };
 
   render() {
-    const { userGamificationEntity, users, achievementTypes, loading, updating } = this.props;
+    const { userGamificationEntity, users, loading, updating } = this.props;
     const { isNew } = this.state;
+    const achievementTypes = Object.keys(AchievmentType);
 
     return (
       <div>
@@ -133,8 +135,8 @@ export class UserGamificationUpdate extends React.Component<IUserGamificationUpd
                     <option value="" key="0" />
                     {achievementTypes
                       ? achievementTypes.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
+                          <option value={otherEntity} key={otherEntity}>
+                            {otherEntity}
                           </option>
                         ))
                       : null}
@@ -164,7 +166,6 @@ export class UserGamificationUpdate extends React.Component<IUserGamificationUpd
 
 const mapStateToProps = (storeState: IRootState) => ({
   users: storeState.userManagement.users,
-  achievementTypes: storeState.userGamification.achievements,
   userGamificationEntity: storeState.userGamification.entity,
   loading: storeState.userGamification.loading,
   updating: storeState.userGamification.updating,
@@ -173,7 +174,6 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   getUsers,
-  // getAchievements,
   getEntity,
   updateEntity,
   createEntity,

@@ -15,7 +15,6 @@ const initialState = {
   loading: false,
   errorMessage: null,
   entities: [] as ReadonlyArray<IUserGamification>,
-  achievements: [],
   entity: defaultValue,
   updating: false,
   updateSuccess: false

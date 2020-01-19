@@ -62,7 +62,7 @@ function UserGamification(props: IUserGamificationProps) {
                   {userGamification.achievements
                     ? userGamification.achievements.map((val, j) => (
                       <span key={j}>
-                              <Link to={`achievement-type/${val}`}></Link>
+                              <Link to={`achievement-type/${val}`} />
                         {j === userGamification.achievements.length - 1 ? '' : ', '}
                             </span>
                     ))

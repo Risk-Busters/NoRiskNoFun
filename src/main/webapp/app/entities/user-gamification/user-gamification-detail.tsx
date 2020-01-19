@@ -34,10 +34,6 @@ export class UserGamificationDetail extends React.Component<IUserGamificationDet
             </dt>
             <dd>{userGamificationEntity.pointsScore}</dd>
             <dt>
-              <Translate contentKey="noRiskNoFunApp.userGamification.user">User</Translate>
-            </dt>
-            <dd>{userGamificationEntity.userLogin ? userGamificationEntity.userLogin : ''}</dd>
-            <dt>
               <Translate contentKey="noRiskNoFunApp.userGamification.achievementType">Achievement Type</Translate>
             </dt>
             <dd>

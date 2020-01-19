@@ -90,10 +90,11 @@ export default (state: UserGamificationState = initialState, action): UserGamifi
 };
 const apiUrl = 'api/user-gamifications';
 // Actions
-export const getEntities: ICrudGetAllAction<IUserGamification> = (page, size, sort) => ({
+export const getUserGamification: ICrudGetAllAction<IUserGamification> = (page, size, sort) => ({
   type: ACTION_TYPES.FETCH_USERGAMIFICATION_LIST,
   payload: axios.get<IUserGamification>(`${apiUrl}?cacheBuster=${new Date().getTime()}`)
 });
+
 export const getEntity: ICrudGetAction<IUserGamification> = id => {
   const requestUrl = `${apiUrl}/${id}`;
   return {
@@ -106,7 +107,7 @@ export const createEntity: ICrudPutAction<IUserGamification> = entity => async d
     type: ACTION_TYPES.CREATE_USERGAMIFICATION,
     payload: axios.post(apiUrl, cleanEntity(entity))
   });
-  dispatch(getEntities());
+  dispatch(getUserGamification());
   return result;
 };
 export const updateEntity: ICrudPutAction<IUserGamification> = entity => async dispatch => {
@@ -114,7 +115,7 @@ export const updateEntity: ICrudPutAction<IUserGamification> = entity => async d
     type: ACTION_TYPES.UPDATE_USERGAMIFICATION,
     payload: axios.put(apiUrl, cleanEntity(entity))
   });
-  dispatch(getEntities());
+  dispatch(getUserGamification());
   return result;
 };
 export const deleteEntity: ICrudDeleteAction<IUserGamification> = id => async dispatch => {
@@ -123,7 +124,7 @@ export const deleteEntity: ICrudDeleteAction<IUserGamification> = id => async di
     type: ACTION_TYPES.DELETE_USERGAMIFICATION,
     payload: axios.delete(requestUrl)
   });
-  dispatch(getEntities());
+  dispatch(getUserGamification());
   return result;
 };
 export const reset = () => ({

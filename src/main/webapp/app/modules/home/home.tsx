@@ -1,64 +1,71 @@
 import './home.scss';
 
 import React from 'react';
-import {Link, RouteComponentProps} from 'react-router-dom';
-import {Translate} from 'react-jhipster';
-import {connect} from 'react-redux';
-import {Alert, Col, Row, Container} from 'reactstrap';
-import {Notification} from "app/modules/notification/notification";
-import ActivityStream from "app/modules/home/activity-stream";
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { Translate } from 'react-jhipster';
+import { connect } from 'react-redux';
+import { Alert, Col, Row, Container } from 'reactstrap';
+import { Notification } from 'app/modules/notification/notification';
+import ActivityStream from 'app/modules/home/activity-stream';
 
-export interface IHomeProp extends StateProps, RouteComponentProps<{ url: string }> {};
+export interface IHomeProp extends StateProps, RouteComponentProps<{ url: string }> {}
 
 export const Home = (props: IHomeProp) => {
-  const {account} = props;
+  const { account } = props;
 
   return (
     <Container fluid="true">
-        {account && account.login ? (
-          <>
+      {account && account.login ? (
+        <>
           <Row sm="12">
-              <h2>
-                <Translate contentKey="home.logged.title" interpolate={{username: account.login}}/>
-              </h2>
+            <h2>
+              <Translate contentKey="home.logged.title" interpolate={{ username: account.login }} />
+            </h2>
           </Row>
           <Row sm="12" className="flex-md-row-reverse">
             <Col sm="12" md="12" lg="4">
               <h2>
                 <Translate contentKey="home.logged.information">Information</Translate>
-                <p className="lead"><Translate contentKey="home.logged.informationText">Valuable information about your application can be found here!</Translate></p>
+                <p className="lead">
+                  <Translate contentKey="home.logged.informationText">
+                    Valuable information about your application can be found here!
+                  </Translate>
+                </p>
               </h2>
-              <Notification/>
+              <Notification />
             </Col>
             <Col sm="12" md="12" lg="8">
               <ActivityStream match={props.match} location={props.location} history={props.history} />
             </Col>
           </Row>
-          </>
-        ) : (
-          <Row>
+        </>
+      ) : (
+        <Row>
           <Col sm="12" md="12" lg="8">
             <h2>
-              <Translate contentKey="home.title"/>
+              <Translate contentKey="home.title" />
             </h2>
             <Alert color="warning">
-              <Translate contentKey="global.messages.info.authenticated.prefix"/>
+              <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
               <Link to="/login" className="alert-link">
-                <Translate contentKey="global.messages.info.authenticated.link"/>
+                <Translate contentKey="global.messages.info.authenticated.link"> sign in</Translate>
               </Link>
-              <Translate contentKey="global.messages.info.authenticated.suffix"/>
+              <Translate contentKey="global.messages.info.authenticated.suffix">
+                , you can try the default accounts:
+                <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
+                <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
+              </Translate>
             </Alert>
             <Alert color="warning">
-              <Translate contentKey="global.messages.info.register.noaccount"/>&nbsp;
+              <Translate contentKey="global.messages.info.register.noaccount">You do not have an account yet?</Translate>&nbsp;
               <Link to="/account/register" className="alert-link">
-                <Translate contentKey="global.messages.info.register.link"/>
+                <Translate contentKey="global.messages.info.register.link">Register a new account</Translate>
               </Link>
             </Alert>
           </Col>
-          </Row>
-        )}
+        </Row>
+      )}
     </Container>
-
   );
 };
 

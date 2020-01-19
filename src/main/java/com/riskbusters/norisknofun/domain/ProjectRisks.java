@@ -59,6 +59,9 @@ public abstract class ProjectRisks implements Serializable {
     @JsonIgnoreProperties("projectRisks")
     private Risk risk;
 
+    @Column(name = "risk_discussion_status", insertable = false, updatable = false)
+    public String riskDiscussionStatus;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;

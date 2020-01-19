@@ -1,9 +1,7 @@
 package com.riskbusters.norisknofun.web.rest;
 
 import com.riskbusters.norisknofun.domain.ProjectRisks;
-import com.riskbusters.norisknofun.domain.projectrisks.FinalProjectRisk;
 import com.riskbusters.norisknofun.domain.projectrisks.ProposedProjectRisk;
-import com.riskbusters.norisknofun.repository.FinalProjectRiskRepository;
 import com.riskbusters.norisknofun.repository.ProposedProjectRiskRepository;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
@@ -22,37 +20,35 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * REST controller for managing {@link com.riskbusters.norisknofun.domain.ProjectRisks}.
+ * REST controller for managing {@link ProjectRisks}.
  */
 @RestController
 @RequestMapping("/api")
-public class ProjectRisksResource {
+public class ProposedProjectRisksController {
 
-    private final Logger log = LoggerFactory.getLogger(ProjectRisksResource.class);
+    private final Logger log = LoggerFactory.getLogger(ProposedProjectRisksController.class);
 
-    private static final String ENTITY_NAME = "projectRisks";
+    private static final String ENTITY_NAME = "proposedProjectRisks";
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
     private final ProposedProjectRiskRepository proposedProjectRiskRepository;
-    private final FinalProjectRiskRepository finalProjectRiskRepository;
 
-    public ProjectRisksResource(ProposedProjectRiskRepository proposedProjectRiskRepository, FinalProjectRiskRepository finalProjectRiskRepository) {
+    public ProposedProjectRisksController(ProposedProjectRiskRepository proposedProjectRiskRepository) {
         this.proposedProjectRiskRepository = proposedProjectRiskRepository;
-        this.finalProjectRiskRepository = finalProjectRiskRepository;
     }
 
     /**
-     * {@code POST  /project-risks} : Create a new proposedProjectRisk.
+     * {@code POST  /proposed-project-risks} : Create a new proposedProjectRisk.
      *
      * @param proposedProjectRisk the proposedProjectRisk to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new proposedProjectRisk, or with status {@code 400 (Bad Request)} if the proposedProjectRisk has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/project-risks")
-    public ResponseEntity<ProjectRisks> createProjectRisks(@Valid @RequestBody ProposedProjectRisk proposedProjectRisk) throws URISyntaxException {
-        log.debug("REST request to save ProjectRisks : {}", proposedProjectRisk);
+    @PostMapping("/proposed-project-risks")
+    public ResponseEntity<ProjectRisks> createProposedProjectRisks(@Valid @RequestBody ProposedProjectRisk proposedProjectRisk) throws URISyntaxException {
+        log.debug("REST request to save new proposed ProjectRisk : {}", proposedProjectRisk);
         if (proposedProjectRisk.getId() != null) {
             throw new BadRequestAlertException("A new proposedProjectRisk cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -63,33 +59,33 @@ public class ProjectRisksResource {
     }
 
     /**
-     * {@code PUT  /project-risks} : Updates an existing projectRisks.
+     * {@code PUT  /proposed-project-risks} : Updates an existing projectRisks.
      *
-     * @param projectRisks the projectRisks to update.
+     * @param proposedProjectRisk the projectRisks to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated projectRisks,
      * or with status {@code 400 (Bad Request)} if the projectRisks is not valid,
      * or with status {@code 500 (Internal Server Error)} if the projectRisks couldn't be updated.
      */
-    @PutMapping("/project-risks")
-    public ResponseEntity<ProjectRisks> updateProjectRisks(@Valid @RequestBody ProjectRisks projectRisks) {
-        log.debug("REST request to update ProjectRisks : {}", projectRisks);
-        if (projectRisks.getId() == null) {
+    @PutMapping("/proposed-project-risks")
+    public ResponseEntity<ProjectRisks> updateProposedProjectRisks(@Valid @RequestBody ProposedProjectRisk proposedProjectRisk) {
+        log.debug("REST request to update ProjectRisks : {}", proposedProjectRisk);
+        if (proposedProjectRisk.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        ProjectRisks result = proposedProjectRiskRepository.save((ProposedProjectRisk) projectRisks);
+        ProjectRisks result = proposedProjectRiskRepository.save(proposedProjectRisk);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, projectRisks.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, proposedProjectRisk.getId().toString()))
             .body(result);
     }
 
     /**
-     * {@code GET  /project-risks} : get all the projectRisks.
+     * {@code GET  /proposed-project-risks} : get all the projectRisks.
      *
      * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projectRisks in body.
      */
-    @GetMapping("/project-risks")
-    public List<FinalProjectRisk> getAllProjectRisks(@RequestHeader("referer") URL url, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    @GetMapping("/proposed-project-risks")
+    public List<ProposedProjectRisk> getAllProposedProjectRisks(@RequestHeader("referer") URL url, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         long projectId;
         try {
             //TODO: maybe not the best way (hacky to get projectId out of referer URL)
@@ -99,32 +95,31 @@ public class ProjectRisksResource {
             projectId = -1L;
         }
 
-        log.debug("REST request to get all finalProjectRisks for project with id " + projectId);
-        log.debug("all finalProjectRisks" + finalProjectRiskRepository.findAllByProject_Id(projectId).toString());
-        return finalProjectRiskRepository.findAllByProject_Id(projectId);
+        log.debug("REST request to get all proposedProjectRisks for project with id " + projectId);
+        return proposedProjectRiskRepository.findAllByProject_Id(projectId);
     }
 
     /**
-     * {@code GET  /project-risks/:id} : get the "id" projectRisks.
+     * {@code GET  /proposed-project-risks/:id} : get the "id" projectRisks.
      *
      * @param id the id of the projectRisks to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the projectRisks, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/project-risks/{id}")
-    public ResponseEntity<ProposedProjectRisk> getProjectRisks(@PathVariable Long id) {
+    @GetMapping("/proposed-project-risks/{id}")
+    public ResponseEntity<ProposedProjectRisk> getProposedProjectRisks(@PathVariable Long id) {
         log.debug("REST request to get ProjectRisks : {}", id);
         Optional<ProposedProjectRisk> projectRisks = proposedProjectRiskRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(projectRisks);
     }
 
     /**
-     * {@code DELETE  /project-risks/:id} : delete the "id" projectRisks.
+     * {@code DELETE  /proposed-project-risks/:id} : delete the "id" projectRisks.
      *
      * @param id the id of the projectRisks to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/project-risks/{id}")
-    public ResponseEntity<Void> deleteProjectRisks(@PathVariable Long id) {
+    @DeleteMapping("/proposed-project-risks/{id}")
+    public ResponseEntity<Void> deleteProposedProjectRisks(@PathVariable Long id) {
         log.debug("REST request to delete ProjectRisks : {}", id);
         proposedProjectRiskRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();

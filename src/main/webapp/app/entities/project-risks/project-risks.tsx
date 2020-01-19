@@ -1,36 +1,55 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
-import { Translate, ICrudGetAllAction } from 'react-jhipster';
+import { Button, Table } from 'reactstrap';
+import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getEntities } from './project-risks.reducer';
-import { IProjectRisks } from 'app/shared/model/project-risks.model';
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import {getEntities, getProposedProjectRisks, getToBeDiscussedProjectRisks} from "app/entities/project-risks/project-risks.reducer";
 
-export interface IProjectRisksProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
+type ProjectRisksProps = {
+  riskDiscussionStatus: string
+};
 
-export class ProjectRisks extends React.Component<IProjectRisksProps> {
-  componentDidMount() {
-    this.props.getEntities();
-  }
+export interface IProjectRisksProps extends StateProps, DispatchProps, ProjectRisksProps, RouteComponentProps<{ id: string }> {}
 
-  render() {
-    const { projectRisksList, match } = this.props;
-    return (
+function ProjectRisks(props: IProjectRisksProps) {
+
+  const [riskList, setRiskList] = useState([]);
+
+  useEffect(() => {
+    if(props.riskDiscussionStatus === "proposed") {
+      props.getProposedProjectRisks();
+    } else if(props.riskDiscussionStatus === "toBeDiscussed") {
+      props.getToBeDiscussedProjectRisks();
+    } else if(props.riskDiscussionStatus === "final") {
+      props.getEntities();
+    }
+  }, []);
+
+  useEffect(() => {
+    if(props.riskDiscussionStatus === "proposed") {
+      setRiskList(Array.from(props.proposedProjectRiskEntities));
+    } else if(props.riskDiscussionStatus === "toBeDiscussed") {
+      setRiskList(Array.from(props.toBeDiscussedProjectRiskEntities));
+    } else if(props.riskDiscussionStatus === "final") {
+      setRiskList(Array.from(props.projectRisksList));
+    }
+  }, [props.projectRisksList, props.proposedProjectRiskEntities, props.toBeDiscussedProjectRiskEntities]);
+
+  const { match } = props;
+  return (
       <div>
         <h2 id="project-risks-heading">
-          <Translate contentKey="noRiskNoFunApp.projectRisks.home.title">Project Risks</Translate>
-          <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
+          <Link to={`${match.url}/project-risks/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
             <Translate contentKey="noRiskNoFunApp.projectRisks.home.createLabel">Create a new Project Risks</Translate>
           </Link>
         </h2>
         <div className="table-responsive">
-          {projectRisksList && projectRisksList.length > 0 ? (
+          {riskList.length > 0 ? (
             <Table responsive aria-describedby="project-risks-heading">
               <thead>
                 <tr>
@@ -59,10 +78,10 @@ export class ProjectRisks extends React.Component<IProjectRisksProps> {
                 </tr>
               </thead>
               <tbody>
-                {projectRisksList.map((projectRisks, i) => (
+                {riskList.map((projectRisks, i) => (
                   <tr key={`entity-${i}`}>
                     <td>
-                      <Button tag={Link} to={`${match.url}/${projectRisks.id}`} color="link" size="sm">
+                      <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}`} color="link" size="sm">
                         {projectRisks.id}
                       </Button>
                     </td>
@@ -119,15 +138,18 @@ export class ProjectRisks extends React.Component<IProjectRisksProps> {
         </div>
       </div>
     );
-  }
 }
 
 const mapStateToProps = ({ projectRisks }: IRootState) => ({
-  projectRisksList: projectRisks.entities
+  projectRisksList: projectRisks.projectRiskEntities,
+  proposedProjectRiskEntities: projectRisks.proposedProjectRiskEntities,
+  toBeDiscussedProjectRiskEntities: projectRisks.toBeDiscussedProjectRiskEntities
 });
 
 const mapDispatchToProps = {
-  getEntities
+  getEntities,
+  getProposedProjectRisks,
+  getToBeDiscussedProjectRisks
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

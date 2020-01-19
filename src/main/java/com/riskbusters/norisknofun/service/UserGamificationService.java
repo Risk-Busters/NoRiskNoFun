@@ -49,14 +49,13 @@ public class UserGamificationService {
     /**
      * Get all the userGamifications.
      *
-     * @return the list of entities.
+     * @param id the id of the user.
+     * @return the list of userGamifications for one specific user.
      */
     @Transactional(readOnly = true)
-    public List<UserGamificationDTO> findAll() {
-        log.debug("Request to get all UserGamifications");
-        return userGamificationRepository.findAllWithEagerRelationships().stream()
-            .map(userGamificationMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+    public UserGamification findAllForOneUser(Long id) {
+        log.debug("Request to get all UserGamifications for user {}", id);
+        return userGamificationRepository.findByUserId(id);
     }
 
     /**

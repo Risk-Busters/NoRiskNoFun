@@ -1,6 +1,9 @@
 package com.riskbusters.norisknofun.web.rest;
 
+import com.riskbusters.norisknofun.domain.User;
+import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.service.UserGamificationService;
+import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
 import com.riskbusters.norisknofun.service.dto.UserGamificationDTO;
 
@@ -33,9 +36,11 @@ public class UserGamificationResource {
     private String applicationName;
 
     private final UserGamificationService userGamificationService;
+    private final UserService userService;
 
-    public UserGamificationResource(UserGamificationService userGamificationService) {
+    public UserGamificationResource(UserGamificationService userGamificationService, UserService userService) {
         this.userGamificationService = userGamificationService;
+        this.userService = userService;
     }
 
     /**
@@ -85,9 +90,10 @@ public class UserGamificationResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of userGamifications in body.
      */
     @GetMapping("/user-gamifications")
-    public List<UserGamificationDTO> getAllUserGamifications(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
-        log.debug("REST request to get all UserGamifications");
-        return userGamificationService.findAll();
+    public UserGamification getAllUserGamifications(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+        Long userId = userService.getUserWithAuthorities().get().getId();
+        log.debug("REST request to get all UserGamifications for user with id: {}", userId);
+        return userGamificationService.findAllForOneUser(userId);
     }
 
     /**

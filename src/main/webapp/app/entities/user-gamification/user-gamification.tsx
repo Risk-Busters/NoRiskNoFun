@@ -30,7 +30,7 @@ export class UserGamification extends React.Component<IUserGamificationProps> {
           </Link>
         </h2>
         <div className="table-responsive">
-          {userGamificationList && userGamificationList.length > 0 ? (
+          {userGamificationList.length > 0 ? (
             <Table responsive aria-describedby="user-gamification-heading">
               <thead>
                 <tr>

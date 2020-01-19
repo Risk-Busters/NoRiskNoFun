@@ -13,8 +13,9 @@
     <property name="clobType" value="clob" dbms="mysql, oracle, mssql, mariadb, postgresql"/>
     <property name="uuidType" value="uuid" dbms="h2, postgresql"/>
 
-    <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200103214706_changelog.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200701_load_test_data.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200111214706_test_columns.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
-    <!--<include file="config/liquibase/changelog/20191223134212_changelog_risk_object_hierachy_database_mapping.xml" relativeToChangelogFile="false"/>-->
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

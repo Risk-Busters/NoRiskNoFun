@@ -28,6 +28,7 @@ import project, {
 import projectRisks, {
   ProjectRisksState
 } from 'app/entities/project-risks/project-risks.reducer';
+import userGamification, { UserGamificationState } from 'app/entities/user-gamification/user-gamification.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
@@ -45,6 +46,7 @@ export interface IRootState {
   readonly riskResponse: RiskResponseState;
   readonly project: ProjectState;
   readonly projectRisks: ProjectRisksState;
+  readonly userGamification: UserGamificationState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -64,6 +66,7 @@ const rootReducer = combineReducers<IRootState>({
   riskResponse,
   project,
   projectRisks,
+  userGamification,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar
 });

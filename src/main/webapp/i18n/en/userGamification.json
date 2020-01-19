@@ -1,0 +1,24 @@
+{
+  "noRiskNoFunApp": {
+    "userGamification": {
+      "home": {
+        "title": "User Gamifications",
+        "createLabel": "Create a new User Gamification",
+        "createOrEditLabel": "Create or edit a User Gamification",
+        "notFound": "No User Gamifications found"
+      },
+      "created": "A new User Gamification is created with identifier {{ param }}",
+      "updated": "A User Gamification is updated with identifier {{ param }}",
+      "deleted": "A User Gamification is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete User Gamification {{ id }}?"
+      },
+      "detail": {
+        "title": "User Gamification"
+      },
+      "pointsScore": "Points Score",
+      "user": "User",
+      "achievementType": "Achievement Type"
+    }
+  }
+}

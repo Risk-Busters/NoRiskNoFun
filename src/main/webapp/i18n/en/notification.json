@@ -1,0 +1,9 @@
+{
+  "notification": {
+    "button": {
+      "text": "It seems like notifications are not enabled. Enable them now to stay informed about the latest activities within your own projects or the ones you participate in.",
+      "buttonText": "Enable Notifications",
+      "memberSince": "Member since"
+    }
+  }
+}

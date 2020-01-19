@@ -1,10 +1,10 @@
+import { AchievmentType } from 'app/shared/model/enumerations/achievment-type.model';
+
 export interface IUserGamification {
   id?: number;
-  pointsScore?: number;
-  userLogin?: string;
   userId?: number;
-  // TODO: mega pfusch hier
-  achievements?: string[];
+  pointsScore?: number;
+  achievements?: AchievmentType[];
 }
 
 export const defaultValue: Readonly<IUserGamification> = {};

@@ -3,15 +3,14 @@ import {connect} from 'react-redux';
 import {Link, RouteComponentProps} from 'react-router-dom';
 import {Button, Col, Label, Row} from 'reactstrap';
 import {AvField, AvForm, AvGroup, AvInput} from 'availity-reactstrap-validation';
-import {Translate} from 'react-jhipster';
+import {translate, Translate} from 'react-jhipster';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {IRootState} from 'app/shared/reducers';
 import {getUsers} from 'app/modules/administration/user-management/user-management.reducer';
 import {createEntity, getEntity, reset, updateEntity} from './user-gamification.reducer';
-import {mapIdList} from 'app/shared/util/entity-utils';
-import {AchievmentType} from "app/shared/model/enumerations/achievment-type.model";
 
-export interface IUserGamificationUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IUserGamificationUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
+}
 
 export interface IUserGamificationUpdateState {
   isNew: boolean;
@@ -43,16 +42,14 @@ export class UserGamificationUpdate extends React.Component<IUserGamificationUpd
     }
 
     this.props.getUsers();
-    // this.props.getAchievementTypes();
   }
 
   saveEntity = (event, errors, values) => {
     if (errors.length === 0) {
-      const { userGamificationEntity } = this.props;
+      const {userGamificationEntity} = this.props;
       const entity = {
         ...userGamificationEntity,
         ...values,
-        achievementTypes: mapIdList(values.achievementTypes)
       };
 
       if (this.state.isNew) {
@@ -68,16 +65,16 @@ export class UserGamificationUpdate extends React.Component<IUserGamificationUpd
   };
 
   render() {
-    const { userGamificationEntity, users, loading, updating } = this.props;
-    const { isNew } = this.state;
-    const achievementTypes = Object.keys(AchievmentType);
+    const {userGamificationEntity, users, loading, updating} = this.props;
+    const {isNew} = this.state;
 
     return (
       <div>
         <Row className="justify-content-center">
           <Col md="8">
             <h2 id="noRiskNoFunApp.userGamification.home.createOrEditLabel">
-              <Translate contentKey="noRiskNoFunApp.userGamification.home.createOrEditLabel">Create or edit a UserGamification</Translate>
+              <Translate contentKey="noRiskNoFunApp.userGamification.home.createOrEditLabel">Create or edit a
+                UserGamification</Translate>
             </h2>
           </Col>
         </Row>
@@ -92,27 +89,29 @@ export class UserGamificationUpdate extends React.Component<IUserGamificationUpd
                     <Label for="user-gamification-id">
                       <Translate contentKey="global.field.id">ID</Translate>
                     </Label>
-                    <AvInput id="user-gamification-id" type="text" className="form-control" name="id" required readOnly />
+                    <AvInput id="user-gamification-id" type="text" className="form-control" name="id" required
+                             readOnly/>
                   </AvGroup>
                 ) : null}
                 <AvGroup>
                   <Label id="pointsScoreLabel" for="user-gamification-pointsScore">
                     <Translate contentKey="noRiskNoFunApp.userGamification.pointsScore">Points Score</Translate>
                   </Label>
-                  <AvField id="user-gamification-pointsScore" type="string" className="form-control" name="pointsScore" />
+                  <AvField id="user-gamification-pointsScore" type="string" className="form-control"
+                           name="pointsScore"/>
                 </AvGroup>
                 <AvGroup>
                   <Label for="user-gamification-user">
                     <Translate contentKey="noRiskNoFunApp.userGamification.user">User</Translate>
                   </Label>
                   <AvInput id="user-gamification-user" type="select" className="form-control" name="userId">
-                    <option value="" key="0" />
+                    <option value="" key="0"/>
                     {users
                       ? users.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.login}
-                          </option>
-                        ))
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.login}
+                        </option>
+                      ))
                       : null}
                   </AvInput>
                 </AvGroup>
@@ -126,20 +125,24 @@ export class UserGamificationUpdate extends React.Component<IUserGamificationUpd
                     multiple
                     className="form-control"
                     name="achievementTypes"
-                    value={userGamificationEntity.achievements && userGamificationEntity.achievements.map(e => e)}
+                    value={(!isNew && userGamificationEntity.achievements) || 'PROJECT_MEMBER'}
                   >
-                    <option value="" key="0" />
-                    {achievementTypes
-                      ? achievementTypes.map(otherEntity => (
-                          <option value={otherEntity} key={otherEntity}>
-                            {otherEntity}
-                          </option>
-                        ))
-                      : null}
+                    <option
+                      value="PROJECT_MEMBER">{translate('noRiskNoFunApp.userGamification.achievements.PROJECT_MEMBER')}</option>
+                    <option
+                      value="RISK_SAGE">{translate('noRiskNoFunApp.userGamification.achievements.RISK_SAGE')}</option>
+                    <option
+                      value="RISK_OWNER">{translate('noRiskNoFunApp.userGamification.achievements.RISK_OWNER')}</option>
+                    <option
+                      value="RISK_MASTER">{translate('noRiskNoFunApp.userGamification.achievements.RISK_MASTER')}</option>
+                    <option
+                      value="RISK_BUSTER">{translate('noRiskNoFunApp.userGamification.achievements.RISK_BUSTER')}</option>
+                    <option
+                      value="PROJECT_MANAGER">{translate('noRiskNoFunApp.userGamification.achievements.PROJECT_MANAGER')}</option>
                   </AvInput>
                 </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/user-gamifications" replace color="info">
-                  <FontAwesomeIcon icon="arrow-left" />
+                  <FontAwesomeIcon icon="arrow-left"/>
                   &nbsp;
                   <span className="d-none d-md-inline">
                     <Translate contentKey="entity.action.back">Back</Translate>
@@ -147,7 +150,7 @@ export class UserGamificationUpdate extends React.Component<IUserGamificationUpd
                 </Button>
                 &nbsp;
                 <Button color="primary" id="save-entity" type="submit" disabled={updating}>
-                  <FontAwesomeIcon icon="save" />
+                  <FontAwesomeIcon icon="save"/>
                   &nbsp;
                   <Translate contentKey="entity.action.save">Save</Translate>
                 </Button>

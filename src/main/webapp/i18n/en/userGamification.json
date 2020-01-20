@@ -18,7 +18,15 @@
       },
       "pointsScore": "Points Score",
       "user": "User",
-      "achievementType": "Achievement Type"
+      "achievementType": "Achievement Type",
+      "achievements": {
+        "PROJECT_MEMBER": "PROJECT_MEMBER",
+        "RISK_SAGE": "RISK_SAGE",
+        "RISK_OWNER": "RISK_OWNER",
+        "RISK_MASTER": "RISK_MASTER",
+        "RISK_BUSTER": "RISK_BUSTER",
+        "PROJECT_MANAGER": "PROJECT_MANAGER"
+      }
     }
   }
 }

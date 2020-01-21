@@ -30,6 +30,10 @@ messaging.setBackgroundMessageHandler(function(payload) {
     notificationOptions);
 });
 
+workbox.setConfig({
+  debug: false,
+});
+
 workbox.core.skipWaiting();
 workbox.core.clientsClaim();
 workbox.routing.registerRoute(

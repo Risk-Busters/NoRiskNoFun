@@ -15,7 +15,8 @@ const defaultMiddlewares = [
   notificationMiddleware,
   promiseMiddleware,
   loadingBarMiddleware(),
-  websocketMiddleware,
+  // Uncomment to enable websocket
+  // websocketMiddleware,
   loggerMiddleware
 ];
 const composedMiddlewares = middlewares =>

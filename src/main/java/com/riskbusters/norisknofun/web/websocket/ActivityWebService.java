@@ -17,13 +17,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 @Controller
-public class ActivityService implements ApplicationListener<SessionDisconnectEvent> {
+public class ActivityWebService implements ApplicationListener<SessionDisconnectEvent> {
 
-    private static final Logger log = LoggerFactory.getLogger(ActivityService.class);
+    private static final Logger log = LoggerFactory.getLogger(ActivityWebService.class);
 
     private final SimpMessageSendingOperations messagingTemplate;
 
-    public ActivityService(SimpMessageSendingOperations messagingTemplate) {
+    public ActivityWebService(SimpMessageSendingOperations messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
     }
 

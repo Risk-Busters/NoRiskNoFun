@@ -1,3 +1,4 @@
+const {InjectManifest} = require('workbox-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 const { BaseHrefWebpackPlugin } = require('base-href-webpack-plugin');
@@ -134,5 +135,9 @@ module.exports = options => ({
                 ]
       }
     }),
+    new InjectManifest({
+      swSrc: './src/main/webapp/firebase-messaging-sw.js',
+      swDest: 'firebase-messaging-sw.js'
+    })
   ]
 });

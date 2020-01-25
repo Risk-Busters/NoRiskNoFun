@@ -3,18 +3,17 @@ package com.riskbusters.norisknofun.service;
 import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.domain.achievements.Achievement;
 import com.riskbusters.norisknofun.repository.UserGamificationRepository;
+import com.riskbusters.norisknofun.repository.UserRepository;
 import com.riskbusters.norisknofun.repository.achievements.AchievementBaseRepository;
 import com.riskbusters.norisknofun.service.dto.UserGamificationDTO;
 import com.riskbusters.norisknofun.service.mapper.UserGamificationMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Service Implementation for managing {@link UserGamification}.
@@ -29,12 +28,15 @@ public class UserGamificationService {
 
     private final AchievementBaseRepository achievementBaseRepository;
 
+    private final UserRepository userRepository;
+
     private final AchievementService achievementService;
 
-    public UserGamificationService(UserGamificationRepository userGamificationRepository, AchievementBaseRepository achievementBaseRepository, AchievementService achievementService) {
+    public UserGamificationService(UserGamificationRepository userGamificationRepository, AchievementBaseRepository achievementBaseRepository, AchievementService achievementService, UserRepository userRepository) {
         this.userGamificationRepository = userGamificationRepository;
         this.achievementBaseRepository = achievementBaseRepository;
         this.achievementService = achievementService;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -43,10 +45,11 @@ public class UserGamificationService {
      * @param userGamificationDTO the entity to save.
      * @return the persisted entity.
      */
-    public UserGamificationDTO save(UserGamificationDTO userGamificationDTO) {
+    public UserGamificationDTO save(UserGamificationDTO userGamificationDTO, Long userId) {
         log.debug("Request to save UserGamification : {}", userGamificationDTO);
         achievementService.saveAchievements(userGamificationDTO.getUserAchievements());
-        UserGamificationMapper mapper = new UserGamificationMapper();
+        userGamificationDTO.setUserId(userId);
+        UserGamificationMapper mapper = new UserGamificationMapper(this.userRepository);
         UserGamification userGamification = mapper.userGamificationDTOtoUserGamification(userGamificationDTO);
         log.debug("Converted from DTO to normal object {}", userGamification);
         userGamification = userGamificationRepository.save(userGamification);

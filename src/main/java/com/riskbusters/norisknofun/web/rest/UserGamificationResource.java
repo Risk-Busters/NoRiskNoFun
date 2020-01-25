@@ -53,7 +53,8 @@ public class UserGamificationResource {
         if (userGamificationDTO.getId() != null) {
             throw new BadRequestAlertException("A new userGamification cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        UserGamificationDTO result = userGamificationService.save(userGamificationDTO);
+        Long userId = userService.getUserWithAuthorities().get().getId();
+        UserGamificationDTO result = userGamificationService.save(userGamificationDTO, userId);
         return ResponseEntity.created(new URI("/api/user-gamifications/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -69,12 +70,13 @@ public class UserGamificationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/user-gamifications")
-    public ResponseEntity<UserGamificationDTO> updateUserGamification(@RequestBody UserGamificationDTO userGamificationDTO) throws URISyntaxException {
+    public ResponseEntity<UserGamificationDTO> updateUserGamification(@RequestBody UserGamificationDTO userGamificationDTO) {
         log.debug("REST request to update UserGamification : {}", userGamificationDTO);
         if (userGamificationDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        UserGamificationDTO result = userGamificationService.save(userGamificationDTO);
+        Long userId = userService.getUserWithAuthorities().get().getId();
+        UserGamificationDTO result = userGamificationService.save(userGamificationDTO, userId);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, userGamificationDTO.getId().toString()))
             .body(result);

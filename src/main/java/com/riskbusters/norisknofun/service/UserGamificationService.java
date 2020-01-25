@@ -1,7 +1,9 @@
 package com.riskbusters.norisknofun.service;
 
 import com.riskbusters.norisknofun.domain.UserGamification;
+import com.riskbusters.norisknofun.domain.achievements.Achievement;
 import com.riskbusters.norisknofun.repository.UserGamificationRepository;
+import com.riskbusters.norisknofun.repository.achievements.AchievementBaseRepository;
 import com.riskbusters.norisknofun.service.dto.UserGamificationDTO;
 import com.riskbusters.norisknofun.service.mapper.UserGamificationMapper;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Service Implementation for managing {@link UserGamification}.
@@ -24,8 +27,14 @@ public class UserGamificationService {
 
     private final UserGamificationRepository userGamificationRepository;
 
-    public UserGamificationService(UserGamificationRepository userGamificationRepository) {
+    private final AchievementBaseRepository achievementBaseRepository;
+
+    private final AchievementService achievementService;
+
+    public UserGamificationService(UserGamificationRepository userGamificationRepository, AchievementBaseRepository achievementBaseRepository, AchievementService achievementService) {
         this.userGamificationRepository = userGamificationRepository;
+        this.achievementBaseRepository = achievementBaseRepository;
+        this.achievementService = achievementService;
     }
 
     /**
@@ -36,8 +45,10 @@ public class UserGamificationService {
      */
     public UserGamificationDTO save(UserGamificationDTO userGamificationDTO) {
         log.debug("Request to save UserGamification : {}", userGamificationDTO);
+        achievementService.saveAchievements(userGamificationDTO.getUserAchievements());
         UserGamificationMapper mapper = new UserGamificationMapper();
         UserGamification userGamification = mapper.userGamificationDTOtoUserGamification(userGamificationDTO);
+        log.debug("Converted from DTO to normal object {}", userGamification);
         userGamification = userGamificationRepository.save(userGamification);
         return mapper.toUserGamificationDTO(userGamification);
     }
@@ -84,5 +95,9 @@ public class UserGamificationService {
     public void delete(Long id) {
         log.debug("Request to delete UserGamification : {}", id);
         userGamificationRepository.deleteById(id);
+    }
+
+    public void saveAchievements(List<Achievement> userAchievements) {
+        achievementBaseRepository.saveAll(userAchievements);
     }
 }

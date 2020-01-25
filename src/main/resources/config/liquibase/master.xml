@@ -16,6 +16,7 @@
     <include file="config/liquibase/changelog/20200103214706_changelog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200701_load_test_data.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200111214706_test_columns.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200125173142_changelog_add_achievement_type_column.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

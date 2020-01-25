@@ -1,10 +1,10 @@
 package com.riskbusters.norisknofun.domain;
+
 import com.riskbusters.norisknofun.domain.achievements.Achievement;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,8 +34,8 @@ public class UserGamification implements Serializable {
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "user_gamification_achievements",
-               joinColumns = @JoinColumn(name = "user_gamification_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "achievement_type_id", referencedColumnName = "id"))
+        joinColumns = @JoinColumn(name = "user_gamification_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "achievement_type_id", referencedColumnName = "id"))
     private Set<Achievement> userAchievements = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

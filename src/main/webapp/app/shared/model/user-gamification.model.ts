@@ -2,7 +2,6 @@ import { AchievementType } from 'app/shared/model/enumerations/achievment-type.m
 
 export interface IUserGamification {
   id?: number;
-  userId?: number;
   pointsScore?: number;
   achievements?: { type: AchievementType; name: string }[];
 }

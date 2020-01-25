@@ -59,7 +59,9 @@ public class UserGamificationDTO implements Serializable {
     }
 
     public void setUserAchievements(Set<Achievement> userAchievements) {
+        System.out.println(">>>>>>>>>>>>>>>>>>>>" + userAchievements);
         this.userAchievements = userAchievements;
+        System.out.println("<<<<<<<<<<<<<<<<<" + this.userAchievements);
     }
 
     @Override
@@ -90,6 +92,7 @@ public class UserGamificationDTO implements Serializable {
             ", pointsScore=" + getPointsScore() +
             ", user=" + getUserId() +
             ", user='" + getUserLogin() + "'" +
+            ", userAchievements='" + getUserAchievements() + "'" +
             "}";
     }
 }

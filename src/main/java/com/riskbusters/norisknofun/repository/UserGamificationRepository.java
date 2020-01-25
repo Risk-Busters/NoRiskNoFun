@@ -1,8 +1,9 @@
 package com.riskbusters.norisknofun.repository;
+
+import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.UserGamification;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +18,9 @@ public interface UserGamificationRepository extends JpaRepository<UserGamificati
 
     @Query("select distinct userGamification from UserGamification userGamification left join fetch userGamification.userAchievements")
     List<UserGamification> findAllWithEagerRelationships();
+
+    @Query("select userGamification from UserGamification userGamification left join fetch userGamification.userAchievements where userGamification.user =:user")
+    List<UserGamification> findOneWithEagerRelationships(@Param("user") User user);
 
     @Query("select userGamification from UserGamification userGamification left join fetch userGamification.userAchievements where userGamification.id =:id")
     Optional<UserGamification> findOneWithEagerRelationships(@Param("id") Long id);

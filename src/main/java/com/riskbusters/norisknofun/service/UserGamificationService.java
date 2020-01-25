@@ -1,5 +1,6 @@
 package com.riskbusters.norisknofun.service;
 
+import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.domain.achievements.Achievement;
 import com.riskbusters.norisknofun.repository.UserGamificationRepository;
@@ -59,13 +60,13 @@ public class UserGamificationService {
     /**
      * Get all the userGamifications.
      *
-     * @param id the id of the user.
+     * @param user the user.
      * @return the list of userGamifications for one specific user.
      */
     @Transactional(readOnly = true)
-    public List<UserGamification> findAllForOneUser(Long id) {
-        log.debug("Request to get all UserGamifications for user {}", id);
-        return userGamificationRepository.findByUserId(id);
+    public List<UserGamification> findAllForOneUser(User user) {
+        log.debug("Request to get all UserGamifications for user: {}", user);
+        return userGamificationRepository.findOneWithEagerRelationships(user);
     }
 
     /**

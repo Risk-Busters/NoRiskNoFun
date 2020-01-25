@@ -1,5 +1,6 @@
 package com.riskbusters.norisknofun.web.rest;
 
+import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.service.UserGamificationService;
 import com.riskbusters.norisknofun.service.UserService;
@@ -90,9 +91,9 @@ public class UserGamificationResource {
      */
     @GetMapping("/user-gamifications")
     public List<UserGamification> getAllUserGamifications(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
-        Long userId = userService.getUserWithAuthorities().get().getId();
-        log.debug("REST request to get all UserGamifications for user with id: {}", userId);
-        return userGamificationService.findAllForOneUser(userId);
+        User user = userService.getUserWithAuthorities().get();
+        log.debug("REST request to get all UserGamifications for user with id: {}", user.getId());
+        return userGamificationService.findAllForOneUser(user);
     }
 
     /**

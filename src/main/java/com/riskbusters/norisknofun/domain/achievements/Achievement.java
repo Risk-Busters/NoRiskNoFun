@@ -1,9 +1,8 @@
 package com.riskbusters.norisknofun.domain.achievements;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.riskbusters.norisknofun.domain.enumeration.AchievementType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -35,9 +34,6 @@ public abstract class Achievement {
     @Enumerated(EnumType.STRING)
     @Column(name = "name")
     public AchievementType name;
-
-    @JsonProperty
-    private String type = this.getClass().getSimpleName();
 
     public AchievementType getName() {
         return name;

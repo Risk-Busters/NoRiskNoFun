@@ -37,7 +37,7 @@ export class UserGamificationDetail extends React.Component<IUserGamificationDet
             <dd>
               {userGamificationEntity.achievements
                 ? userGamificationEntity.achievements.map((val, i) => (
-                    <span key={val}>
+                    <span>
                       <a>{val}</a>
                       {i === userGamificationEntity.achievements.length - 1 ? '' : ', '}
                     </span>

@@ -8,6 +8,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {IRootState} from 'app/shared/reducers';
 import {getUsers} from 'app/modules/administration/user-management/user-management.reducer';
 import {createEntity, getEntity, reset, updateEntity} from './user-gamification.reducer';
+import { AchievementType } from 'app/shared/model/enumerations/achievment-type.model';
 
 export interface IUserGamificationUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
 }
@@ -47,10 +48,22 @@ export class UserGamificationUpdate extends React.Component<IUserGamificationUpd
   saveEntity = (event, errors, values) => {
     if (errors.length === 0) {
       const {userGamificationEntity} = this.props;
+
+      // userGamificationEntity.achievements = [{type: AchievementType.PROJECT_MANAGER, name: "ProjectManager"}];
+
+      console.log("values:");
+      console.log(values);
+      console.log("Achievements");
+      values.userAchievements = [{ type: AchievementType.PROJECT_MEMBER, name: "PROJECT_MEMBER" }];
+      values.userAchievements.forEach(element => console.log(element));
+
       const entity = {
-        ...userGamificationEntity,
+        // ...userGamificationEntity,
         ...values,
       };
+
+      console.log("REQUEST 1.0 : >>>>>");
+      console.log(entity);
 
       if (this.state.isNew) {
         this.props.createEntity(entity);
@@ -67,6 +80,10 @@ export class UserGamificationUpdate extends React.Component<IUserGamificationUpd
   render() {
     const {userGamificationEntity, users, loading, updating} = this.props;
     const {isNew} = this.state;
+
+    // TODO: typisierung mit interface hier und im userGamification interface
+    // TODO: auslagern aus der Komponente in das Model
+    const projectMember = { type: AchievementType.PROJECT_MEMBER, name: "PROJECT_MEMBER" };
 
     return (
       <div>
@@ -124,11 +141,11 @@ export class UserGamificationUpdate extends React.Component<IUserGamificationUpd
                     type="select"
                     multiple
                     className="form-control"
-                    name="achievementTypes"
+                    name="userAchievements"
                     value={(!isNew && userGamificationEntity.achievements) || 'PROJECT_MEMBER'}
                   >
                     <option
-                      value="PROJECT_MEMBER">{translate('noRiskNoFunApp.userGamification.achievements.PROJECT_MEMBER')}</option>
+                      value={projectMember.name}  data-value={projectMember} >{translate('noRiskNoFunApp.userGamification.achievements.PROJECT_MEMBER')}</option>
                     <option
                       value="RISK_SAGE">{translate('noRiskNoFunApp.userGamification.achievements.RISK_SAGE')}</option>
                     <option

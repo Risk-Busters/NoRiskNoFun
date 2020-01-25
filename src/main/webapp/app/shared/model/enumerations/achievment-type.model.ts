@@ -1,8 +1,8 @@
-export enum AchievmentType {
-  PROJECT_MEMBER,
-  RISK_OWNER,
-  RISK_SAGE,
-  RISK_BUSTER,
-  PROJECT_MANAGER,
-  RISK_MASTER
+export enum AchievementType {
+  PROJECT_MEMBER = 'ProjectMember',
+  RISK_OWNER = 'RiskOwner',
+  RISK_SAGE = 'RiskSage',
+  RISK_MASTER = 'RiskMaster',
+  RISK_BUSTER = 'RiskBuster',
+  PROJECT_MANAGER = 'ProjectManager'
 }

@@ -1,12 +1,10 @@
 package com.riskbusters.norisknofun.web.rest;
 
-import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.service.UserGamificationService;
 import com.riskbusters.norisknofun.service.UserService;
-import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
 import com.riskbusters.norisknofun.service.dto.UserGamificationDTO;
-
+import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -46,8 +43,8 @@ public class UserGamificationResource {
     /**
      * {@code POST  /user-gamifications} : Create a new userGamification.
      *
-     * @param userGamificationDTO the userGamificationDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new userGamificationDTO, or with status {@code 400 (Bad Request)} if the userGamification has already an ID.
+     * @param userGamificationDTO the userGamification to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new userGamification, or with status {@code 400 (Bad Request)} if the userGamification has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/user-gamifications")
@@ -65,10 +62,10 @@ public class UserGamificationResource {
     /**
      * {@code PUT  /user-gamifications} : Updates an existing userGamification.
      *
-     * @param userGamificationDTO the userGamificationDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated userGamificationDTO,
-     * or with status {@code 400 (Bad Request)} if the userGamificationDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the userGamificationDTO couldn't be updated.
+     * @param userGamificationDTO the userGamification to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated userGamification,
+     * or with status {@code 400 (Bad Request)} if the userGamification is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the userGamification couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/user-gamifications")
@@ -99,20 +96,20 @@ public class UserGamificationResource {
     /**
      * {@code GET  /user-gamifications/:id} : get the "id" userGamification.
      *
-     * @param id the id of the userGamificationDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the userGamificationDTO, or with status {@code 404 (Not Found)}.
+     * @param id the id of the userGamification to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the userGamification, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/user-gamifications/{id}")
-    public ResponseEntity<UserGamificationDTO> getUserGamification(@PathVariable Long id) {
+    public ResponseEntity<UserGamification> getUserGamification(@PathVariable Long id) {
         log.debug("REST request to get UserGamification : {}", id);
-        Optional<UserGamificationDTO> userGamificationDTO = userGamificationService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(userGamificationDTO);
+        Optional<UserGamification> userGamification = userGamificationService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(userGamification);
     }
 
     /**
      * {@code DELETE  /user-gamifications/:id} : delete the "id" userGamification.
      *
-     * @param id the id of the userGamificationDTO to delete.
+     * @param id the id of the userGamification to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/user-gamifications/{id}")

@@ -2,9 +2,9 @@ package com.riskbusters.norisknofun.domain.achievements;
 
 import com.riskbusters.norisknofun.domain.enumeration.AchievementType;
 
-public class Project_Manager extends Achievement {
+public class ProjectManager extends Achievement {
 
-    public Project_Manager() {
+    public ProjectManager() {
         super();
         this.name = AchievementType.RISK_SAGE;
     }

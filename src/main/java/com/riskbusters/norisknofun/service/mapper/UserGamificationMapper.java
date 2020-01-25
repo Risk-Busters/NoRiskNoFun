@@ -1,30 +1,27 @@
 package com.riskbusters.norisknofun.service.mapper;
 
-import com.riskbusters.norisknofun.domain.*;
+import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.service.dto.UserGamificationDTO;
 
-import org.mapstruct.*;
+public class UserGamificationMapper {
 
-/**
- * Mapper for the entity {@link UserGamification} and its DTO {@link UserGamificationDTO}.
- */
-@Mapper(componentModel = "spring", uses = {UserMapper.class /*TODO , AchievementTypeMapper.class*/})
-public interface UserGamificationMapper extends EntityMapper<UserGamificationDTO, UserGamification> {
+    public UserGamificationDTO toUserGamificationDTO(UserGamification userGamification) {
+        UserGamificationDTO userGamificationDTO = new UserGamificationDTO();
+        userGamificationDTO.setId(userGamification.getId());
+        // TODO: verify if firstname is correct here
+        // userGamificationDTO.setUserLogin(userGamification.getUser().getFirstName());
+        userGamificationDTO.setPointsScore(userGamification.getPointsScore());
+        userGamificationDTO.setUserAchievements((userGamification.getUserAchievements()));
+        // TODO: userGamificationDTO.setUserId(userGamification.getUser().getId());
+        return userGamificationDTO;
+    }
 
-    @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "user.login", target = "userLogin")
-    UserGamificationDTO toDto(UserGamification userGamification);
-
-    @Mapping(source = "userId", target = "user")
-    @Mapping(target = "removeAchievementType", ignore = true)
-    UserGamification toEntity(UserGamificationDTO userGamificationDTO);
-
-    default UserGamification fromId(Long id) {
-        if (id == null) {
-            return null;
-        }
+    public UserGamification userGamificationDTOtoUserGamification(UserGamificationDTO userGamificationDTO) {
         UserGamification userGamification = new UserGamification();
-        userGamification.setId(id);
+        userGamification.setId(userGamification.getId());
+        userGamification.setUser(userGamification.getUser());
+        userGamification.setPointsScore(userGamification.getPointsScore());
+        userGamification.setUserAchievements(userGamification.getUserAchievements());
         return userGamification;
     }
 }

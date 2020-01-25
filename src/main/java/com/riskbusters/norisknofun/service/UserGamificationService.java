@@ -10,10 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link UserGamification}.
@@ -26,11 +24,8 @@ public class UserGamificationService {
 
     private final UserGamificationRepository userGamificationRepository;
 
-    private final UserGamificationMapper userGamificationMapper;
-
-    public UserGamificationService(UserGamificationRepository userGamificationRepository, UserGamificationMapper userGamificationMapper) {
+    public UserGamificationService(UserGamificationRepository userGamificationRepository) {
         this.userGamificationRepository = userGamificationRepository;
-        this.userGamificationMapper = userGamificationMapper;
     }
 
     /**
@@ -41,9 +36,10 @@ public class UserGamificationService {
      */
     public UserGamificationDTO save(UserGamificationDTO userGamificationDTO) {
         log.debug("Request to save UserGamification : {}", userGamificationDTO);
-        UserGamification userGamification = userGamificationMapper.toEntity(userGamificationDTO);
+        UserGamificationMapper mapper = new UserGamificationMapper();
+        UserGamification userGamification = mapper.userGamificationDTOtoUserGamification(userGamificationDTO);
         userGamification = userGamificationRepository.save(userGamification);
-        return userGamificationMapper.toDto(userGamification);
+        return mapper.toUserGamificationDTO(userGamification);
     }
 
     /**
@@ -75,10 +71,9 @@ public class UserGamificationService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<UserGamificationDTO> findOne(Long id) {
+    public Optional<UserGamification> findOne(Long id) {
         log.debug("Request to get UserGamification : {}", id);
-        return userGamificationRepository.findOneWithEagerRelationships(id)
-            .map(userGamificationMapper::toDto);
+        return userGamificationRepository.findOneWithEagerRelationships(id);
     }
 
     /**

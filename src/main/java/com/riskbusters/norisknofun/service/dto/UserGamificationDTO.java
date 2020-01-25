@@ -14,14 +14,13 @@ public class UserGamificationDTO implements Serializable {
 
     private Long id;
 
-    private Long pointsScore;
-
-
     private Long userId;
+
+    private Long pointsScore;
 
     private String userLogin;
 
-    private Set<Achievement> userAchievementsTypes = new HashSet<>();
+    private Set<Achievement> userAchievements = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -55,12 +54,12 @@ public class UserGamificationDTO implements Serializable {
         this.userLogin = userLogin;
     }
 
-    public Set<Achievement> getUserAchievementsTypes() {
-        return userAchievementsTypes;
+    public Set<Achievement> getUserAchievements() {
+        return userAchievements;
     }
 
-    public void setUserAchievementsTypes(Set<Achievement> userAchievementsTypes) {
-        this.userAchievementsTypes = userAchievementsTypes;
+    public void setUserAchievements(Set<Achievement> userAchievements) {
+        this.userAchievements = userAchievements;
     }
 
     @Override
@@ -87,7 +86,7 @@ public class UserGamificationDTO implements Serializable {
     @Override
     public String toString() {
         return "UserGamificationDTO{" +
-            "id=" + getId() +
+            // TODO: "id=" + getId() +
             ", pointsScore=" + getPointsScore() +
             ", user=" + getUserId() +
             ", user='" + getUserLogin() + "'" +

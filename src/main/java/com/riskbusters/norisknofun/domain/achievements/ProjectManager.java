@@ -11,6 +11,6 @@ public class ProjectManager extends Achievement {
 
     public ProjectManager() {
         super();
-        this.name = AchievementType.RISK_SAGE;
+        this.name = AchievementType.PROJECT_MANAGER;
     }
 }

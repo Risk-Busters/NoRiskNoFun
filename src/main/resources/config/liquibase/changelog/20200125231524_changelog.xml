@@ -1,0 +1,59 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="st (generated)" id="1579994130864-5">
+        <createTable tableName="activity">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="activityPK"/>
+            </column>
+            <column name="description_key" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="target_url" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1579994130864-6">
+        <createTable tableName="activity_user">
+            <column name="activity_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1579994130864-7">
+        <createTable tableName="device_token">
+            <column name="device_token" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="device_tokenPK"/>
+            </column>
+            <column name="created" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="token_owner_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1579994130864-8">
+        <addForeignKeyConstraint baseColumnNames="token_owner_id" baseTableName="device_token" constraintName="FK4g12xyxwsggityov4t8c4byaf" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user" validate="true"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1579994130864-9">
+        <addForeignKeyConstraint baseColumnNames="activity_id" baseTableName="activity_user" constraintName="FK612yr3asucd0397oqwe6kyydg" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="activity" validate="true"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1579994130864-10">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="activity_user" constraintName="FKrs3t29u2ubjpxbhmmrw8atdmi" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user" validate="true"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1579994130864-1">
+        <dropUniqueConstraint constraintName="UC_JHI_USEREMAIL_COL" tableName="jhi_user"/>
+        <addUniqueConstraint columnNames="email" constraintName="UC_JHI_USEREMAIL_COL" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1579994130864-2">
+        <dropUniqueConstraint constraintName="UC_JHI_USERLOGIN_COL" tableName="jhi_user"/>
+        <addUniqueConstraint columnNames="login" constraintName="UC_JHI_USERLOGIN_COL" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1579994130864-3">
+        <dropUniqueConstraint constraintName="UC_PROJECTOWNER_ID_COL" tableName="project"/>
+        <addUniqueConstraint columnNames="owner_id" constraintName="UC_PROJECTOWNER_ID_COL" tableName="project"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1579994130864-4">
+        <dropUniqueConstraint constraintName="UC_USER_GAMIFICATIONUSER_ID_COL" tableName="user_gamification"/>
+        <addUniqueConstraint columnNames="user_id" constraintName="UC_USER_GAMIFICATIONUSER_ID_COL" tableName="user_gamification"/>
+    </changeSet>
+</databaseChangeLog>

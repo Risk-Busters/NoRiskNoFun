@@ -1,0 +1,24 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="nk" id="load fake data authority ">
+        <loadData
+            file="config/liquibase/data/user.csv"
+            separator=";"
+            tableName="jhi_user">
+            <column name="id" type="numeric"/>
+            <column name="activated" type="boolean"/>
+            <column name="created_date" type="timestamp"/>
+        </loadData>
+        <dropDefaultValue tableName="jhi_user" columnName="created_date" columnDataType="datetime"/>
+        <loadData
+            file="config/liquibase/data/authority.csv"
+            separator=";"
+            tableName="jhi_authority"/>
+        <loadData
+            file="config/liquibase/data/user_authority.csv"
+            separator=";"
+            tableName="jhi_user_authority"/>
+    </changeSet>
+
+</databaseChangeLog>

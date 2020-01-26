@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { getUser } from '../administration/user-management/user-management.reducer';
 import { IRootState } from 'app/shared/reducers';
 import { RouteComponentProps } from 'react-router-dom';
@@ -14,6 +14,10 @@ import { convertDateTimeFromServer } from 'app/shared/util/date-utils';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faMedal } from '@fortawesome/free-solid-svg-icons/faMedal';
 import { faTrophy } from '@fortawesome/free-solid-svg-icons/faTrophy';
+import { faUsers } from '@fortawesome/free-solid-svg-icons/faUsers';
+import { faCrown } from '@fortawesome/free-solid-svg-icons/faCrown';
+import { faAward } from '@fortawesome/free-solid-svg-icons/faAward';
+import {getUserGamification} from "app/entities/user-gamification/user-gamification.reducer";
 
 // TODO: Interface and Achievement List to be replaced when Gamification Concept is done.
 interface AchievementMock {
@@ -22,9 +26,14 @@ interface AchievementMock {
   icon: IconDefinition;
 }
 
+// TODO: adapt amounts
 const achievementList: Array<AchievementMock> = [
-  { title: 'Cool Dude', description: 'Got this achievement since this person is the coolest person of all persons alive.', icon: faMedal },
-  { title: 'Poor Dev', description: 'Got this achievement as this person was brave enough to touch the code.', icon: faTrophy }
+  { title: 'Project member', description: 'Achievement for being a respectable project member.', icon: faUsers },
+  { title: 'Risk owner', description: 'Achievement for owning TODO: XYZ risks (being the person in charge).', icon: faTrophy },
+  { title: 'Risk sage', description: 'Achievement for reviewing and contributing TODO: XYZ risks.', icon: faAward },
+  { title: 'Risk master', description: 'Achievement being active part of TODO: XYZ risk ranking processes.', icon: faAward },
+  { title: 'Risk buster', description: 'Achievement for successful contribution of TODO: XYZ risk responses.', icon: faMedal },
+  { title: 'Project manager', description: 'Your are a project manager!', icon: faCrown }
 ];
 
 export interface IProfileProps extends StateProps, DispatchProps, RouteComponentProps<{ login?: string }> {}
@@ -42,6 +51,10 @@ export const Profile = (props: IProfileProps) => {
     props.getUser(getUserLogin());
   }, []);
 
+  useEffect(() => {
+    props.getUserGamification();
+  }, []);
+
   const { user } = props;
 
   const getProfileName = (): string => {
@@ -49,6 +62,8 @@ export const Profile = (props: IProfileProps) => {
   };
 
   const achievementCards = (achievements: Array<AchievementMock>) => {
+    console.log(">>>>>>>>>>>>>");
+    console.log(props.userAchievements);
     return achievements.map((achievement, index) => {
       return (
         <Col key={`achievement-id-${index}`} sm="6" md="4" lg="3">
@@ -118,10 +133,14 @@ export const Profile = (props: IProfileProps) => {
 
 const mapStateToProps = (storeState: IRootState) => ({
   user: storeState.userManagement.user,
-  currentLogin: storeState.authentication.account.login
+  currentLogin: storeState.authentication.account.login,
+  userAchievements: storeState.userGamification.entities
 });
 
-const mapDispatchToProps = { getUser };
+const mapDispatchToProps = {
+  getUser,
+  getUserGamification
+};
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

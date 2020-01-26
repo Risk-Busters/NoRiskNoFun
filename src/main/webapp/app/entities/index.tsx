@@ -8,6 +8,7 @@ import Risk from './risk';
 import RiskResponse from './risk-response';
 import Project from './project';
 import ProjectRisks from './project-risks';
+import UserGamification from "./user-gamification";
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 const Routes = ({ match }) => (
@@ -18,6 +19,7 @@ const Routes = ({ match }) => (
       <ErrorBoundaryRoute path={`${match.url}/risk-response`} component={RiskResponse} />
       <ErrorBoundaryRoute path={`${match.url}/project`} component={Project} />
       <ErrorBoundaryRoute path={`${match.url}/project-risks`} component={ProjectRisks} />
+      <ErrorBoundaryRoute path={`${match.url}/user-gamifications`} component={UserGamification} />
       {/* jhipster-needle-add-route-path - JHipster will add routes here */}
     </Switch>
   </div>

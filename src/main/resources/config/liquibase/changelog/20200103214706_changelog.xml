@@ -1,0 +1,259 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="st (generated)" id="1578088031634-1">
+        <createSequence sequenceName="sequence_generator"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-2">
+        <createTable tableName="jhi_authority">
+            <column name="name" type="VARCHAR(50)">
+                <constraints primaryKey="true" primaryKeyName="jhi_authorityPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-3">
+        <createTable tableName="jhi_persistent_audit_event">
+            <column autoIncrement="true" name="event_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="jhi_persistent_audit_eventPK"/>
+            </column>
+            <column name="event_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="event_type" type="VARCHAR(255)"/>
+            <column name="principal" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-4">
+        <createTable tableName="jhi_persistent_audit_evt_data">
+            <column name="event_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="value" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-5">
+        <createTable tableName="jhi_user">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="jhi_userPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="last_modified_by" type="VARCHAR(50)"/>
+            <column name="last_modified_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="activated" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activation_key" type="VARCHAR(20)"/>
+            <column name="email" type="VARCHAR(254)"/>
+            <column name="first_name" type="VARCHAR(50)"/>
+            <column name="image_url" type="VARCHAR(256)"/>
+            <column name="lang_key" type="VARCHAR(10)"/>
+            <column name="last_name" type="VARCHAR(50)"/>
+            <column name="login" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password_hash" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reset_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="reset_key" type="VARCHAR(20)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-6">
+        <createTable tableName="jhi_user_authority">
+            <column name="user_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="authority_name" type="VARCHAR(50)">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-7">
+        <createTable tableName="project">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="projectPK"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="jhi_end" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="owner_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-8">
+        <createTable tableName="project_risks">
+            <column name="risk_discussion_status" type="VARCHAR(31)">
+                <constraints nullable="false"/>
+            </column>
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="project_risksPK"/>
+            </column>
+            <column name="has_occured" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="project_probability" type="VARCHAR(255)"/>
+            <column name="project_severity" type="VARCHAR(255)"/>
+            <column name="project_id" type="BIGINT"/>
+            <column name="risk_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-9">
+        <createTable tableName="project_risks_risk_response">
+            <column name="project_risks_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="risk_response_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-10">
+        <createTable tableName="project_user">
+            <column name="project_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-11">
+        <createTable tableName="risk">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="riskPK"/>
+            </column>
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="in_riskpool" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="probability" type="VARCHAR(255)"/>
+            <column name="severity" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-12">
+        <createTable tableName="risk_response">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="risk_responsePK"/>
+            </column>
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-13">
+        <createTable tableName="risk_risk_response">
+            <column name="risk_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="risk_response_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-14">
+        <createTable tableName="user_achievements">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="user_achievementsPK"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-15">
+        <createTable tableName="user_gamification">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="user_gamificationPK"/>
+            </column>
+            <column name="points_score" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-16">
+        <createTable tableName="user_gamification_achievements">
+            <column name="user_gamification_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="achievement_type_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-17">
+        <addUniqueConstraint columnNames="email" constraintName="UC_JHI_USEREMAIL_COL" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-18">
+        <addUniqueConstraint columnNames="login" constraintName="UC_JHI_USERLOGIN_COL" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-19">
+        <addUniqueConstraint columnNames="owner_id" constraintName="UC_PROJECTOWNER_ID_COL" tableName="project"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-20">
+        <addUniqueConstraint columnNames="user_id" constraintName="UC_USER_GAMIFICATIONUSER_ID_COL" tableName="user_gamification"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-21">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="jhi_user_authority" constraintName="FK290okww5jujghp4el5i7mgwu0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user" validate="true"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-22">
+        <addForeignKeyConstraint baseColumnNames="event_id" baseTableName="jhi_persistent_audit_evt_data" constraintName="FK2ehnyx2si4tjd2nt4q7y40v8m" deferrable="false" initiallyDeferred="false" referencedColumnNames="event_id" referencedTableName="jhi_persistent_audit_event" validate="true"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-23">
+        <addForeignKeyConstraint baseColumnNames="risk_response_id" baseTableName="project_risks_risk_response" constraintName="FK3k8vvwkgwp1sinejfpwdll8va" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="risk_response" validate="true"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-24">
+        <addForeignKeyConstraint baseColumnNames="authority_name" baseTableName="jhi_user_authority" constraintName="FK4psxl0jtx6nr7rhqbynr6itoc" deferrable="false" initiallyDeferred="false" referencedColumnNames="name" referencedTableName="jhi_authority" validate="true"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-25">
+        <addForeignKeyConstraint baseColumnNames="project_id" baseTableName="project_user" constraintName="FK4ug72llnm0n7yafwntgdswl3y" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="project" validate="true"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-26">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="project_user" constraintName="FK6n21k6vfgxbt1bwlw4vj4brkd" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user" validate="true"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-27">
+        <addForeignKeyConstraint baseColumnNames="project_id" baseTableName="project_risks" constraintName="FK6q0da3y1ythfd2e1ulyneplov" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="project" validate="true"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-28">
+        <addForeignKeyConstraint baseColumnNames="risk_id" baseTableName="risk_risk_response" constraintName="FK8la7t69hmj17h6g68f4pa3mp6" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="risk" validate="true"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-29">
+        <addForeignKeyConstraint baseColumnNames="project_risks_id" baseTableName="project_risks_risk_response" constraintName="FKa7ytw3ccpomnero019wxpbx1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="project_risks" validate="true"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-30">
+        <addForeignKeyConstraint baseColumnNames="user_gamification_id" baseTableName="user_gamification_achievements" constraintName="FKbewu4x8pk207d1q946tah0na0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="user_gamification" validate="true"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-31">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_gamification" constraintName="FKdbaj7yeaaflhve8pyhct0ct1q" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user" validate="true"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-32">
+        <addForeignKeyConstraint baseColumnNames="achievement_type_id" baseTableName="user_gamification_achievements" constraintName="FKee61rh2r6pur3ehc730oxbc60" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="user_achievements" validate="true"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-33">
+        <addForeignKeyConstraint baseColumnNames="risk_id" baseTableName="project_risks" constraintName="FKke6hcg7rxgqysm8b4ltqepcx" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="risk" validate="true"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-34">
+        <addForeignKeyConstraint baseColumnNames="risk_response_id" baseTableName="risk_risk_response" constraintName="FKmpi28dolpn58ijtai9wj61uh2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="risk_response" validate="true"/>
+    </changeSet>
+    <changeSet author="st (generated)" id="1578088031634-35">
+        <addForeignKeyConstraint baseColumnNames="owner_id" baseTableName="project" constraintName="FKpsx03d7655w94p44ujj0octe6" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

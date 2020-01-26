@@ -42,6 +42,8 @@ public class CacheConfiguration {
             createCache(cm, com.riskbusters.norisknofun.domain.User.class.getName());
             createCache(cm, com.riskbusters.norisknofun.domain.Authority.class.getName());
             createCache(cm, com.riskbusters.norisknofun.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.riskbusters.norisknofun.domain.UserGamification.class.getName());
+            createCache(cm, com.riskbusters.norisknofun.domain.UserGamification.class.getName() + ".achievementTypes");
             // jhipster-needle-ehcache-add-entry
         };
     }

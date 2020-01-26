@@ -99,6 +99,7 @@ public class UserResourceIT {
         cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).clear();
         cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).clear();
         UserResource userResource = new UserResource(userService, userRepository, mailService);
+        userRepository.deleteAll();
 
         this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)

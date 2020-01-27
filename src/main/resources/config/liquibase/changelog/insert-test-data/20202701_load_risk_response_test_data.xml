@@ -1,6 +1,12 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-    <changeSet author="st (generated)" id="1579986768878-5">
-        <dropColumn columnName="type" tableName="user_achievements"/>
+
+    <changeSet author="nk" id="load risk response fake data">
+        <loadData
+            file="config/liquibase/fake-data/risk_response.csv"
+            separator=";"
+            tableName="risk_response">
+        </loadData>
     </changeSet>
+
 </databaseChangeLog>

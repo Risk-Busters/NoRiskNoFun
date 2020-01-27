@@ -41,7 +41,7 @@ public class Project implements Serializable {
     private LocalDate end;
 
     @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn
     private User owner;
 
     @OneToMany(mappedBy = "project")

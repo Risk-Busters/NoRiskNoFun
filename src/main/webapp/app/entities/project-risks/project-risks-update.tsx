@@ -38,7 +38,7 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
     };
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  UNSAFE_componentWillUpdate(nextProps, nextState) {
     if (nextProps.updateSuccess !== this.props.updateSuccess && nextProps.updateSuccess) {
       this.handleClose();
     }

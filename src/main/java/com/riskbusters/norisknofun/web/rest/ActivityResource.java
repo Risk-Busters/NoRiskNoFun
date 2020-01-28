@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -75,9 +77,9 @@ public class ActivityResource {
         log.debug("REST request to get Activity : {}", id);
         User user = userService.getUserWithAuthorities().get();
         Optional<Activity> activity = activityRepository.findOneWithEagerRelationships(id);
-        if (!activity.get().getUsers().contains(user)) {
-            throw new AccessDeniedException("403: Forbidden");
-        }
+        activity.ifPresent(a -> {
+            if (!a.getUsers().contains(user)) throw new AccessDeniedException("403: Forbidden");
+        });
         return ResponseUtil.wrapOrNotFound(activity);
     }
 

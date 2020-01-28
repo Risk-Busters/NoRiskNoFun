@@ -90,6 +90,7 @@ public class AccountResourceIT {
         this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource)
             .setControllerAdvice(exceptionTranslator)
             .build();
+
         userRepository.deleteAll();
     }
 

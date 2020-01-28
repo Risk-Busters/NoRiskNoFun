@@ -32,7 +32,7 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
     };
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  UNSAFE_componentWillUpdate(nextProps, nextState) {
     if (nextProps.updateSuccess !== this.props.updateSuccess && nextProps.updateSuccess) {
       this.handleClose();
     }

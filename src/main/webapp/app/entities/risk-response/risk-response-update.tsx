@@ -34,7 +34,7 @@ export class RiskResponseUpdate extends React.Component<IRiskResponseUpdateProps
     };
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  UNSAFE_componentWillUpdate(nextProps, nextState) {
     if (nextProps.updateSuccess !== this.props.updateSuccess && nextProps.updateSuccess) {
       this.handleClose();
     }

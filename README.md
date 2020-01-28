@@ -1,6 +1,6 @@
 # NoRiskNoFun
 
-This application was generated using JHipster 6.4.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.4.1](https://www.jhipster.tech/documentation-archive/v6.4.1).
+This application was generated using JHipster 6.6.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.6.0](https://www.jhipster.tech/documentation-archive/v6.6.0).
 
 ## Development
 
@@ -16,18 +16,11 @@ You will only need to run this command when dependencies change in [package.json
 
 We use npm scripts and [Webpack][] as our build system.
 
-As we use Firebase Messaging for Push Notifications, you will need to create an enviroment called `GOOGLE_APPLICATION_CREDENTIALS` which refers to a private key of a service account of your Firebase project.
-Also change the `firebaseConfig` in `src/main/webapp/app/config/constants.ts`. For more details and how to download the private key, please refer to the [official documentation](https://firebase.google.com/docs/admin/setup#initialize-sdk). If you want to use this functionality, you need to run everything with TLS enabled as the service worker can only register over https.
-
-Furthermore, if you want to use the `MailService`, make sure to run a fake SMTP server. The scripts within `src/main/docker` help you to set one up with the correct port.
-
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
 
-Note: If you want to use Firebase Messaging, instead of running only the `./mvnw` command, make sure to start your application with the `tls` profile enabled. For example in IntelliJ, under `Run Configuration` add `tls` to the active spring profiles.
-
     ./mvnw
-    npm start-tls
+    npm start
 
 Npm is also used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
 specifying a newer version in [package.json](package.json). You can also run `npm update` and `npm install` to manage dependencies.
@@ -37,7 +30,7 @@ The `npm run` command will list all of the scripts available to run for this pro
 
 ### PWA Support
 
-JHipster ships with PWA (Progressive Web App) support, and it's disabled by default. One of the main components of a PWA is a service worker.
+JHipster ships with PWA (Progressive Web App) support, and it's turned off by default. One of the main components of a PWA is a service worker.
 
 The service worker initialization code is commented out by default. To enable it, uncomment the following code in `src/main/webapp/index.html`:
 
@@ -173,13 +166,13 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
 [jhipster homepage and latest documentation]: https://www.jhipster.tech
-[jhipster 6.4.1 archive]: https://www.jhipster.tech/documentation-archive/v6.4.1
-[using jhipster in development]: https://www.jhipster.tech/documentation-archive/v6.4.1/development/
-[using docker and docker-compose]: https://www.jhipster.tech/documentation-archive/v6.4.1/docker-compose
-[using jhipster in production]: https://www.jhipster.tech/documentation-archive/v6.4.1/production/
-[running tests page]: https://www.jhipster.tech/documentation-archive/v6.4.1/running-tests/
-[code quality page]: https://www.jhipster.tech/documentation-archive/v6.4.1/code-quality/
-[setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v6.4.1/setting-up-ci/
+[jhipster 6.6.0 archive]: https://www.jhipster.tech/documentation-archive/v6.6.0
+[using jhipster in development]: https://www.jhipster.tech/documentation-archive/v6.6.0/development/
+[using docker and docker-compose]: https://www.jhipster.tech/documentation-archive/v6.6.0/docker-compose
+[using jhipster in production]: https://www.jhipster.tech/documentation-archive/v6.6.0/production/
+[running tests page]: https://www.jhipster.tech/documentation-archive/v6.6.0/running-tests/
+[code quality page]: https://www.jhipster.tech/documentation-archive/v6.6.0/code-quality/
+[setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v6.6.0/setting-up-ci/
 [node.js]: https://nodejs.org/
 [yarn]: https://yarnpkg.org/
 [webpack]: https://webpack.github.io/
@@ -192,4 +185,4 @@ To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`)
 [definitelytyped]: https://definitelytyped.org/
 [openapi-generator]: https://openapi-generator.tech
 [swagger-editor]: https://editor.swagger.io
-[doing api-first development]: https://www.jhipster.tech/documentation-archive/v6.4.1/doing-api-first-development/
+[doing api-first development]: https://www.jhipster.tech/documentation-archive/v6.6.0/doing-api-first-development/

@@ -20,7 +20,7 @@
     "websocket": "spring-websocket",
     "baseName": "NoRiskNoFun",
     "clientFramework": "react",
-    "jhipsterVersion": "6.4.1",
+    "jhipsterVersion": "6.6.0",
     "buildTool": "maven",
     "skipUserManagement": false,
     "clientPackageManager": "npm",
@@ -36,7 +36,8 @@
     "entitySuffix": "",
     "dtoSuffix": "DTO",
     "otherModules": [],
-    "blueprints": []
+    "blueprints": [],
+    "creationTimestamp": 1580157248851
   },
   "entities": ["Risk", "RiskResponse", "Project", "ProjectRisks"]
 }

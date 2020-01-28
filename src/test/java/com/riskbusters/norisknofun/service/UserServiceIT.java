@@ -5,7 +5,8 @@ import com.riskbusters.norisknofun.config.Constants;
 import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.repository.UserRepository;
 import com.riskbusters.norisknofun.service.dto.UserDTO;
-import com.riskbusters.norisknofun.service.util.RandomUtil;
+
+import io.github.jhipster.security.RandomUtil;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;

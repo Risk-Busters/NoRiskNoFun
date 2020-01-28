@@ -192,6 +192,9 @@ public class ActivityResourceIT {
     @Test
     @Transactional
     public void getNonExistingActivity() throws Exception {
+
+        when(userServiceMock.getUserWithAuthorities()).thenReturn(Optional.of(user));
+        
         // Get the activity
         restActivityMockMvc.perform(get("/api/activities/{id}", Long.MAX_VALUE))
             .andExpect(status().isNotFound());

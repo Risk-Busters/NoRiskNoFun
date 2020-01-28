@@ -5,9 +5,6 @@ import com.riskbusters.norisknofun.config.Constants;
 import com.riskbusters.norisknofun.domain.Authority;
 import com.riskbusters.norisknofun.domain.User;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-
 import javax.validation.constraints.*;
 import java.time.Instant;
 import java.util.Set;

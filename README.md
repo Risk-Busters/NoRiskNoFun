@@ -16,11 +16,18 @@ You will only need to run this command when dependencies change in [package.json
 
 We use npm scripts and [Webpack][] as our build system.
 
+As we use Firebase Messaging for Push Notifications, you will need to create an enviroment called `GOOGLE_APPLICATION_CREDENTIALS` which refers to a private key of a service account of your Firebase project.
+Also change the `firebaseConfig` in `src/main/webapp/app/config/constants.ts`. For more details and how to download the private key, please refer to the [official documentation](https://firebase.google.com/docs/admin/setup#initialize-sdk). If you want to use this functionality, you need to run everything with TLS enabled as the service worker can only register over https.
+
+Furthermore, if you want to use the `MailService`, make sure to run a fake SMTP server. The scripts within `src/main/docker` help you to set one up with the correct port.
+
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
 
+Note: If you want to use Firebase Messaging, instead of running only the `./mvnw` command, make sure to start your application with the `tls` profile enabled. For example in IntelliJ, under `Run Configuration` add `tls` to the active spring profiles.
+
     ./mvnw
-    npm start
+    npm start-tls
 
 Npm is also used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
 specifying a newer version in [package.json](package.json). You can also run `npm update` and `npm install` to manage dependencies.

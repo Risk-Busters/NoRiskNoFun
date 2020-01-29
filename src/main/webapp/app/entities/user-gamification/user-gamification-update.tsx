@@ -140,7 +140,7 @@ export class UserGamificationUpdate extends React.Component<IUserGamificationUpd
                     multiple
                     className="form-control"
                     name="userAchievements"
-                    value={(!isNew && userGamificationEntity.userAchievements) || 'PROJECT_MEMBER'}
+                    value={(!isNew && Array.from(userGamificationEntity.userAchievements, achievement => achievement.name)) || ['PROJECT_MEMBER']}
                   >
                     <option
                       value="PROJECT_MEMBER">{translate('noRiskNoFunApp.userGamification.achievements.PROJECT_MEMBER')}</option>

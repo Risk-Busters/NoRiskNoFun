@@ -40,6 +40,7 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
     stats: options.stats,
     hot: true,
     contentBase: './target/classes/static/',
+    inline: false,
     proxy: [{
       context: [
         '/api',

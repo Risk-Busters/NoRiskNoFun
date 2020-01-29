@@ -64,7 +64,7 @@ public class UserGamificationService {
      * @return the list of userGamifications for one specific user.
      */
     @Transactional(readOnly = true)
-    public List<UserGamification> findAllForOneUser(User user) {
+    public Optional<UserGamification> findAllForOneUser(User user) {
         log.debug("Request to get all UserGamifications for user: {}", user);
         return userGamificationRepository.findOneWithEagerRelationships(user);
     }

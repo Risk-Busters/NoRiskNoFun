@@ -3,7 +3,7 @@ import { AchievementType } from 'app/shared/model/enumerations/achievment-type.m
 export interface IUserGamification {
   id?: number;
   pointsScore?: number;
-  achievements?: { type: AchievementType; name: string }[];
+  userAchievements?: { name: string }[];
 }
 
 export const defaultValue: Readonly<IUserGamification> = {};

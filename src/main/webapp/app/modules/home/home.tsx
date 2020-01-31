@@ -14,7 +14,7 @@ export const Home = (props: IHomeProp) => {
   const { account } = props;
 
   return (
-    <Container fluid="true">
+    <Container fluid>
       {account && account.login ? (
         <>
           <Row sm="12">

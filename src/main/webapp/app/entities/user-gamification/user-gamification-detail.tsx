@@ -35,11 +35,11 @@ export class UserGamificationDetail extends React.Component<IUserGamificationDet
               <Translate contentKey="noRiskNoFunApp.userGamification.achievementType">Achievement Type</Translate>
             </dt>
             <dd>
-              {userGamificationEntity.achievements
-                ? userGamificationEntity.achievements.map((val, i) => (
+              {userGamificationEntity.userAchievements
+                ? userGamificationEntity.userAchievements.map((val, i) => (
                     <span key={val.name}>
-                      <a>{val}</a>
-                      {i === userGamificationEntity.achievements.length - 1 ? '' : ', '}
+                      <a>{val.name}</a>
+                      {i === userGamificationEntity.userAchievements.length - 1 ? '' : ', '}
                     </span>
                   ))
                 : null}

@@ -30,7 +30,7 @@ function UserGamification(props: IUserGamificationProps) {
         </Link>
       </h2>
       <div className="table-responsive">
-        {props.userGamificationList.length > 0 ? (
+        {props.userGamification ? (
           <Table responsive aria-describedby="user-gamification-heading">
             <thead>
             <tr>
@@ -50,39 +50,40 @@ function UserGamification(props: IUserGamificationProps) {
             </tr>
             </thead>
             <tbody>
-            {props.userGamificationList.map((userGamification, i) => (
-              <tr key={`entity-${i}`}>
+              <tr>
                 <td>
-                  <Button tag={Link} to={`${match.url}/${userGamification.id}`} color="link" size="sm">
-                    {userGamification.id}
+                  <Button tag={Link} to={`${match.url}/${props.userGamification.id}`} color="link" size="sm">
+                    {props.userGamification.id}
                   </Button>
                 </td>
-                <td>{userGamification.pointsScore}</td>
+                <td>{props.userGamification.pointsScore}</td>
+                <td>Its always you, dummy.</td>
                 <td>
-                  {userGamification.achievements
-                    ? userGamification.achievements.map((val, j) => (
+                  {props.userGamification.userAchievements
+                    ? props.userGamification.userAchievements.map((val, j) => (
                       <span key={j}>
                               <Link to={`achievement-type/${val}`} />
-                        {j === userGamification.achievements.length - 1 ? '' : ', '}
+                        {val.name}
+                        {j === props.userGamification.userAchievements.length - 1 ? '' : ', '}
                             </span>
                     ))
                     : null}
                 </td>
                 <td className="text-right">
                   <div className="btn-group flex-btn-group-container">
-                    <Button tag={Link} to={`${match.url}/${userGamification.id}`} color="info" size="sm">
+                    <Button tag={Link} to={`${match.url}/${props.userGamification.id}`} color="info" size="sm">
                       <FontAwesomeIcon icon="eye"/>{' '}
                       <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.view">View</Translate>
                           </span>
                     </Button>
-                    <Button tag={Link} to={`${match.url}/${userGamification.id}/edit`} color="primary" size="sm">
+                    <Button tag={Link} to={`${match.url}/${props.userGamification.id}/edit`} color="primary" size="sm">
                       <FontAwesomeIcon icon="pencil-alt"/>{' '}
                       <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.edit">Edit</Translate>
                           </span>
                     </Button>
-                    <Button tag={Link} to={`${match.url}/${userGamification.id}/delete`} color="danger" size="sm">
+                    <Button tag={Link} to={`${match.url}/${props.userGamification.id}/delete`} color="danger" size="sm">
                       <FontAwesomeIcon icon="trash"/>{' '}
                       <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.delete">Delete</Translate>
@@ -91,7 +92,6 @@ function UserGamification(props: IUserGamificationProps) {
                   </div>
                 </td>
               </tr>
-            ))}
             </tbody>
           </Table>
         ) : (
@@ -106,7 +106,7 @@ function UserGamification(props: IUserGamificationProps) {
 }
 
 const mapStateToProps = ({userGamification}: IRootState) => ({
-  userGamificationList: userGamification.entities
+  userGamification: userGamification.entity
 });
 
 const mapDispatchToProps = {

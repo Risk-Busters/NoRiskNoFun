@@ -56,7 +56,7 @@ export default (state: UserGamificationState = initialState, action): UserGamifi
       return {
         ...state,
         loading: false,
-        entities: action.payload.data
+        entity: action.payload.data
       };
     case SUCCESS(ACTION_TYPES.FETCH_USERGAMIFICATION):
       return {

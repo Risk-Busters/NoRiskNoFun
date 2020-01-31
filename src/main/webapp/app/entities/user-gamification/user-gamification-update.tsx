@@ -3,12 +3,15 @@ import {connect} from 'react-redux';
 import {Link, RouteComponentProps} from 'react-router-dom';
 import {Button, Col, Label, Row} from 'reactstrap';
 import {AvField, AvForm, AvGroup, AvInput} from 'availity-reactstrap-validation';
-import {translate, Translate} from 'react-jhipster';
+import {getItemType, translate, Translate} from 'react-jhipster';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {IRootState} from 'app/shared/reducers';
 import {getUsers} from 'app/modules/administration/user-management/user-management.reducer';
 import {createEntity, getEntity, reset, updateEntity} from './user-gamification.reducer';
 import { AchievementType } from 'app/shared/model/enumerations/achievment-type.model';
+import {mapIdList} from "app/shared/util/entity-utils";
+import value from "*.json";
+import {IUserGamification} from "app/shared/model/user-gamification.model";
 
 export interface IUserGamificationUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
 }
@@ -48,21 +51,17 @@ export class UserGamificationUpdate extends React.Component<IUserGamificationUpd
   saveEntity = (event, errors, values) => {
     if (errors.length === 0) {
       const {userGamificationEntity} = this.props;
-
-      // userGamificationEntity.achievements = [{type: AchievementType.PROJECT_MANAGER, name: "ProjectManager"}];
-
-      console.log("values:");
-      console.log(values);
-      console.log("Achievements");
-      values.userAchievements = [{ type: AchievementType.PROJECT_MEMBER, name: "PROJECT_MEMBER" }];
-      values.userAchievements.forEach(element => console.log(element));
+      const achievements: { type: AchievementType; name: string }[] = [];
+      values.userAchievements.forEach(achievement => {
+        achievements.push({type: AchievementType[achievement], name: achievement})
+      });
+      values.userAchievements = achievements;
 
       const entity = {
-        // ...userGamificationEntity,
-        ...values,
+        ...userGamificationEntity,
+          ...values
       };
 
-      console.log("REQUEST 1.0 : >>>>>");
       console.log(entity);
 
       if (this.state.isNew) {
@@ -83,7 +82,6 @@ export class UserGamificationUpdate extends React.Component<IUserGamificationUpd
 
     // TODO: typisierung mit interface hier und im userGamification interface
     // TODO: auslagern aus der Komponente in das Model
-    const projectMember = { type: AchievementType.PROJECT_MEMBER, name: "PROJECT_MEMBER" };
 
     return (
       <div>
@@ -142,10 +140,10 @@ export class UserGamificationUpdate extends React.Component<IUserGamificationUpd
                     multiple
                     className="form-control"
                     name="userAchievements"
-                    value={(!isNew && userGamificationEntity.achievements) || 'PROJECT_MEMBER'}
+                    value={(!isNew && Array.from(userGamificationEntity.userAchievements, achievement => achievement.name)) || ['PROJECT_MEMBER']}
                   >
                     <option
-                      value={projectMember.name}  data-value={projectMember} >{translate('noRiskNoFunApp.userGamification.achievements.PROJECT_MEMBER')}</option>
+                      value="PROJECT_MEMBER">{translate('noRiskNoFunApp.userGamification.achievements.PROJECT_MEMBER')}</option>
                     <option
                       value="RISK_SAGE">{translate('noRiskNoFunApp.userGamification.achievements.RISK_SAGE')}</option>
                     <option

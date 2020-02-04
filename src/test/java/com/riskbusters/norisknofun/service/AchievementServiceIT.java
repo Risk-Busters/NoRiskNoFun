@@ -6,6 +6,7 @@ import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.domain.achievements.Achievement;
 import com.riskbusters.norisknofun.domain.achievements.ProjectMember;
+import com.riskbusters.norisknofun.domain.achievements.RiskSage;
 import com.riskbusters.norisknofun.repository.UserGamificationRepository;
 import com.riskbusters.norisknofun.repository.UserRepository;
 import com.riskbusters.norisknofun.web.rest.UserResourceIT;
@@ -26,16 +27,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @SpringBootTest(classes = NoRiskNoFunApp.class)
 @Transactional
-public class PointsServiceIT {
+public class AchievementServiceIT {
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private UserGamificationRepository userGamificationRepository;
-
-    @Autowired
-    private PointsService pointsService;
 
     @Autowired
     private AchievementService achievementService;
@@ -47,8 +45,10 @@ public class PointsServiceIT {
 
     private Long userId;
 
+    Set<Achievement> achievements;
+
     private Set<Achievement> createAchievements() {
-        Set<Achievement> achievements = new HashSet<>();
+        achievements = new HashSet<>();
         achievements.add(new ProjectMember());
         achievementService.saveAchievements(achievements);
         return achievements;
@@ -78,26 +78,18 @@ public class PointsServiceIT {
 
     @Test
     @Transactional
-    public void assertThatPointsAreIncreasedCorrectly() {
-        pointsService.addPointsForUser(new Points(42L), this.userId);
+    public void assertThatAchievmentsSetCorrectly() {
+        achievementService.addAchievementsForUser(achievements, userId);
 
-        assertEquals(Long.valueOf(42), userGamificationRepository.findByUserId(this.userId).getPointsScore().getPointsAsLong());
+        assertEquals(achievements, userGamificationRepository.findByUserId(this.userId).getUserAchievements());
     }
 
     @Test
     @Transactional
-    public void assertThatNegativePointValuesNotPossible() {
-        pointsService.addPointsForUser(new Points(-42L), this.userId);
+    public void assertThatAchievmentsUpdatedCorrectly() {
+        achievements.add(new RiskSage());
+        achievementService.addAchievementsForUser(achievements, userId);
 
-        assertEquals(Long.valueOf(0), userGamificationRepository.findByUserId(this.userId).getPointsScore().getPointsAsLong());
-    }
-
-    @Test
-    @Transactional
-    public void assertThatMultipleIncreseProcessesAreCorrect() {
-        pointsService.addPointsForUser(new Points(2L), this.userId);
-        assertEquals(Long.valueOf(2), userGamificationRepository.findByUserId(this.userId).getPointsScore().getPointsAsLong());
-        pointsService.addPointsForUser(new Points(6L), this.userId);
-        assertEquals(Long.valueOf(8), userGamificationRepository.findByUserId(this.userId).getPointsScore().getPointsAsLong());
+        assertEquals(achievements, userGamificationRepository.findByUserId(this.userId).getUserAchievements());
     }
 }

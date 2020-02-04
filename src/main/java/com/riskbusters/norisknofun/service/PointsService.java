@@ -28,7 +28,7 @@ public class PointsService {
      * @param pointsToAdd amount of points to increase user pointsScore
      * @param userId      add points for this user
      */
-    public void addPoints(Points pointsToAdd, Long userId) {
+    public void addPointsForUser(Points pointsToAdd, Long userId) {
         log.debug("Add {} to the points score of user with id {}", pointsToAdd, userId);
         UserGamification userGamification = userGamificationRepository.findByUserId(userId);
         userGamification.addPoints(pointsToAdd);

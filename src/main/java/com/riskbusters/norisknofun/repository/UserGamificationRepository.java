@@ -25,5 +25,5 @@ public interface UserGamificationRepository extends JpaRepository<UserGamificati
     @Query("select userGamification from UserGamification userGamification left join fetch userGamification.userAchievements where userGamification.id =:id")
     Optional<UserGamification> findOneWithEagerRelationships(@Param("id") Long id);
 
-    List<UserGamification> findByUserId(Long id);
+    UserGamification findByUserId(Long id);
 }

@@ -29,7 +29,7 @@ public class UserGamification implements Serializable {
     private User user;
 
     @Column(name = "points_score")
-    private Long pointsScore;
+    private Points pointsScore;
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -47,16 +47,20 @@ public class UserGamification implements Serializable {
         this.id = id;
     }
 
-    public Long getPointsScore() {
+    public Points getPointsScore() {
         return pointsScore;
     }
 
-    public UserGamification pointsScore(Long pointsScore) {
+    public UserGamification pointsScore(Points pointsScore) {
         this.pointsScore = pointsScore;
         return this;
     }
 
-    public void setPointsScore(Long pointsScore) {
+    public void addPoints(Points pointsToAdd) {
+        this.pointsScore.addPoints(pointsToAdd);
+    }
+
+    public void setPointsScore(Points pointsScore) {
         this.pointsScore = pointsScore;
     }
 

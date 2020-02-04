@@ -29,6 +29,7 @@ public class UserGamification implements Serializable {
     private User user;
 
     @Column(name = "points_score")
+    @Embedded
     private Points pointsScore;
 
     @ManyToMany

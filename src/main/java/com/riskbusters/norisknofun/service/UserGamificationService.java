@@ -33,11 +33,14 @@ public class UserGamificationService {
 
     private final AchievementService achievementService;
 
+    private UserGamificationMapper mapper;
+
     public UserGamificationService(UserGamificationRepository userGamificationRepository, AchievementBaseRepository achievementBaseRepository, AchievementService achievementService, UserRepository userRepository) {
         this.userGamificationRepository = userGamificationRepository;
         this.achievementBaseRepository = achievementBaseRepository;
         this.achievementService = achievementService;
         this.userRepository = userRepository;
+        this.mapper = new UserGamificationMapper(this.userRepository);
     }
 
     /**
@@ -50,7 +53,6 @@ public class UserGamificationService {
         log.debug("Request to save UserGamification : {}", userGamificationDTO);
         achievementService.saveAchievements(userGamificationDTO.getUserAchievements());
         userGamificationDTO.setUserId(userId);
-        UserGamificationMapper mapper = new UserGamificationMapper(this.userRepository);
         UserGamification userGamification = mapper.userGamificationDTOtoUserGamification(userGamificationDTO);
         log.debug("Converted from DTO to normal object {}", userGamification);
         userGamification = userGamificationRepository.save(userGamification);
@@ -64,9 +66,14 @@ public class UserGamificationService {
      * @return the list of userGamifications for one specific user.
      */
     @Transactional(readOnly = true)
-    public Optional<UserGamification> findAllForOneUser(User user) {
+    public UserGamificationDTO findAllForOneUser(User user) {
         log.debug("Request to get all UserGamifications for user: {}", user);
-        return userGamificationRepository.findOneWithEagerRelationships(user);
+        Optional<UserGamification> userGamification = userGamificationRepository.findOneWithEagerRelationships(user);
+        if (userGamification.isPresent()) {
+            return mapper.toUserGamificationDTO(userGamification.get());
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -86,9 +93,14 @@ public class UserGamificationService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<UserGamification> findOne(Long id) {
+    public Optional<UserGamificationDTO> findOne(Long id) {
         log.debug("Request to get UserGamification : {}", id);
-        return userGamificationRepository.findOneWithEagerRelationships(id);
+        Optional<UserGamification> userGamification = userGamificationRepository.findOneWithEagerRelationships(id);
+        if (userGamification.isPresent()) {
+            return Optional.ofNullable(mapper.toUserGamificationDTO(userGamification.get()));
+        } else {
+            return null;
+        }
     }
 
     /**

@@ -99,7 +99,7 @@ public class UserGamificationService {
         if (userGamification.isPresent()) {
             return Optional.ofNullable(mapper.toUserGamificationDTO(userGamification.get()));
         } else {
-            return null;
+            return Optional.empty();
         }
     }
 

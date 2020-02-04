@@ -1,9 +1,10 @@
 package com.riskbusters.norisknofun.domain;
 
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 
 @Embeddable
-public class Points {
+public class Points implements Serializable {
 
     private Long pointsScore;
 

@@ -4,8 +4,8 @@ import com.riskbusters.norisknofun.domain.achievements.Achievement;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.riskbusters.norisknofun.domain.UserGamification} entity.
@@ -86,7 +86,7 @@ public class UserGamificationDTO implements Serializable {
     @Override
     public String toString() {
         return "UserGamificationDTO{" +
-            // TODO: "id=" + getId() +
+            "id=" + getId() +
             ", pointsScore=" + getPointsScore() +
             ", user=" + getUserId() +
             ", user='" + getUserLogin() + "'" +

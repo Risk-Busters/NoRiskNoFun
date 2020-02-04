@@ -82,23 +82,6 @@ public class UserGamification implements Serializable {
         return userAchievements;
     }
 
-    public UserGamification achievementTypes(Set<Achievement> userAchievementsTypes) {
-        this.userAchievements = userAchievementsTypes;
-        return this;
-    }
-
-    public UserGamification addAchievementType(Achievement userAchievement) {
-        this.userAchievements.add(userAchievement);
-        // TODO: achievementType.getUserGamifications().add(this);
-        return this;
-    }
-
-    public UserGamification removeAchievementType(Achievement userAchievements) {
-        this.userAchievements.remove(userAchievements);
-        // TODO: achievementType.getUserGamifications().remove(this);
-        return this;
-    }
-
     public void setUserAchievements(Set<Achievement> userAchievements) {
         this.userAchievements = userAchievements;
     }

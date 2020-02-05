@@ -27,8 +27,6 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
 
   useEffect(() => {
       props.getEntity(props.match.params.id);
-
-    console.log(risktype);
       if (risktype && Object.values(RiskUrlType).includes(risktype as RiskUrlType)) {
         setActiveTab(risktype.toLowerCase());
       } else {

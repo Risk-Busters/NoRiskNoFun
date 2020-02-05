@@ -5,7 +5,8 @@
         "title": "Project Risks",
         "createLabel": "Propose a new Risk!",
         "proposeLabel": "Propose a new Risk",
-        "discussLabel": "Discuss Risk"
+        "discussLabel": "Discuss Risk",
+        "notFound": "No Project Risks found"
       },
       "created": "A new Project Risks is created with identifier {{ param }}",
       "updated": "A Project Risks is updated with identifier {{ param }}",
@@ -24,6 +25,10 @@
       "risk": "Risk",
       "title": "Risk Title",
       "description": "Risk Description"
+    },
+    "proposeRiskVM": {
+      "title": "Title",
+      "description": "Description"
     }
   }
 }

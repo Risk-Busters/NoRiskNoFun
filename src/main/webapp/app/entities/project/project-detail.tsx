@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
-import {Link, RouteComponentProps} from 'react-router-dom';
+import {Link, RouteComponentProps, useParams, useHistory} from 'react-router-dom';
 import {Button, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane} from 'reactstrap';
 import {TextFormat, Translate} from 'react-jhipster';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
-
 import {IRootState} from 'app/shared/reducers';
 import {getEntity} from './project.reducer';
 import {APP_LOCAL_DATE_FORMAT} from 'app/config/constants';
@@ -14,19 +13,34 @@ import ProjectRisks from "app/entities/project-risks/project-risks";
 export interface IProjectDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
 }
 
-function ProjectDetail(props) {
+enum RiskUrlType {
+  FINAL = 'final',
+  DISCUSSION = 'discussion',
+  PROPOSED = 'proposed'
+}
+
+const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
+
+  const [activeTab, setActiveTab] = useState('final');
+  const { risktype } = useParams();
+  const history = useHistory();
 
   useEffect(() => {
       props.getEntity(props.match.params.id);
+
+      if (risktype && Object.values(RiskUrlType).includes(risktype as RiskUrlType)) {
+        setActiveTab(risktype.toLowerCase());
+      } else {
+        setActiveTab(RiskUrlType.FINAL);
+      }
   }, []);
 
+  useEffect(() => {
+    const newTabUrl = location.pathname.replace(risktype, activeTab);
+    history.push(newTabUrl);
+  }, [activeTab]);
+
   const {projectEntity} = props;
-
-  const [activeTab, setActiveTab] = useState('1');
-
-  const toggle = tab => {
-    if(activeTab !== tab) setActiveTab(tab);
-  };
 
   return (
       <div>
@@ -100,35 +114,35 @@ function ProjectDetail(props) {
 
         <Nav tabs>
           <NavItem>
-            <NavLink className={classnames({ active: activeTab === '1' })} onClick={() => { toggle('1'); }} >
+            <NavLink className={classnames({ active: activeTab === RiskUrlType.FINAL })} onClick={() => setActiveTab(RiskUrlType.FINAL)} >
               <Translate contentKey="noRiskNoFunApp.project.riskCategories.final"/>
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink className={classnames({ active: activeTab === '2' })} onClick={() => { toggle('2'); }} >
+            <NavLink className={classnames({ active: activeTab === RiskUrlType.DISCUSSION })} onClick={() => setActiveTab(RiskUrlType.DISCUSSION)} >
               <Translate contentKey="noRiskNoFunApp.project.riskCategories.toBeDiscussed"/>
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink className={classnames({ active: activeTab === '3' })} onClick={() => { toggle('3'); }} >
+            <NavLink className={classnames({ active: activeTab === RiskUrlType.PROPOSED })} onClick={() => setActiveTab(RiskUrlType.PROPOSED)} >
               <Translate contentKey="noRiskNoFunApp.project.riskCategories.proposed"/>
             </NavLink>
           </NavItem>
         </Nav>
         <TabContent activeTab={activeTab}>
-          <TabPane tabId="1">
+          <TabPane tabId={RiskUrlType.FINAL}>
             <ProjectRisks riskDiscussionStatus={"final"} match={props.match} location={props.location} history={props.history} />
           </TabPane>
-          <TabPane tabId="2">
+          <TabPane tabId={RiskUrlType.DISCUSSION}>
             <ProjectRisks riskDiscussionStatus={"toBeDiscussed"} match={props.match} location={props.location} history={props.history} />
           </TabPane>
-          <TabPane tabId="3">
+          <TabPane tabId={RiskUrlType.PROPOSED}>
             <ProjectRisks riskDiscussionStatus={"proposed"} match={props.match} location={props.location} history={props.history} />
           </TabPane>
         </TabContent>
       </div>
     );
-}
+};
 
 const mapStateToProps = ({project}: IRootState) => ({
   projectEntity: project.entity

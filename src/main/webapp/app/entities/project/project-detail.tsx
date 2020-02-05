@@ -28,6 +28,7 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
   useEffect(() => {
       props.getEntity(props.match.params.id);
 
+    console.log(risktype);
       if (risktype && Object.values(RiskUrlType).includes(risktype as RiskUrlType)) {
         setActiveTab(risktype.toLowerCase());
       } else {
@@ -43,7 +44,6 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
       newTabUrl += newTabUrl.endsWith('/') ? activeTab : `/${activeTab}`;
     }
     history.push(newTabUrl);
-    console.log(newTabUrl);
   }, [activeTab]);
 
   const {projectEntity} = props;

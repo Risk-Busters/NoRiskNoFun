@@ -4,8 +4,8 @@
       "home": {
         "title": "Project Risks",
         "createLabel": "Propose a new Risk!",
-        "createOrEditLabel": "Create or edit a Project Risks",
-        "notFound": "No Project Risks found"
+        "proposeLabel": "Propose a new Risk",
+        "discussLabel": "Discuss Risk"
       },
       "created": "A new Project Risks is created with identifier {{ param }}",
       "updated": "A Project Risks is updated with identifier {{ param }}",

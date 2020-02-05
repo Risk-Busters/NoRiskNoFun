@@ -18,7 +18,7 @@ import { IProjectRisks } from 'app/shared/model/project-risks.model';
 import { convertDateTimeFromServer, convertDateTimeToServer } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 
-export interface IProjectRisksUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ riskId: string, id: string }> {}
+export interface IProjectRisksUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ riskId: string, id: string, risktype: string }> {}
 
 export interface IProjectRisksUpdateState {
   isNew: boolean;
@@ -86,7 +86,13 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
         <Row className="justify-content-center">
           <Col md="8">
             <h2 id="noRiskNoFunApp.projectRisks.home.createOrEditLabel">
-              <Translate contentKey="noRiskNoFunApp.projectRisks.home.createOrEditLabel">Create or edit a ProjectRisks</Translate>
+              {this.state.isNew ? (
+                <Translate contentKey="noRiskNoFunApp.projectRisks.home.proposeLabel"/>
+              ) : (
+                <>
+                  <Translate contentKey="noRiskNoFunApp.projectRisks.home.discussLabel"/>
+                </>
+              )}
             </h2>
           </Col>
         </Row>
@@ -216,7 +222,7 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
                   </>
                 )}
 
-                <Button tag={Link} id="cancel-save" to={`/entity/project/${this.state.projectId}`} replace color="info">
+                <Button tag={Link} id="cancel-save" to={`/entity/project/${this.state.projectId}/${this.props.match.params.risktype}`} replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />
                   &nbsp;
                   <span className="d-none d-md-inline">

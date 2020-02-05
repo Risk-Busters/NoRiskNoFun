@@ -8,6 +8,10 @@ import ProjectRisksDetail from './project-risks-detail';
 import ProjectRisksUpdate from './project-risks-update';
 import ProjectRisksDeleteDialog from './project-risks-delete-dialog';
 
+/**
+ * TODO:
+ * Kept for debugging purposes only! Should be removed once project risks are fully integrated on "projects".
+ */
 const Routes = ({ match }) => (
   <>
     <Switch>

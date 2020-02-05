@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Redirect } from 'react-router-dom';
+import { Switch, Redirect, Route } from 'react-router-dom';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
@@ -15,6 +15,23 @@ const Routes = ({ match }) => (
   <div>
     <Switch>
       {/* prettier-ignore */}
+      <Route
+        path="/:url*(/+)"
+        exact
+        strict
+        render={({ location }) => (
+          <Redirect to={location.pathname.replace(/\/+$/, "")} />
+        )}
+      />
+      {/* Removes duplicate slashes in the middle of the URL */}
+      <Route
+        path="/:url(.*//+.*)"
+        exact
+        strict
+        render={() => (
+          <Redirect to={`/${match.params.url.replace(/\/\/+/, "/")}`} />
+        )}
+      />
       <ErrorBoundaryRoute path={`${match.url}/risk`} component={Risk} />
       <ErrorBoundaryRoute path={`${match.url}/risk-response`} component={RiskResponse} />
       <ErrorBoundaryRoute path={`${match.url}/project`} component={Project} />

@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps, useParams } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,14 +8,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 import { getEntity } from './project-risks.reducer';
 
-export interface IProjectRisksDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ riskId: string }> {}
+export interface IProjectRisksDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ riskId: string, risktype: string }> {}
 
 function ProjectRisksDetail(props) {
 
   const { projectRisksEntity } = props;
+  const { riskId, risktype } = useParams();
 
   useEffect(() => {
-    props.getEntity(props.match.params.riskId);
+    props.getEntity(riskId);
   }, []);
 
   return (
@@ -65,7 +66,7 @@ function ProjectRisksDetail(props) {
             </dt>
             <dd>{projectRisksEntity.risk ? projectRisksEntity.risk.id : ''}</dd>
           </dl>
-          <Button tag={Link} to={`/entity/project/${projectRisksEntity.project ? projectRisksEntity.project.id : ''}`} replace color="info">
+          <Button tag={Link} to={`/entity/project/${projectRisksEntity.project ? `${projectRisksEntity.project.id}/${risktype}` : ''}`} replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}
             <span className="d-none d-md-inline">
               <Translate contentKey="entity.action.back">Back</Translate>

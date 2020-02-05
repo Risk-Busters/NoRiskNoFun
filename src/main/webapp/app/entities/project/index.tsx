@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Redirect } from 'react-router-dom';
 
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 
@@ -14,8 +14,11 @@ import ProjectRisksDeleteDialog from "app/entities/project-risks/project-risks-d
 
 const Routes = ({ match }) => (
   <>
-    <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={ProjectDeleteDialog} />
+
     <Switch>
+      <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={ProjectDeleteDialog} />
+      <ErrorBoundaryRoute path={`${match.url}/:id/:risktype?/project-risks/:riskId/delete`} component={ProjectRisksDeleteDialog} />
+
       <ErrorBoundaryRoute exact path={`${match.url}/new`} component={ProjectUpdate} />
       <ErrorBoundaryRoute exact path={`${match.url}/:id/:risktype?/edit`} component={ProjectUpdate} />
       <ErrorBoundaryRoute exact path={`${match.url}/:id/:risktype?`} component={ProjectDetail} />
@@ -28,6 +31,7 @@ const Routes = ({ match }) => (
       <ErrorBoundaryRoute path={`${match.url}/:id/:risktype?/project-risks/:riskId/delete`} component={ProjectRisksDeleteDialog} />
       <ErrorBoundaryRoute path={match.url} component={Project} />
     </Switch>
+
   </>
 );
 

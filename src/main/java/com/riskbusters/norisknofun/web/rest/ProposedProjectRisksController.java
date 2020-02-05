@@ -1,9 +1,16 @@
 package com.riskbusters.norisknofun.web.rest;
 
+import com.riskbusters.norisknofun.domain.Project;
 import com.riskbusters.norisknofun.domain.ProjectRisks;
+import com.riskbusters.norisknofun.domain.Risk;
+import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.projectrisks.ProposedProjectRisk;
+import com.riskbusters.norisknofun.repository.ProjectRepository;
 import com.riskbusters.norisknofun.repository.ProposedProjectRiskRepository;
+import com.riskbusters.norisknofun.repository.RiskRepository;
+import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
+import com.riskbusters.norisknofun.web.rest.vm.ProposeRiskVM;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -35,24 +42,48 @@ public class ProposedProjectRisksController {
 
     private final ProposedProjectRiskRepository proposedProjectRiskRepository;
 
-    public ProposedProjectRisksController(ProposedProjectRiskRepository proposedProjectRiskRepository) {
+    private final RiskRepository riskRepository;
+
+    private final ProjectRepository projectRepository;
+
+    private final UserService userService;
+
+    public ProposedProjectRisksController(ProposedProjectRiskRepository proposedProjectRiskRepository, RiskRepository riskRepository, ProjectRepository projectRepository, UserService userService) {
         this.proposedProjectRiskRepository = proposedProjectRiskRepository;
+        this.riskRepository = riskRepository;
+        this.projectRepository = projectRepository;
+        this.userService = userService;
     }
 
     /**
      * {@code POST  /proposed-project-risks} : Create a new proposedProjectRisk.
      *
-     * @param proposedProjectRisk the proposedProjectRisk to create.
+     * @param proposeRiskVM the proposedProjectRisk to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new proposedProjectRisk, or with status {@code 400 (Bad Request)} if the proposedProjectRisk has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/proposed-project-risks")
-    public ResponseEntity<ProjectRisks> createProposedProjectRisks(@Valid @RequestBody ProposedProjectRisk proposedProjectRisk) throws URISyntaxException {
-        log.debug("REST request to save new proposed ProjectRisk : {}", proposedProjectRisk);
-        if (proposedProjectRisk.getId() != null) {
-            throw new BadRequestAlertException("A new proposedProjectRisk cannot already have an ID", ENTITY_NAME, "idexists");
-        }
+    public ResponseEntity<ProjectRisks> createProposedProjectRisks(@Valid @RequestBody ProposeRiskVM proposeRiskVM) throws URISyntaxException {
+        log.debug("REST request to save new proposed ProjectRisk : {}", proposeRiskVM);
+
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (!user.isPresent()) throw new BadRequestAlertException("Missing credentials", ENTITY_NAME, "usernull");
+
+        Optional<Project> project = projectRepository.findByUsersIsContainingOrOwnerEqualsAndIdEquals(user.get(), user.get(), proposeRiskVM.getProjectId());
+        if (!project.isPresent()) throw new BadRequestAlertException("User not in project", ENTITY_NAME, "projectnotexist");
+
+        Risk risk = new Risk();
+        risk.setName(proposeRiskVM.title);
+        risk.setDescription(proposeRiskVM.description);
+        risk.setInRiskpool(false);
+        riskRepository.save(risk);
+
+        ProposedProjectRisk proposedProjectRisk = new ProposedProjectRisk();
+        proposedProjectRisk.setRisk(risk);
+        proposedProjectRisk.setProject(project.get());
+        proposedProjectRisk.setHasOccured(false);
         ProposedProjectRisk result = proposedProjectRiskRepository.save(proposedProjectRisk);
+
         return ResponseEntity.created(new URI("/api/project-risks/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);

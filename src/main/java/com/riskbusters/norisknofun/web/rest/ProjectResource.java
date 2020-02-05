@@ -98,13 +98,6 @@ public class ProjectResource {
     public List<Project> getAllProjects(@RequestParam(required = false, defaultValue = "false") boolean eagerload) throws FirebaseMessagingException {
         log.debug("REST request to get all Projects");
         User user = userService.getUserWithAuthorities().get();
-        Activity activity = new Activity();
-        activity.setActivityDescriptionKey("activity.event.addedToProject");
-        activity.setTargetUrl("/lol");
-        Set<User> users = new HashSet<>();
-        users.add(user);
-        activity.setUsers(users);
-        messagingService.addActivityWithNotification(activity);
         return projectRepository.findAllByUsersIsContainingOrOwnerEquals(user, user);
     }
 

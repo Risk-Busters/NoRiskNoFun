@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Redirect } from 'react-router-dom';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
@@ -20,6 +20,8 @@ const Routes = ({ match }) => (
       <ErrorBoundaryRoute path={`${match.url}/project`} component={Project} />
       <ErrorBoundaryRoute path={`${match.url}/project-risks`} component={ProjectRisks} />
       <ErrorBoundaryRoute path={`${match.url}/user-gamifications`} component={UserGamification} />
+
+      <Redirect from="//*" to="/*" />
       {/* jhipster-needle-add-route-path - JHipster will add routes here */}
     </Switch>
   </div>

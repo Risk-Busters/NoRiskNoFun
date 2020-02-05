@@ -36,8 +36,14 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    const newTabUrl = location.pathname.replace(risktype, activeTab);
+    let newTabUrl = location.pathname;
+    if (risktype) {
+      newTabUrl = newTabUrl.replace(risktype, activeTab);
+    } else {
+      newTabUrl += newTabUrl.endsWith('/') ? activeTab : `/${activeTab}`;
+    }
     history.push(newTabUrl);
+    console.log(newTabUrl);
   }, [activeTab]);
 
   const {projectEntity} = props;

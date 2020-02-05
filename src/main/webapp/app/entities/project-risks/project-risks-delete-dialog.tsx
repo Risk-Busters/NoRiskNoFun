@@ -9,11 +9,11 @@ import { IProjectRisks } from 'app/shared/model/project-risks.model';
 import { IRootState } from 'app/shared/reducers';
 import { getEntity, deleteEntity } from './project-risks.reducer';
 
-export interface IProjectRisksDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IProjectRisksDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ riskId: string }> {}
 
 export class ProjectRisksDeleteDialog extends React.Component<IProjectRisksDeleteDialogProps> {
   componentDidMount() {
-    this.props.getEntity(this.props.match.params.id);
+    this.props.getEntity(this.props.match.params.riskId);
   }
 
   confirmDelete = event => {

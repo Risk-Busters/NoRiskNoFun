@@ -8,14 +8,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 import { getEntity } from './project-risks.reducer';
 
-export interface IProjectRisksDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IProjectRisksDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ riskId: string }> {}
 
 function ProjectRisksDetail(props) {
 
   const { projectRisksEntity } = props;
 
   useEffect(() => {
-    props.getEntity(props.match.params.id);
+    props.getEntity(props.match.params.riskId);
   }, []);
 
   return (

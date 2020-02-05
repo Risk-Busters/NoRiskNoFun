@@ -29,7 +29,8 @@ public class UserGamification implements Serializable {
     private User user;
 
     @Column(name = "points_score")
-    private Long pointsScore;
+    @Embedded
+    private Points pointsScore;
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -47,16 +48,20 @@ public class UserGamification implements Serializable {
         this.id = id;
     }
 
-    public Long getPointsScore() {
+    public Points getPointsScore() {
         return pointsScore;
     }
 
-    public UserGamification pointsScore(Long pointsScore) {
+    public UserGamification pointsScore(Points pointsScore) {
         this.pointsScore = pointsScore;
         return this;
     }
 
-    public void setPointsScore(Long pointsScore) {
+    public void addPoints(Points pointsToAdd) {
+        this.pointsScore.addPoints(pointsToAdd);
+    }
+
+    public void setPointsScore(Points pointsScore) {
         this.pointsScore = pointsScore;
     }
 
@@ -75,23 +80,6 @@ public class UserGamification implements Serializable {
 
     public Set<Achievement> getUserAchievements() {
         return userAchievements;
-    }
-
-    public UserGamification achievementTypes(Set<Achievement> userAchievementsTypes) {
-        this.userAchievements = userAchievementsTypes;
-        return this;
-    }
-
-    public UserGamification addAchievementType(Achievement userAchievement) {
-        this.userAchievements.add(userAchievement);
-        // TODO: achievementType.getUserGamifications().add(this);
-        return this;
-    }
-
-    public UserGamification removeAchievementType(Achievement userAchievements) {
-        this.userAchievements.remove(userAchievements);
-        // TODO: achievementType.getUserGamifications().remove(this);
-        return this;
     }
 
     public void setUserAchievements(Set<Achievement> userAchievements) {

@@ -1,7 +1,6 @@
 package com.riskbusters.norisknofun.web.rest;
 
 import com.riskbusters.norisknofun.domain.User;
-import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.service.UserGamificationService;
 import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.service.dto.UserGamificationDTO;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -90,7 +88,7 @@ public class UserGamificationResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of userGamifications in body.
      */
     @GetMapping("/user-gamifications")
-    public Optional<UserGamification> getAllUserGamifications(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public UserGamificationDTO getAllUserGamifications(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         User user = userService.getUserWithAuthorities().get();
         log.debug("REST request to get all UserGamifications for user with id: {}", user.getId());
         return userGamificationService.findAllForOneUser(user);
@@ -103,9 +101,9 @@ public class UserGamificationResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the userGamification, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/user-gamifications/{id}")
-    public ResponseEntity<UserGamification> getUserGamification(@PathVariable Long id) {
+    public ResponseEntity<UserGamificationDTO> getUserGamification(@PathVariable Long id) {
         log.debug("REST request to get UserGamification : {}", id);
-        Optional<UserGamification> userGamification = userGamificationService.findOne(id);
+        Optional<UserGamificationDTO> userGamification = userGamificationService.findOne(id);
         return ResponseUtil.wrapOrNotFound(userGamification);
     }
 

@@ -8,6 +8,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "user_achievements")
@@ -24,7 +25,7 @@ import javax.persistence.*;
     @Type(value = RiskBuster.class, name = "RiskBuster"),
     @Type(value = ProjectManager.class, name = "ProjectManager")
 })
-public abstract class Achievement {
+public abstract class Achievement implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")

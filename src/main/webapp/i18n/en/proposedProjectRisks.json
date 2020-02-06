@@ -1,0 +1,9 @@
+{
+  "noRiskNoFunApp": {
+    "proposedProjectRisks": {
+      "created": "Proposed a Project Risk successfully!",
+      "updated": "Updated Project Risk successfully!",
+      "deleted": "Delete Project Risk successfully!"
+    }
+  }
+}

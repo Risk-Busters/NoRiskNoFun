@@ -147,7 +147,7 @@ export const getEntity: ICrudGetAction<IProjectRisks> = id => {
 export const createEntity: ICrudPutAction<IProjectRisks> = entity => async dispatch => {
   const result = await dispatch({
     type: ACTION_TYPES.CREATE_PROJECTRISKS,
-    payload: axios.post(apiUrl, cleanEntity(entity))
+    payload: axios.post(apiUrlProposedProjectRisks, cleanEntity(entity))
   });
   dispatch(getEntities());
   return result;

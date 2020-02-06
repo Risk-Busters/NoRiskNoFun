@@ -16,7 +16,7 @@
       "detail": {
         "title": "Risk"
       },
-      "name": "Name",
+      "name": "Title",
       "description": "Description",
       "severity": "Severity",
       "probability": "Probability",

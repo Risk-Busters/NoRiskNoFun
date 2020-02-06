@@ -3,8 +3,9 @@
     "projectRisks": {
       "home": {
         "title": "Project Risks",
-        "createLabel": "Create a new Project Risks",
-        "createOrEditLabel": "Create or edit a Project Risks",
+        "createLabel": "Propose a new Risk!",
+        "proposeLabel": "Propose a new Risk",
+        "discussLabel": "Discuss Risk",
         "notFound": "No Project Risks found"
       },
       "created": "A new Project Risks is created with identifier {{ param }}",
@@ -21,7 +22,13 @@
       "hasOccured": "Has Occured",
       "riskResponse": "Risk Response",
       "project": "Project",
-      "risk": "Risk"
+      "risk": "Risk",
+      "title": "Risk Title",
+      "description": "Risk Description"
+    },
+    "proposeRiskVM": {
+      "title": "Title",
+      "description": "Description"
     }
   }
 }

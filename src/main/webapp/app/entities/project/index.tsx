@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Redirect } from 'react-router-dom';
 
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 
@@ -14,21 +14,24 @@ import ProjectRisksDeleteDialog from "app/entities/project-risks/project-risks-d
 
 const Routes = ({ match }) => (
   <>
+
     <Switch>
+      <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={ProjectDeleteDialog} />
+      <ErrorBoundaryRoute path={`${match.url}/:id/:risktype?/project-risks/:riskId/delete`} component={ProjectRisksDeleteDialog} />
+
       <ErrorBoundaryRoute exact path={`${match.url}/new`} component={ProjectUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/edit`} component={ProjectUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id`} component={ProjectDetail} />
+      <ErrorBoundaryRoute exact path={`${match.url}/:id/:risktype?/edit`} component={ProjectUpdate} />
+      <ErrorBoundaryRoute exact path={`${match.url}/:id/:risktype?`} component={ProjectDetail} />
 
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/project-risks/new`} component={ProjectRisksUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/project-risks/:id/edit`} component={ProjectRisksUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/project-risks/:id`} component={ProjectRisksDetail} />
-      <ErrorBoundaryRoute path={`${match.url}/:id/project-risks/:id`} component={ProjectRisks} />
-      <ErrorBoundaryRoute path={`${match.url}/:id/project-risks`} component={ProjectRisks} />
-      <ErrorBoundaryRoute path={`${match.url}/:id/project-risks/:id/delete`} component={ProjectRisksDeleteDialog} />
-
+      <ErrorBoundaryRoute exact path={`${match.url}/:id/:risktype?/project-risks/new`} component={ProjectRisksUpdate} />
+      <ErrorBoundaryRoute exact path={`${match.url}/:id/:risktype?/project-risks/:riskId/edit`} component={ProjectRisksUpdate} />
+      <ErrorBoundaryRoute exact path={`${match.url}/:id/:risktype?/project-risks/:riskId`} component={ProjectRisksDetail} />
+      <ErrorBoundaryRoute path={`${match.url}/:id/:risktype?/project-risks/:riskId`} component={ProjectRisks} />
+      <ErrorBoundaryRoute path={`${match.url}/:id/:risktype?/project-risks`} component={ProjectRisks} />
+      <ErrorBoundaryRoute path={`${match.url}/:id/:risktype?/project-risks/:riskId/delete`} component={ProjectRisksDeleteDialog} />
       <ErrorBoundaryRoute path={match.url} component={Project} />
     </Switch>
-    <ErrorBoundaryRoute path={`${match.url}/:id/delete`} component={ProjectDeleteDialog} />
+
   </>
 );
 

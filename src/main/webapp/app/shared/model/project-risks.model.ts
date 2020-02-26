@@ -12,6 +12,7 @@ export interface IProjectRisks {
   riskResponses?: IRiskResponse[];
   project?: IProject;
   risk?: IRisk;
+  riskDiscussionStatus?: 'proposed' | 'toBeDiscussed' | 'final';
 }
 
 export const defaultValue: Readonly<IProjectRisks> = {

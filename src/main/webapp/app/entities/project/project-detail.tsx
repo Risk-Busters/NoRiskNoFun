@@ -15,7 +15,7 @@ export interface IProjectDetailProps extends StateProps, DispatchProps, RouteCom
 
 enum RiskUrlType {
   FINAL = 'final',
-  DISCUSSION = 'discussion',
+  DISCUSSION = 'toBeDiscussed',
   PROPOSED = 'proposed'
 }
 

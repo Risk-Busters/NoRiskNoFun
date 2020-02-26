@@ -3,8 +3,11 @@ package com.riskbusters.norisknofun.web.rest;
 import com.riskbusters.norisknofun.domain.ProjectRisks;
 import com.riskbusters.norisknofun.domain.projectrisks.FinalProjectRisk;
 import com.riskbusters.norisknofun.domain.projectrisks.ProposedProjectRisk;
+import com.riskbusters.norisknofun.domain.projectrisks.ToBeDiscussedProjectRisk;
+import com.riskbusters.norisknofun.repository.DoBeDiscussedProjectRiskRepository;
 import com.riskbusters.norisknofun.repository.FinalProjectRiskRepository;
 import com.riskbusters.norisknofun.repository.ProposedProjectRiskRepository;
+import com.riskbusters.norisknofun.repository.RiskRepository;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -35,12 +38,17 @@ public class ProjectRisksResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    private final RiskRepository riskRepository;
+
     private final ProposedProjectRiskRepository proposedProjectRiskRepository;
+    private final DoBeDiscussedProjectRiskRepository discussedProjectRiskRepository;
     private final FinalProjectRiskRepository finalProjectRiskRepository;
 
-    public ProjectRisksResource(ProposedProjectRiskRepository proposedProjectRiskRepository, FinalProjectRiskRepository finalProjectRiskRepository) {
+    public ProjectRisksResource(ProposedProjectRiskRepository proposedProjectRiskRepository, FinalProjectRiskRepository finalProjectRiskRepository, DoBeDiscussedProjectRiskRepository discussedProjectRiskRepository, RiskRepository riskRepository) {
         this.proposedProjectRiskRepository = proposedProjectRiskRepository;
         this.finalProjectRiskRepository = finalProjectRiskRepository;
+        this.discussedProjectRiskRepository = discussedProjectRiskRepository;
+        this.riskRepository = riskRepository;
     }
 
     /**
@@ -76,7 +84,25 @@ public class ProjectRisksResource {
         if (projectRisks.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        ProjectRisks result = proposedProjectRiskRepository.save((ProposedProjectRisk) projectRisks);
+
+        riskRepository.save(projectRisks.getRisk());
+
+        ProjectRisks result;
+        switch (projectRisks.riskDiscussionStatus) {
+
+            case "proposed":
+                result = proposedProjectRiskRepository.save((ProposedProjectRisk) projectRisks);
+                break;
+            case "toBeDiscussed":
+                result = discussedProjectRiskRepository.save((ToBeDiscussedProjectRisk) projectRisks);
+                break;
+            case "final":
+                result = finalProjectRiskRepository.save((FinalProjectRisk) projectRisks);
+                break;
+            default:
+                throw new BadRequestAlertException("Seems like this risks doesnt have an status", null, "nostatus");
+        }
+
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, projectRisks.getId().toString()))
             .body(result);

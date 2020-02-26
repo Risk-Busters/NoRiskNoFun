@@ -1,10 +1,13 @@
 package com.riskbusters.norisknofun.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.riskbusters.norisknofun.domain.projectrisks.ProposedProjectRisk;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -13,7 +16,6 @@ import java.util.Set;
 import com.riskbusters.norisknofun.domain.enumeration.SeverityType;
 
 import com.riskbusters.norisknofun.domain.enumeration.ProbabilityType;
-import org.hibernate.annotations.Cascade;
 
 /**
  * A ProjectRisks.
@@ -23,6 +25,8 @@ import org.hibernate.annotations.Cascade;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "risk_discussion_status")
+// TODO: Defualt deserialize to ProposedProjectRisk so controller can instance class.
+@JsonDeserialize(as=ProposedProjectRisk.class)
 public abstract class ProjectRisks implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -188,3 +192,4 @@ public abstract class ProjectRisks implements Serializable {
             "}";
     }
 }
+

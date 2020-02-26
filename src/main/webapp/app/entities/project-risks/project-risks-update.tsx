@@ -33,7 +33,7 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
     this.state = {
       idsriskResponse: [],
       projectId: this.props.match.params.id || '-1',
-      riskId: '0',
+      riskId: this.props.match.params.riskId || '0',
       isNew: !this.props.match.params || !this.props.match.params.riskId
     };
   }
@@ -65,10 +65,19 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
         this.props.createEntity(entity);
       } else {
         const { projectRisksEntity } = this.props;
+
+        // If not set then its a proposed risk so inRiskpool should
+        // default to false to avoid null constraint checks.
+        values.risk.inRiskpool = values.risk.inRiskpool || false;
+
+
+        const risk = Object.assign(projectRisksEntity.risk, values.risk);
+
         const entity = {
           ...projectRisksEntity,
           ...values,
-          riskResponses: mapIdList(values.riskResponses)};
+          risk,
+          riskResponses: values.riskResponses ? mapIdList(values.riskResponses) : null};
         this.props.updateEntity(entity);
       }
     };
@@ -77,8 +86,174 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
     this.state.isNew ? this.props.history.push(`/entity/project/${this.state.projectId}/proposed`) : this.props.history.push(`/entity/project/${this.state.projectId}`);
   };
 
+  renderProjectRiskForm = () => {
+    const { projectRisksEntity, riskResponses, projects, risks } = this.props;
+
+    switch (this.props.projectRisksEntity.riskDiscussionStatus) {
+      case "toBeDiscussed":
+        return (
+          <>
+            <AvGroup>
+              <Label for="project-risks-id">
+                <Translate contentKey="global.field.id">ID</Translate>
+              </Label>
+              <AvInput id="project-risks-id" type="text" className="form-control" name="id" required readOnly />
+            </AvGroup>
+            <AvGroup>
+              <Label id="projectSeverityLabel" for="project-risks-projectSeverity">
+                <Translate contentKey="noRiskNoFunApp.projectRisks.projectSeverity">Project Severity</Translate>
+              </Label>
+              <AvInput
+                id="project-risks-projectSeverity"
+                type="select"
+                className="form-control"
+                name="projectSeverity"
+                value={projectRisksEntity.projectSeverity || 'BAD'}
+              >
+                <option value="BAD">{translate('noRiskNoFunApp.SeverityType.BAD')}</option>
+                <option value="LESSBAD">{translate('noRiskNoFunApp.SeverityType.LESSBAD')}</option>
+                <option value="NEUTRAL">{translate('noRiskNoFunApp.SeverityType.NEUTRAL')}</option>
+                <option value="SOSO">{translate('noRiskNoFunApp.SeverityType.SOSO')}</option>
+                <option value="OK">{translate('noRiskNoFunApp.SeverityType.OK')}</option>
+              </AvInput>
+            </AvGroup>
+            <AvGroup>
+              <Label id="projectProbabilityLabel" for="project-risks-projectProbability">
+                <Translate contentKey="noRiskNoFunApp.projectRisks.projectProbability">Project Probability</Translate>
+              </Label>
+              <AvInput
+                id="project-risks-projectProbability"
+                type="select"
+                className="form-control"
+                name="projectProbability"
+                value={projectRisksEntity.projectProbability || 'SURE'}
+              >
+                <option value="SURE">{translate('noRiskNoFunApp.ProbabilityType.SURE')}</option>
+                <option value="PROBABLY">{translate('noRiskNoFunApp.ProbabilityType.PROBABLY')}</option>
+                <option value="MAYBE">{translate('noRiskNoFunApp.ProbabilityType.MAYBE')}</option>
+                <option value="NOTLIKELY">{translate('noRiskNoFunApp.ProbabilityType.NOTLIKELY')}</option>
+                <option value="NOTGONNAHAPPEN">{translate('noRiskNoFunApp.ProbabilityType.NOTGONNAHAPPEN')}</option>
+              </AvInput>
+            </AvGroup>
+            <AvGroup>
+              <Label id="hasOccuredLabel" check>
+                <AvInput id="project-risks-hasOccured" type="checkbox" className="form-control" name="hasOccured" />
+                <Translate contentKey="noRiskNoFunApp.projectRisks.hasOccured">Has Occured</Translate>
+              </Label>
+            </AvGroup>
+            <AvGroup>
+              <Label for="project-risks-riskResponse">
+                <Translate contentKey="noRiskNoFunApp.projectRisks.riskResponse">Risk Response</Translate>
+              </Label>
+              <AvInput
+                id="project-risks-riskResponse"
+                type="select"
+                multiple
+                className="form-control"
+                name="riskResponses"
+                value={projectRisksEntity.riskResponses && projectRisksEntity.riskResponses.map(e => e.id)}
+              >
+                <option value="" key="0" />
+                {riskResponses
+                  ? riskResponses.map(otherEntity => (
+                    <option value={otherEntity.id} key={otherEntity.id}>
+                      {otherEntity.id}
+                    </option>
+                  ))
+                  : null}
+              </AvInput>
+            </AvGroup>
+            <AvGroup>
+              <Label for="project-risks-project">
+                <Translate contentKey="noRiskNoFunApp.projectRisks.project">Project</Translate>
+              </Label>
+              <AvInput id="project-risks-project" type="select" className="form-control" name="project.id">
+                <option value="" key="0" />
+                {projects
+                  ? projects.map(otherEntity => (
+                    <option value={otherEntity.id} key={otherEntity.id}>
+                      {otherEntity.id}
+                    </option>
+                  ))
+                  : null}
+              </AvInput>
+            </AvGroup>
+            <AvGroup>
+              <Label for="project-risks-risk">
+                <Translate contentKey="noRiskNoFunApp.projectRisks.risk">Risk</Translate>
+              </Label>
+              <AvInput id="project-risks-risk" type="select" className="form-control" name="risk.id">
+                <option value="" key="0" />
+                {risks
+                  ? risks.map(otherEntity => (
+                    <option value={otherEntity.id} key={otherEntity.id}>
+                      {otherEntity.id}
+                    </option>
+                  ))
+                  : null}
+              </AvInput>
+            </AvGroup>
+          </>
+        );
+      case "proposed":
+        return (
+          <>
+            <AvGroup>
+              <Label for="project-risks-title">
+                <Translate contentKey="noRiskNoFunApp.projectRisks.title">Risk Title</Translate>
+              </Label>
+              <AvInput id="project-risks-title" type="text" className="form-control" name="risk.name" value={projectRisksEntity.risk.name}/>
+            </AvGroup>
+            <AvGroup>
+              <Label for="project-risks-description">
+                <Translate contentKey="noRiskNoFunApp.projectRisks.description">Risk Description</Translate>
+              </Label>
+              <AvInput id="project-risks-description" type="text" className="form-control" name="risk.description" value={projectRisksEntity.risk.description}/>
+            </AvGroup>
+          </>
+        );
+      case "final":
+        return (
+          <p>Im final, what do you want?</p>
+        );
+      default:
+        return <span />;
+    }
+  };
+
+  renderTitle = () => {
+    const { projectRisksEntity} = this.props;
+
+    switch (projectRisksEntity.riskDiscussionStatus) {
+      case "proposed":
+        return (
+          <>
+            <Translate contentKey="noRiskNoFunApp.projectRisks.home.editProposeLabel"/>
+          </>
+        );
+      case "toBeDiscussed":
+        return (
+          <>
+            <Translate contentKey="noRiskNoFunApp.projectRisks.home.discussLabel"/>
+          </>
+        );
+      case "final":
+        return (
+          <>
+            <Translate contentKey="noRiskNoFunApp.projectRisks.home.finalLabel"/>
+          </>
+        );
+      default:
+        return (
+          <>
+            <Translate contentKey="noRiskNoFunApp.projectRisks.home.proposeLabel"/>
+          </>
+        )
+    }
+  };
+
   render() {
-    const { projectRisksEntity, riskResponses, projects, risks, loading, updating } = this.props;
+    const { projectRisksEntity, loading, updating } = this.props;
     const { isNew } = this.state;
 
     return (
@@ -86,13 +261,7 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
         <Row className="justify-content-center">
           <Col md="8">
             <h2 id="noRiskNoFunApp.projectRisks.home.createOrEditLabel">
-              {this.state.isNew ? (
-                <Translate contentKey="noRiskNoFunApp.projectRisks.home.proposeLabel"/>
-              ) : (
-                <>
-                  <Translate contentKey="noRiskNoFunApp.projectRisks.home.discussLabel"/>
-                </>
-              )}
+              { this.renderTitle() }
             </h2>
           </Col>
         </Row>
@@ -102,110 +271,7 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
               <p>Loading...</p>
             ) : (
               <AvForm model={isNew ? {} : projectRisksEntity} onSubmit={this.saveEntity}>
-                {!isNew ? (
-                  <>
-                  <AvGroup>
-                    <Label for="project-risks-id">
-                      <Translate contentKey="global.field.id">ID</Translate>
-                    </Label>
-                    <AvInput id="project-risks-id" type="text" className="form-control" name="id" required readOnly />
-                  </AvGroup>
-                    <AvGroup>
-                      <Label id="projectSeverityLabel" for="project-risks-projectSeverity">
-                        <Translate contentKey="noRiskNoFunApp.projectRisks.projectSeverity">Project Severity</Translate>
-                      </Label>
-                      <AvInput
-                        id="project-risks-projectSeverity"
-                        type="select"
-                        className="form-control"
-                        name="projectSeverity"
-                        value={(!isNew && projectRisksEntity.projectSeverity) || 'BAD'}
-                      >
-                        <option value="BAD">{translate('noRiskNoFunApp.SeverityType.BAD')}</option>
-                        <option value="LESSBAD">{translate('noRiskNoFunApp.SeverityType.LESSBAD')}</option>
-                        <option value="NEUTRAL">{translate('noRiskNoFunApp.SeverityType.NEUTRAL')}</option>
-                        <option value="SOSO">{translate('noRiskNoFunApp.SeverityType.SOSO')}</option>
-                        <option value="OK">{translate('noRiskNoFunApp.SeverityType.OK')}</option>
-                      </AvInput>
-                    </AvGroup>
-                    <AvGroup>
-                      <Label id="projectProbabilityLabel" for="project-risks-projectProbability">
-                        <Translate contentKey="noRiskNoFunApp.projectRisks.projectProbability">Project Probability</Translate>
-                      </Label>
-                      <AvInput
-                        id="project-risks-projectProbability"
-                        type="select"
-                        className="form-control"
-                        name="projectProbability"
-                        value={(!isNew && projectRisksEntity.projectProbability) || 'SURE'}
-                      >
-                        <option value="SURE">{translate('noRiskNoFunApp.ProbabilityType.SURE')}</option>
-                        <option value="PROBABLY">{translate('noRiskNoFunApp.ProbabilityType.PROBABLY')}</option>
-                        <option value="MAYBE">{translate('noRiskNoFunApp.ProbabilityType.MAYBE')}</option>
-                        <option value="NOTLIKELY">{translate('noRiskNoFunApp.ProbabilityType.NOTLIKELY')}</option>
-                        <option value="NOTGONNAHAPPEN">{translate('noRiskNoFunApp.ProbabilityType.NOTGONNAHAPPEN')}</option>
-                      </AvInput>
-                    </AvGroup>
-                    <AvGroup>
-                      <Label id="hasOccuredLabel" check>
-                        <AvInput id="project-risks-hasOccured" type="checkbox" className="form-control" name="hasOccured" />
-                        <Translate contentKey="noRiskNoFunApp.projectRisks.hasOccured">Has Occured</Translate>
-                      </Label>
-                    </AvGroup>
-                    <AvGroup>
-                      <Label for="project-risks-riskResponse">
-                        <Translate contentKey="noRiskNoFunApp.projectRisks.riskResponse">Risk Response</Translate>
-                      </Label>
-                      <AvInput
-                        id="project-risks-riskResponse"
-                        type="select"
-                        multiple
-                        className="form-control"
-                        name="riskResponses"
-                        value={projectRisksEntity.riskResponses && projectRisksEntity.riskResponses.map(e => e.id)}
-                      >
-                        <option value="" key="0" />
-                        {riskResponses
-                          ? riskResponses.map(otherEntity => (
-                            <option value={otherEntity.id} key={otherEntity.id}>
-                              {otherEntity.id}
-                            </option>
-                          ))
-                          : null}
-                      </AvInput>
-                    </AvGroup>
-                    <AvGroup>
-                      <Label for="project-risks-project">
-                        <Translate contentKey="noRiskNoFunApp.projectRisks.project">Project</Translate>
-                      </Label>
-                      <AvInput id="project-risks-project" type="select" className="form-control" name="project.id">
-                        <option value="" key="0" />
-                        {projects
-                          ? projects.map(otherEntity => (
-                            <option value={otherEntity.id} key={otherEntity.id}>
-                              {otherEntity.id}
-                            </option>
-                          ))
-                          : null}
-                      </AvInput>
-                    </AvGroup>
-                    <AvGroup>
-                      <Label for="project-risks-risk">
-                        <Translate contentKey="noRiskNoFunApp.projectRisks.risk">Risk</Translate>
-                      </Label>
-                      <AvInput id="project-risks-risk" type="select" className="form-control" name="risk.id">
-                        <option value="" key="0" />
-                        {risks
-                          ? risks.map(otherEntity => (
-                            <option value={otherEntity.id} key={otherEntity.id}>
-                              {otherEntity.id}
-                            </option>
-                          ))
-                          : null}
-                      </AvInput>
-                    </AvGroup>
-                  </>
-                ) : (
+                {!isNew ? this.renderProjectRiskForm() : (
                   <>
                     <AvGroup>
                       <Label for="project-risks-title">
@@ -230,7 +296,7 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
                   </span>
                 </Button>
                 &nbsp;
-                <Button color="primary" id="save-entity" type="submit" disabled={updating}>
+                <Button color="primary" id="save-entity" type="submit" disabled={updating} onClick={() => console.log("HEllo")}>
                   <FontAwesomeIcon icon="save" />
                   &nbsp;
                   <Translate contentKey="entity.action.save">Save</Translate>

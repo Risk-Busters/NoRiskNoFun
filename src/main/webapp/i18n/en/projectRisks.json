@@ -5,7 +5,9 @@
         "title": "Project Risks",
         "createLabel": "Propose a new Risk!",
         "proposeLabel": "Propose a new Risk",
+        "editProposeLabel": "Edit proposed Risk",
         "discussLabel": "Discuss Risk",
+        "finalLabel": "Final Risk",
         "notFound": "No Project Risks found"
       },
       "created": "A new Project Risks is created with identifier {{ param }}",

@@ -152,7 +152,7 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
                     {users
                       ? users.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
+                            {otherEntity.firstName && otherEntity.lastName ? `${otherEntity.firstName} ${otherEntity.lastName}` : otherEntity.login}
                           </option>
                         ))
                       : null}
@@ -174,7 +174,7 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
                     {users
                       ? users.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
+                            {otherEntity.firstName && otherEntity.lastName ? `${otherEntity.firstName} ${otherEntity.lastName}` : otherEntity.login}
                           </option>
                         ))
                       : null}

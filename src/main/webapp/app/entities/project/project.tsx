@@ -35,13 +35,7 @@ export class Project extends React.Component<IProjectProps> {
               <thead>
                 <tr>
                   <th>
-                    <Translate contentKey="global.field.id">ID</Translate>
-                  </th>
-                  <th>
                     <Translate contentKey="noRiskNoFunApp.project.name">Name</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="noRiskNoFunApp.project.description">Description</Translate>
                   </th>
                   <th>
                     <Translate contentKey="noRiskNoFunApp.project.start">Start</Translate>
@@ -52,9 +46,6 @@ export class Project extends React.Component<IProjectProps> {
                   <th>
                     <Translate contentKey="noRiskNoFunApp.project.owner">Owner</Translate>
                   </th>
-                  <th>
-                    <Translate contentKey="noRiskNoFunApp.project.user">User</Translate>
-                  </th>
                   <th />
                 </tr>
               </thead>
@@ -63,28 +54,16 @@ export class Project extends React.Component<IProjectProps> {
                   <tr key={`entity-${i}`}>
                     <td>
                       <Button tag={Link} to={`${match.url}/${project.id}`} color="link" size="sm">
-                        {project.id}
+                        {project.name}
                       </Button>
                     </td>
-                    <td>{project.name}</td>
-                    <td>{project.description}</td>
                     <td>
                       <TextFormat type="date" value={project.start} format={APP_LOCAL_DATE_FORMAT} />
                     </td>
                     <td>
                       <TextFormat type="date" value={project.end} format={APP_LOCAL_DATE_FORMAT} />
                     </td>
-                    <td>{project.owner ? project.owner.id : ''}</td>
-                    <td>
-                      {project.users
-                        ? project.users.map((val, j) => (
-                            <span key={j}>
-                              {val.id}
-                              {j === project.users.length - 1 ? '' : ', '}
-                            </span>
-                          ))
-                        : null}
-                    </td>
+                    <td>{project.owner.firstName && project.owner.lastName ? `${project.owner.firstName} ${project.owner.lastName}` : project.owner.login}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${project.id}`} color="info" size="sm">

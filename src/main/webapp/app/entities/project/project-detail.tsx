@@ -48,73 +48,73 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
 
   return (
       <div>
-        <Row>
-          <Col md="8">
-            <h2>
-              <Translate contentKey="noRiskNoFunApp.project.detail.title">Project</Translate> [<b>{projectEntity.id}</b>]
-            </h2>
-            <dl className="jh-entity-details">
-              <dt>
-              <span id="name">
-                <Translate contentKey="noRiskNoFunApp.project.name">Name</Translate>
-              </span>
-              </dt>
-              <dd>{projectEntity.name}</dd>
-              <dt>
+        {projectEntity ? (
+          <Row>
+            <Col md="8">
+              <h2>
+                <Translate contentKey="noRiskNoFunApp.project.detail.title">Project</Translate> <b>{projectEntity.name}</b>
+              </h2>
+              <dl className="jh-entity-details">
+                <dt>
               <span id="description">
                 <Translate contentKey="noRiskNoFunApp.project.description">Description</Translate>
               </span>
-              </dt>
-              <dd>{projectEntity.description}</dd>
-              <dt>
+                </dt>
+                <dd>{projectEntity.description}</dd>
+                <dt>
               <span id="start">
                 <Translate contentKey="noRiskNoFunApp.project.start">Start</Translate>
               </span>
-              </dt>
-              <dd>
-                <TextFormat value={projectEntity.start} type="date" format={APP_LOCAL_DATE_FORMAT}/>
-              </dd>
-              <dt>
+                </dt>
+                <dd>
+                  <TextFormat value={projectEntity.start} type="date" format={APP_LOCAL_DATE_FORMAT} />
+                </dd>
+                <dt>
               <span id="end">
                 <Translate contentKey="noRiskNoFunApp.project.end">End</Translate>
               </span>
-              </dt>
-              <dd>
-                <TextFormat value={projectEntity.end} type="date" format={APP_LOCAL_DATE_FORMAT}/>
-              </dd>
-              <dt>
-                <Translate contentKey="noRiskNoFunApp.project.owner">Owner</Translate>
-              </dt>
-              <dd>{projectEntity.owner ? projectEntity.owner.id : ''}</dd>
-              <dt>
-                <Translate contentKey="noRiskNoFunApp.project.user">User</Translate>
-              </dt>
-              <dd>
-                {projectEntity.users
-                  ? projectEntity.users.map((val, i) => (
-                    <span key={val.id}>
-                      <a>{val.id}</a>
-                      {i === projectEntity.users.length - 1 ? '' : ', '}
+                </dt>
+                <dd>
+                  <TextFormat value={projectEntity.end} type="date" format={APP_LOCAL_DATE_FORMAT} />
+                </dd>
+                <dt>
+                  <Translate contentKey="noRiskNoFunApp.project.owner">Owner</Translate>
+                </dt>
+                <dd>{projectEntity.owner ? `${projectEntity.owner.firstName} ${projectEntity.owner.lastName}` : ''}</dd>
+                <dt>
+                  <Translate contentKey="noRiskNoFunApp.project.user">User</Translate>
+                </dt>
+                <dd>
+                  {projectEntity.users
+                    ? projectEntity.users.map((val, i) => (
+                      <span key={val.id}>
+                      <a href={`/profile/${val.login}`}> {val.firstName && val.lastName ? `${val.firstName} ${val.lastName}` : val.login}</a>
+                        {i === projectEntity.users.length - 1 ? '' : ', '}
                     </span>
-                  ))
-                  : null}{' '}
-              </dd>
-            </dl>
-            <Button tag={Link} to="/entity/project" replace color="info">
-              <FontAwesomeIcon icon="arrow-left"/>{' '}
-              <span className="d-none d-md-inline">
+                    ))
+                    : null}{' '}
+                </dd>
+              </dl>
+              <Button tag={Link} to="/entity/project" replace color="info">
+                <FontAwesomeIcon icon="arrow-left" />{' '}
+                <span className="d-none d-md-inline">
               <Translate contentKey="entity.action.back">Back</Translate>
             </span>
-            </Button>
-            &nbsp;
-            <Button tag={Link} to={`/entity/project/${projectEntity.id}/edit`} replace color="primary">
-              <FontAwesomeIcon icon="pencil-alt"/>{' '}
-              <span className="d-none d-md-inline">
+              </Button>
+              &nbsp;
+              <Button tag={Link} to={`/entity/project/${projectEntity.id}/edit`} replace color="primary">
+                <FontAwesomeIcon icon="pencil-alt" />{' '}
+                <span className="d-none d-md-inline">
               <Translate contentKey="entity.action.edit">Edit</Translate>
             </span>
-            </Button>
-          </Col>
-        </Row>
+              </Button>
+            </Col>
+          </Row>
+        ):(
+          <div className="alert alert-warning">
+            <Translate contentKey="noRiskNoFunApp.project.detail.accessDenied"/>
+          </div>
+        )}
 
         <Nav tabs>
           <NavItem>

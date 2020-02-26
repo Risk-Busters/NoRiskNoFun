@@ -14,7 +14,8 @@
         "question": "Are you sure you want to delete Project {{ id }}?"
       },
       "detail": {
-        "title": "Project"
+        "title": "Project",
+        "accessDenied": "Access denied"
       },
       "name": "Name",
       "description": "Description",

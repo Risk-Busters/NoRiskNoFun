@@ -85,6 +85,9 @@ export default () => next => action => {
               }
               break;
             }
+            case 403:
+              addErrorAlert('Forbidden', 'error.http.403');
+              break;
             case 404:
               addErrorAlert('Not found', 'error.url.not.found');
               break;

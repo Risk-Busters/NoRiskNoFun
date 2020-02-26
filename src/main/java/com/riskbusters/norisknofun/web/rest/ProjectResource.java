@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -108,9 +109,13 @@ public class ProjectResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the project, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/projects/{id}")
-    public ResponseEntity<Project> getProject(@PathVariable Long id) {
+    public ResponseEntity<Project> getProject(@PathVariable Long id) throws AccessDeniedException {
         log.debug("REST request to get Project : {}", id);
         Optional<Project> project = projectRepository.findOneWithEagerRelationships(id);
+        User user = userService.getUserWithAuthorities().get();
+        if(!project.get().getUsers().contains(user) && project.get().getOwner() != user){
+            return ResponseEntity.status(403).build();
+        }
         return ResponseUtil.wrapOrNotFound(project);
     }
 

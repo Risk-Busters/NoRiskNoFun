@@ -1,6 +1,10 @@
 {
   "noRiskNoFunApp": {
     "projectRisks": {
+      "actions": {
+        "discuss": "Discuss now!",
+        "seemore": "See more!"
+      },
       "home": {
         "title": "Project Risks",
         "createLabel": "Propose a new Risk!",

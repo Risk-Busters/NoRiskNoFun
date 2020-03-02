@@ -1,7 +1,5 @@
 package com.riskbusters.norisknofun.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.riskbusters.norisknofun.domain.projectrisks.ProposedProjectRisk;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -24,10 +22,7 @@ import com.riskbusters.norisknofun.domain.enumeration.ProbabilityType;
 @Table(name = "project_risks")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "risk_discussion_status")
-// TODO: Defualt deserialize to ProposedProjectRisk so controller can instance class.
-@JsonDeserialize(as=ProposedProjectRisk.class)
-public abstract class ProjectRisks implements Serializable {
+public class ProjectRisks implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -63,7 +58,7 @@ public abstract class ProjectRisks implements Serializable {
     @JsonIgnoreProperties("projectRisks")
     private Risk risk;
 
-    @Column(name = "risk_discussion_status", insertable = false, updatable = false)
+    @Column(name = "risk_discussion_status")
     public String riskDiscussionStatus;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

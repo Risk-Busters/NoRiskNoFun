@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,17 +14,18 @@ import java.util.Optional;
 /**
  * Spring Data  repository for the ProjectRisks entity.
  */
-@NoRepositoryBean
-public interface ProjectRisksBaseRepository<T extends ProjectRisks> extends JpaRepository<T, Long> {
+@Transactional
+public interface ProjectRisksBaseRepository extends JpaRepository<ProjectRisks, Long> {
 
     @Query(value = "select distinct projectRisks from ProjectRisks projectRisks left join fetch projectRisks.riskResponses",
         countQuery = "select count(distinct projectRisks) from ProjectRisks projectRisks")
-    Page<T> findAllWithEagerRelationships(Pageable pageable);
+    Page<ProjectRisks> findAllWithEagerRelationships(Pageable pageable);
 
     @Query("select distinct projectRisks from ProjectRisks projectRisks left join fetch projectRisks.riskResponses")
-    List<T> findAllWithEagerRelationships();
+    List<ProjectRisks> findAllWithEagerRelationships();
 
     @Query("select projectRisks from ProjectRisks projectRisks left join fetch projectRisks.riskResponses where projectRisks.id =:id")
-    Optional<T> findOneWithEagerRelationships(@Param("id") Long id);
+    Optional<ProjectRisks> findOneWithEagerRelationships(@Param("id") Long id);
 
+    List<ProjectRisks> findAllByProjectIdAndRiskDiscussionStatusEquals(Long id, String status);
 }

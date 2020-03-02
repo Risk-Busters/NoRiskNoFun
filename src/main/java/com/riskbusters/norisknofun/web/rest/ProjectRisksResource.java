@@ -2,12 +2,13 @@ package com.riskbusters.norisknofun.web.rest;
 
 import com.riskbusters.norisknofun.domain.Project;
 import com.riskbusters.norisknofun.domain.ProjectRisks;
-import com.riskbusters.norisknofun.domain.Risk;
 import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.enumeration.RiskDiscussionState;
+import com.riskbusters.norisknofun.repository.ProjectRepository;
 import com.riskbusters.norisknofun.repository.ProjectRisksBaseRepository;
 import com.riskbusters.norisknofun.repository.RiskRepository;
 import com.riskbusters.norisknofun.service.ProjectRiskService;
+import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
 import com.riskbusters.norisknofun.web.rest.vm.ProposeRiskVM;
 import io.github.jhipster.web.util.HeaderUtil;
@@ -39,13 +40,15 @@ public class ProjectRisksResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final RiskRepository riskRepository;
+    private final UserService userService;
+    private final ProjectRepository projectRepository;
     private final ProjectRisksBaseRepository projectRisksBaseRepository;
     private final ProjectRiskService projectRiskService;
 
-    public ProjectRisksResource(ProjectRisksBaseRepository projectRisksBaseRepository, RiskRepository riskRepository, ProjectRiskService projectRiskService) {
+    public ProjectRisksResource(ProjectRisksBaseRepository projectRisksBaseRepository, RiskRepository riskRepository, UserService userService, ProjectRepository projectRepository, ProjectRiskService projectRiskService) {
         this.projectRisksBaseRepository = projectRisksBaseRepository;
-        this.riskRepository = riskRepository;
+        this.userService = userService;
+        this.projectRepository = projectRepository;
         this.projectRiskService = projectRiskService;
     }
 
@@ -60,7 +63,13 @@ public class ProjectRisksResource {
     public ResponseEntity<ProjectRisks> createProjectRisks(@Valid @RequestBody ProposeRiskVM proposedProjectRisk) throws URISyntaxException {
         log.debug("REST request to save new proposed ProjectRisk : {}", proposedProjectRisk);
 
-        ProjectRisks result = projectRiskService.proposeProjectRisk(proposedProjectRisk);
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (!user.isPresent()) throw new BadRequestAlertException("Missing credentials", ENTITY_NAME, "usernull");
+
+        Optional<Project> project = projectRepository.findByUsersIsContainingOrOwnerEqualsAndIdEquals(user.get(), user.get(), proposedProjectRisk.getProjectId());
+        if (!project.isPresent()) throw new BadRequestAlertException("User not in project", ENTITY_NAME, "projectnotexist");
+
+        ProjectRisks result = projectRiskService.proposeProjectRisk(proposedProjectRisk.title, proposedProjectRisk.description, project.get());
         return ResponseEntity.created(new URI("/api/project-risks/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);

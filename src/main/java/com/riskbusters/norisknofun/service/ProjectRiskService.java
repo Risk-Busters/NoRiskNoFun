@@ -18,37 +18,26 @@ import java.util.Optional;
 @Service
 public class ProjectRiskService {
 
-    private static final String ENTITY_NAME = "projectRisks";
 
     private ProjectRisksBaseRepository projectRisksBaseRepository;
     private RiskRepository riskRepository;
-    private UserService userService;
-    private ProjectRepository projectRepository;
 
     public ProjectRiskService(ProjectRisksBaseRepository projectRisksBaseRepository, RiskRepository riskRepository, UserService userService, ProjectRepository projectRepository) {
         this.projectRisksBaseRepository = projectRisksBaseRepository;
         this.riskRepository = riskRepository;
-        this.userService = userService;
-        this.projectRepository = projectRepository;
     }
 
-    public ProjectRisks proposeProjectRisk(ProposeRiskVM proposeRiskVM) {
-        Optional<User> user = userService.getUserWithAuthorities();
-        if (!user.isPresent()) throw new BadRequestAlertException("Missing credentials", ENTITY_NAME, "usernull");
-
-        Optional<Project> project = projectRepository.findByUsersIsContainingOrOwnerEqualsAndIdEquals(user.get(), user.get(), proposeRiskVM.getProjectId());
-        if (!project.isPresent()) throw new BadRequestAlertException("User not in project", ENTITY_NAME, "projectnotexist");
-
+    public ProjectRisks proposeProjectRisk(String title, String description, Project project) {
         Risk risk = new Risk();
-        risk.setName(proposeRiskVM.title);
-        risk.setDescription(proposeRiskVM.description);
+        risk.setName(title);
+        risk.setDescription(description);
         risk.setInRiskpool(false);
         riskRepository.save(risk);
 
         ProjectRisks proposedProjectRisk = new ProjectRisks();
         proposedProjectRisk.riskDiscussionStatus = RiskDiscussionState.PROPOSED.getState();
         proposedProjectRisk.setRisk(risk);
-        proposedProjectRisk.setProject(project.get());
+        proposedProjectRisk.setProject(project);
         proposedProjectRisk.setHasOccured(false);
         return  projectRisksBaseRepository.save(proposedProjectRisk);
     }

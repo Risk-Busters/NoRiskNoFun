@@ -251,7 +251,21 @@ describe('Entities reducer tests', () => {
           type: REQUEST(ACTION_TYPES.FETCH_PROJECTRISKS_LIST)
         },
         {
+          type: REQUEST(ACTION_TYPES.FETCH_PROPOSEDPROJECTRISKS_LIST)
+        },
+        {
+          type: REQUEST(ACTION_TYPES.FETCH_TOBEDISCUSSEDPROJECTRISKS_LIST)
+        },
+        {
           type: SUCCESS(ACTION_TYPES.FETCH_PROJECTRISKS_LIST),
+          payload: resolvedObject
+        },
+        {
+          type: SUCCESS(ACTION_TYPES.FETCH_PROPOSEDPROJECTRISKS_LIST),
+          payload: resolvedObject
+        },
+        {
+          type: SUCCESS(ACTION_TYPES.FETCH_TOBEDISCUSSEDPROJECTRISKS_LIST),
           payload: resolvedObject
         }
       ];

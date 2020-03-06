@@ -13,6 +13,7 @@ export interface IProjectRisks {
   project?: IProject;
   risk?: IRisk;
   riskDiscussionStatus?: 'proposed' | 'toBeDiscussed' | 'final';
+  likes?: number;
 }
 
 export const defaultValue: Readonly<IProjectRisks> = {

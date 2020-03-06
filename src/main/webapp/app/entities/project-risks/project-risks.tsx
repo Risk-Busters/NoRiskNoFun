@@ -4,9 +4,10 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { updateEntity as updateProjectRisks } from './project-risks.reducer';
 import { IRootState } from 'app/shared/reducers';
 import {getEntities, getProposedProjectRisks, getToBeDiscussedProjectRisks} from "app/entities/project-risks/project-risks.reducer";
+import {IProjectRisks} from "app/shared/model/project-risks.model";
 
 type ProjectRisksProps = {
   riskDiscussionStatus: string
@@ -19,15 +20,25 @@ function ProjectRisks(props: IProjectRisksProps) {
   const [riskList, setRiskList] = useState([]);
   const { match } = props;
 
-  useEffect(() => {
-    if(props.riskDiscussionStatus === "proposed") {
+  const upvote = (projectRisk: IProjectRisks) => {
+    const newUpvotedProjectRisks = projectRisk;
+    newUpvotedProjectRisks.likes++;
+    props.updateProjectRisks(newUpvotedProjectRisks);
+  };
+
+  const fetch = () => {
       props.getProposedProjectRisks();
-    } else if(props.riskDiscussionStatus.toLocaleUpperCase() === "toBeDiscussed".toLocaleUpperCase()) {
       props.getToBeDiscussedProjectRisks();
-    } else if(props.riskDiscussionStatus === "final") {
       props.getEntities();
-    }
+  };
+
+  useEffect(() => {
+    fetch();
   }, []);
+
+  useEffect(() => {
+    console.log(props.riskDiscussionStatus)
+  }, [props.riskDiscussionStatus]);
 
   useEffect(() => {
     if(props.riskDiscussionStatus === "proposed") {
@@ -64,6 +75,12 @@ function ProjectRisks(props: IProjectRisksProps) {
             </td>
             <td className="text-right">
               <div className="btn-group flex-btn-group-container">
+                <Button onClick={() => upvote(projectRisks)} color="primary" size="sm" style={{marginRight: '5px'}}>
+                  <span className="d-none d-md-inline">
+                    {projectRisks.likes}
+                  </span>
+                  {' '}<FontAwesomeIcon icon="thumbs-up" />
+                </Button>
                 <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}/edit`} color="primary" size="sm">
                   <FontAwesomeIcon icon="pencil-alt" />{' '}
                   <span className="d-none d-md-inline">
@@ -253,7 +270,8 @@ const mapStateToProps = ({ projectRisks }: IRootState) => ({
 const mapDispatchToProps = {
   getEntities,
   getProposedProjectRisks,
-  getToBeDiscussedProjectRisks
+  getToBeDiscussedProjectRisks,
+  updateProjectRisks
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

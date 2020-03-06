@@ -85,7 +85,7 @@ public class ProjectRiskService {
 
 
     private boolean isDisscussable(ProjectRisks projectRisks) {
-        return true;
+        return projectRisks.getLikes() > 3;
     }
 
     private boolean isFinal(ProjectRisks projectRisks) {

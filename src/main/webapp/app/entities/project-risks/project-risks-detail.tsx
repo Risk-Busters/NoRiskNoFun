@@ -19,6 +19,8 @@ function ProjectRisksDetail(props) {
     props.getEntity(riskId);
   }, []);
 
+
+
   return (
       <Row>
         <Col md="8">

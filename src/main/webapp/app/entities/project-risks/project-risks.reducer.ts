@@ -159,6 +159,8 @@ export const updateEntity: ICrudPutAction<IProjectRisks> = entity => async dispa
     payload: axios.put(apiUrl, cleanEntity(entity))
   });
   dispatch(getEntities());
+  dispatch(getProposedProjectRisks());
+  dispatch(getToBeDiscussedProjectRisks());
   return result;
 };
 

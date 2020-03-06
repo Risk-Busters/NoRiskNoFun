@@ -61,6 +61,9 @@ public class ProjectRisks implements Serializable {
     @Column(name = "risk_discussion_status")
     public String riskDiscussionStatus;
 
+    @Column(name = "likes")
+    private int likes = 0;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -77,6 +80,14 @@ public class ProjectRisks implements Serializable {
     public ProjectRisks projectSeverity(SeverityType projectSeverity) {
         this.projectSeverity = projectSeverity;
         return this;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 
     public void setProjectSeverity(SeverityType projectSeverity) {

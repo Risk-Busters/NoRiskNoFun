@@ -21,6 +21,7 @@
       "description": "Description",
       "start": "Start",
       "end": "End",
+      "projectDates": "Time",
       "owner": "Owner",
       "projectRisks": "Project Risks",
       "user": "User",

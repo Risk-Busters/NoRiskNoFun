@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {Link, RouteComponentProps, useParams, useHistory} from 'react-router-dom';
-import {Button, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane} from 'reactstrap';
+import {Button, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane, Progress} from 'reactstrap';
 import {TextFormat, Translate} from 'react-jhipster';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
@@ -9,6 +9,7 @@ import {IRootState} from 'app/shared/reducers';
 import {getEntity} from './project.reducer';
 import {APP_LOCAL_DATE_FORMAT} from 'app/config/constants';
 import ProjectRisks from "app/entities/project-risks/project-risks";
+import moment from "moment";
 
 export interface IProjectDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
 }
@@ -22,6 +23,7 @@ enum RiskUrlType {
 const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
 
   const [activeTab, setActiveTab] = useState('final');
+  const [timeStatus, setTimeStatus] = useState(0);
   const { risktype } = useParams();
   const history = useHistory();
 
@@ -46,6 +48,20 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
 
   const {projectEntity} = props;
 
+  useEffect(() => {
+    if (projectEntity.end !== undefined && projectEntity.start !== undefined) {
+      const now = moment();
+      const startDate = moment(projectEntity.start);
+      const endDate = moment(projectEntity.end);
+
+      const totalMillisInRange = endDate.valueOf() - startDate.valueOf();
+      const elapsedMillis = now.valueOf() - startDate.valueOf();
+      const percentageRounded =  Math.round(Math.max(0, Math.min(100, 100 * (elapsedMillis / totalMillisInRange))));
+
+      setTimeStatus(percentageRounded);
+    }
+  }, [projectEntity]);
+
   return (
       <div>
         {projectEntity ? (
@@ -62,20 +78,26 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
                 </dt>
                 <dd>{projectEntity.description}</dd>
                 <dt>
-              <span id="start">
-                <Translate contentKey="noRiskNoFunApp.project.start">Start</Translate>
-              </span>
+                  <span id="projectDates">
+                    <Translate contentKey="noRiskNoFunApp.project.projectDates"/>
+                  </span>
                 </dt>
                 <dd>
-                  <TextFormat value={projectEntity.start} type="date" format={APP_LOCAL_DATE_FORMAT} />
-                </dd>
-                <dt>
-              <span id="end">
-                <Translate contentKey="noRiskNoFunApp.project.end">End</Translate>
-              </span>
-                </dt>
-                <dd>
-                  <TextFormat value={projectEntity.end} type="date" format={APP_LOCAL_DATE_FORMAT} />
+                  <Row xs="2">
+                    <Col>
+                      <div className="text-left">
+                        <TextFormat value={projectEntity.start} type="date" format={APP_LOCAL_DATE_FORMAT} />
+                      </div>
+                    </Col>
+                    <Col>
+                      <div className="text-right">
+                        <TextFormat value={projectEntity.end} type="date" format={APP_LOCAL_DATE_FORMAT} />
+                      </div>
+                    </Col>
+                  </Row>
+                  <Progress value={timeStatus} >
+                    {timeStatus} %
+                  </Progress>
                 </dd>
                 <dt>
                   <Translate contentKey="noRiskNoFunApp.project.owner">Owner</Translate>

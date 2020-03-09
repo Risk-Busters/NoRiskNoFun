@@ -12,4 +12,9 @@ export interface IRiskResponse {
   projectRisks?: IProjectRisks[];
 }
 
+export interface INewRiskResponse {
+  riskResponse: any;
+  projectRiskId: number;
+}
+
 export const defaultValue: Readonly<IRiskResponse> = {};

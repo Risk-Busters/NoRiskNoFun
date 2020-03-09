@@ -1,29 +1,28 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
-import { Translate, ICrudGetAllAction } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, {useEffect} from 'react';
+import {connect} from 'react-redux';
+import {Link, RouteComponentProps, useParams} from 'react-router-dom';
+import {Button, Table} from 'reactstrap';
+import {Translate} from 'react-jhipster';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {IRootState} from 'app/shared/reducers';
+import {getEntity} from '../project-risks/project-risks.reducer';
 
-import { IRootState } from 'app/shared/reducers';
-import { getEntities } from './risk-response.reducer';
-import { IRiskResponse } from 'app/shared/model/risk-response.model';
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+export interface IRiskResponseProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
-export interface IRiskResponseProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
+function RiskResponse (props: IRiskResponseProps) {
 
-export class RiskResponse extends React.Component<IRiskResponseProps> {
-  componentDidMount() {
-    this.props.getEntities();
-  }
+  const {riskId} = useParams();
 
-  render() {
-    const { riskResponseList, match } = this.props;
+  useEffect(() => {
+    props.getEntity(riskId);
+  }, []);
+
+    const { riskResponseList, match } = props;
     return (
       <div>
         <h2 id="risk-response-heading">
           <Translate contentKey="noRiskNoFunApp.riskResponse.home.title">Risk Responses</Translate>
-          <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
+          <Link to={`${match.url}/response/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
             <Translate contentKey="noRiskNoFunApp.riskResponse.home.createLabel">Create a new Risk Response</Translate>
@@ -34,9 +33,6 @@ export class RiskResponse extends React.Component<IRiskResponseProps> {
             <Table responsive aria-describedby="risk-response-heading">
               <thead>
                 <tr>
-                  <th>
-                    <Translate contentKey="global.field.id">ID</Translate>
-                  </th>
                   <th>
                     <Translate contentKey="noRiskNoFunApp.riskResponse.type">Type</Translate>
                   </th>
@@ -53,11 +49,6 @@ export class RiskResponse extends React.Component<IRiskResponseProps> {
                 {riskResponseList.map((riskResponse, i) => (
                   <tr key={`entity-${i}`}>
                     <td>
-                      <Button tag={Link} to={`${match.url}/${riskResponse.id}`} color="link" size="sm">
-                        {riskResponse.id}
-                      </Button>
-                    </td>
-                    <td>
                       <Translate contentKey={`noRiskNoFunApp.RiskResponseType.${riskResponse.type}`} />
                     </td>
                     <td>{riskResponse.description}</td>
@@ -66,19 +57,19 @@ export class RiskResponse extends React.Component<IRiskResponseProps> {
                     </td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
-                        <Button tag={Link} to={`${match.url}/${riskResponse.id}`} color="info" size="sm">
+                        <Button tag={Link} to={`${match.url}/response/${riskResponse.id}`} color="info" size="sm">
                           <FontAwesomeIcon icon="eye" />{' '}
                           <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.view">View</Translate>
                           </span>
                         </Button>
-                        <Button tag={Link} to={`${match.url}/${riskResponse.id}/edit`} color="primary" size="sm">
+                        <Button tag={Link} to={`${match.url}/response/${riskResponse.id}/edit`} color="primary" size="sm">
                           <FontAwesomeIcon icon="pencil-alt" />{' '}
                           <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.edit">Edit</Translate>
                           </span>
                         </Button>
-                        <Button tag={Link} to={`${match.url}/${riskResponse.id}/delete`} color="danger" size="sm">
+                        <Button tag={Link} to={`${match.url}/response/${riskResponse.id}/delete`} color="danger" size="sm">
                           <FontAwesomeIcon icon="trash" />{' '}
                           <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.delete">Delete</Translate>
@@ -98,15 +89,14 @@ export class RiskResponse extends React.Component<IRiskResponseProps> {
         </div>
       </div>
     );
-  }
 }
 
-const mapStateToProps = ({ riskResponse }: IRootState) => ({
-  riskResponseList: riskResponse.entities
+const mapStateToProps = ({ projectRisks }: IRootState) => ({
+  riskResponseList: projectRisks.entity.riskResponses
 });
 
 const mapDispatchToProps = {
-  getEntities
+  getEntity
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

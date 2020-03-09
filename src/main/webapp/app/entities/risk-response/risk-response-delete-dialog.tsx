@@ -9,11 +9,11 @@ import { IRiskResponse } from 'app/shared/model/risk-response.model';
 import { IRootState } from 'app/shared/reducers';
 import { getEntity, deleteEntity } from './risk-response.reducer';
 
-export interface IRiskResponseDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IRiskResponseDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ responseId: string }> {}
 
 export class RiskResponseDeleteDialog extends React.Component<IRiskResponseDeleteDialogProps> {
   componentDidMount() {
-    this.props.getEntity(this.props.match.params.id);
+    this.props.getEntity(this.props.match.params.responseId);
   }
 
   confirmDelete = event => {

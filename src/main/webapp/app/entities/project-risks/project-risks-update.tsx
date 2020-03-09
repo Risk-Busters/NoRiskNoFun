@@ -68,16 +68,15 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
 
         // If not set then its a proposed risk so inRiskpool should
         // default to false to avoid null constraint checks.
-        values.risk.inRiskpool = values.risk.inRiskpool || false;
-
-
-        const risk = Object.assign(projectRisksEntity.risk, values.risk);
+        if (values.risk !== undefined) {
+          values.risk.inRiskpool = projectRisksEntity.riskDiscussionStatus === "proposed" ? false : projectRisksEntity.risk.inRiskpool;
+        }
+        const risk = Object.assign(projectRisksEntity.risk, values.risk || {});
 
         const entity = {
           ...projectRisksEntity,
           ...values,
-          risk,
-          riskResponses: values.riskResponses ? mapIdList(values.riskResponses) : null};
+          risk};
         this.props.updateEntity(entity);
       }
     };
@@ -94,12 +93,6 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
         return (
           <>
             <AvGroup>
-              <Label for="project-risks-id">
-                <Translate contentKey="global.field.id">ID</Translate>
-              </Label>
-              <AvInput id="project-risks-id" type="text" className="form-control" name="id" required readOnly />
-            </AvGroup>
-            <AvGroup>
               <Label id="projectSeverityLabel" for="project-risks-projectSeverity">
                 <Translate contentKey="noRiskNoFunApp.projectRisks.projectSeverity">Project Severity</Translate>
               </Label>
@@ -109,6 +102,7 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
                 className="form-control"
                 name="projectSeverity"
                 value={projectRisksEntity.projectSeverity || 'BAD'}
+                required
               >
                 <option value="BAD">{translate('noRiskNoFunApp.SeverityType.BAD')}</option>
                 <option value="LESSBAD">{translate('noRiskNoFunApp.SeverityType.LESSBAD')}</option>
@@ -140,58 +134,6 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
                 <AvInput id="project-risks-hasOccured" type="checkbox" className="form-control" name="hasOccured" />
                 <Translate contentKey="noRiskNoFunApp.projectRisks.hasOccured">Has Occured</Translate>
               </Label>
-            </AvGroup>
-            <AvGroup>
-              <Label for="project-risks-riskResponse">
-                <Translate contentKey="noRiskNoFunApp.projectRisks.riskResponse">Risk Response</Translate>
-              </Label>
-              <AvInput
-                id="project-risks-riskResponse"
-                type="select"
-                multiple
-                className="form-control"
-                name="riskResponses"
-                value={projectRisksEntity.riskResponses && projectRisksEntity.riskResponses.map(e => e.id)}
-              >
-                <option value="" key="0" />
-                {riskResponses
-                  ? riskResponses.map(otherEntity => (
-                    <option value={otherEntity.id} key={otherEntity.id}>
-                      {otherEntity.id}
-                    </option>
-                  ))
-                  : null}
-              </AvInput>
-            </AvGroup>
-            <AvGroup>
-              <Label for="project-risks-project">
-                <Translate contentKey="noRiskNoFunApp.projectRisks.project">Project</Translate>
-              </Label>
-              <AvInput id="project-risks-project" type="select" className="form-control" name="project.id">
-                <option value="" key="0" />
-                {projects
-                  ? projects.map(otherEntity => (
-                    <option value={otherEntity.id} key={otherEntity.id}>
-                      {otherEntity.id}
-                    </option>
-                  ))
-                  : null}
-              </AvInput>
-            </AvGroup>
-            <AvGroup>
-              <Label for="project-risks-risk">
-                <Translate contentKey="noRiskNoFunApp.projectRisks.risk">Risk</Translate>
-              </Label>
-              <AvInput id="project-risks-risk" type="select" className="form-control" name="risk.id">
-                <option value="" key="0" />
-                {risks
-                  ? risks.map(otherEntity => (
-                    <option value={otherEntity.id} key={otherEntity.id}>
-                      {otherEntity.id}
-                    </option>
-                  ))
-                  : null}
-              </AvInput>
             </AvGroup>
           </>
         );
@@ -296,7 +238,7 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
                   </span>
                 </Button>
                 &nbsp;
-                <Button color="primary" id="save-entity" type="submit" disabled={updating} onClick={() => console.log("HEllo")}>
+                <Button color="primary" id="save-entity" type="submit" disabled={updating}>
                   <FontAwesomeIcon icon="save" />
                   &nbsp;
                   <Translate contentKey="entity.action.save">Save</Translate>

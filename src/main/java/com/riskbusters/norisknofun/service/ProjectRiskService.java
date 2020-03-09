@@ -89,8 +89,9 @@ public class ProjectRiskService {
     }
 
     private boolean isFinal(ProjectRisks projectRisks) {
-        return projectRisks.getRisk() != null && !projectRisks.getRisk().getRiskResponses().isEmpty()
-            && projectRisks.getRisk().getProbability() != null
-            && projectRisks.getRisk().getSeverity() != null;
+        return projectRisks.getRiskResponses() != null && !projectRisks.getRiskResponses().isEmpty()
+            && projectRisks.getPersonInCharge() != null
+            && projectRisks.getProjectProbability() != null
+            && projectRisks.getProjectSeverity() != null;
     }
 }

@@ -3,7 +3,10 @@
     "projectRisks": {
       "actions": {
         "discuss": "Discuss now!",
-        "seemore": "See more!"
+        "finalize": "Finalize it!",
+        "seemore": "See more!",
+        "beInCharge": "I can do that!",
+        "beInChargeNone": "It seems like no body is in charge yet."
       },
       "home": {
         "title": "Project Risks",
@@ -26,11 +29,14 @@
       "projectSeverity": "Project Severity",
       "projectProbability": "Project Probability",
       "hasOccured": "Has Occured",
+      "hasOccuredYes": "Yes :(",
+      "hasOccuredNo": "No :)",
       "riskResponse": "Risk Response",
       "project": "Project",
       "risk": "Risk",
       "title": "Risk Title",
-      "description": "Risk Description"
+      "description": "Risk Description",
+      "personInCharge": "Person in charge"
     },
     "proposeRiskVM": {
       "title": "Title",

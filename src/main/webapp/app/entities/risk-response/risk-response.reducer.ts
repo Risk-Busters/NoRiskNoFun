@@ -4,7 +4,7 @@ import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
-import { IRiskResponse, defaultValue } from 'app/shared/model/risk-response.model';
+import { IRiskResponse, defaultValue, INewRiskResponse } from 'app/shared/model/risk-response.model';
 
 export const ACTION_TYPES = {
   FETCH_RISKRESPONSE_LIST: 'riskResponse/FETCH_RISKRESPONSE_LIST',
@@ -117,7 +117,14 @@ export const createEntity: ICrudPutAction<IRiskResponse> = entity => async dispa
     type: ACTION_TYPES.CREATE_RISKRESPONSE,
     payload: axios.post(apiUrl, cleanEntity(entity))
   });
-  dispatch(getEntities());
+  return result;
+};
+
+export const createEntityForProject: ICrudPutAction<INewRiskResponse> = entity => async dispatch => {
+  const result = await dispatch({
+    type: ACTION_TYPES.CREATE_RISKRESPONSE,
+    payload: axios.post(apiUrl, cleanEntity(entity))
+  });
   return result;
 };
 
@@ -126,7 +133,6 @@ export const updateEntity: ICrudPutAction<IRiskResponse> = entity => async dispa
     type: ACTION_TYPES.UPDATE_RISKRESPONSE,
     payload: axios.put(apiUrl, cleanEntity(entity))
   });
-  dispatch(getEntities());
   return result;
 };
 
@@ -136,7 +142,6 @@ export const deleteEntity: ICrudDeleteAction<IRiskResponse> = id => async dispat
     type: ACTION_TYPES.DELETE_RISKRESPONSE,
     payload: axios.delete(requestUrl)
   });
-  dispatch(getEntities());
   return result;
 };
 

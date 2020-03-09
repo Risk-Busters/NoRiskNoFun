@@ -127,12 +127,21 @@ function ProjectRisks(props: IProjectRisksProps) {
             </td>
             <td className="text-right">
               <div className="btn-group flex-btn-group-container">
-                <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}/edit`} color="primary" size="sm">
-                  <FontAwesomeIcon icon="pencil-alt" />{' '}
-                  <span className="d-none d-md-inline">
+                {(projectRisks.projectSeverity == null || projectRisks.projectProbability == null) ? (
+                  <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}/edit`} color="primary" size="sm">
+                    <FontAwesomeIcon icon="pencil-alt" />{' '}
+                    <span className="d-none d-md-inline">
                             <Translate contentKey="noRiskNoFunApp.projectRisks.actions.discuss">Discuss!</Translate>
                           </span>
-                </Button>
+                  </Button>
+                ) : (
+                  <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}`} color="primary" size="sm">
+                    <FontAwesomeIcon icon="pencil-alt" />{' '}
+                    <span className="d-none d-md-inline">
+                            <Translate contentKey="noRiskNoFunApp.projectRisks.actions.finalize">Finalize it!</Translate>
+                          </span>
+                  </Button>
+                )}
                 <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}/delete`} color="danger" size="sm">
                   <FontAwesomeIcon icon="trash" />{' '}
                   <span className="d-none d-md-inline">
@@ -168,9 +177,6 @@ function ProjectRisks(props: IProjectRisksProps) {
           <th>
             <Translate contentKey="noRiskNoFunApp.projectRisks.hasOccured">Has Occured</Translate>
           </th>
-          <th>
-            <Translate contentKey="noRiskNoFunApp.projectRisks.riskResponse">Risk Response</Translate>
-          </th>
           <th />
         </tr>
         </thead>
@@ -189,17 +195,7 @@ function ProjectRisks(props: IProjectRisksProps) {
             <td>
               <Translate contentKey={`noRiskNoFunApp.ProbabilityType.${projectRisks.projectProbability}`} />
             </td>
-            <td>{projectRisks.hasOccured ? 'Yes :(' : 'No :)'}</td>
-            <td>
-              {projectRisks.riskResponses
-                ? projectRisks.riskResponses.map((val, j) => (
-                  <span key={j}>
-                              <Link to={`risk-response/${val.id}`}>{val.id}</Link>
-                    {j === projectRisks.riskResponses.length - 1 ? '' : ', '}
-                            </span>
-                ))
-                : null}
-            </td>
+            <td><Translate contentKey={`noRiskNoFunApp.projectRisks.hasOccured${projectRisks.hasOccured ? 'Yes' : 'No'}`} /></td>
             <td className="text-right">
               <div className="btn-group flex-btn-group-container">
                 <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}`} color="info" size="sm">

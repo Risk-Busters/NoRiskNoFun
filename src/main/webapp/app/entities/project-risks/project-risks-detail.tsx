@@ -1,73 +1,78 @@
 import React, {useEffect} from 'react';
-import { connect } from 'react-redux';
-import { Link, RouteComponentProps, useParams } from 'react-router-dom';
-import { Button, Row, Col } from 'reactstrap';
-import { Translate } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {connect} from 'react-redux';
+import {Link, RouteComponentProps, useParams} from 'react-router-dom';
+import {Button, Col, Row} from 'reactstrap';
+import {Translate} from 'react-jhipster';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
-import { IRootState } from 'app/shared/reducers';
-import { getEntity } from './project-risks.reducer';
+import {IRootState} from 'app/shared/reducers';
+import {getEntity, updateEntity as updateProjectRisk} from './project-risks.reducer';
+import RiskResponse from "app/entities/risk-response/risk-response";
 
-export interface IProjectRisksDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ riskId: string, risktype: string }> {}
+export interface IProjectRisksDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
-function ProjectRisksDetail(props) {
+function ProjectRisksDetail(props: IProjectRisksDetailProps) {
 
-  const { projectRisksEntity } = props;
+  const { projectRisksEntity, user } = props;
   const { riskId, risktype } = useParams();
 
   useEffect(() => {
     props.getEntity(riskId);
   }, []);
 
-
+  const beInCharge = () => {
+    const newPersonInCharge = Object.assign(projectRisksEntity);
+    newPersonInCharge.personInCharge = user;
+    props.updateProjectRisk(projectRisksEntity);
+    props.getEntity(riskId);
+  };
 
   return (
       <Row>
         <Col md="8">
           <h2>
-            <Translate contentKey="noRiskNoFunApp.projectRisks.detail.title">ProjectRisks</Translate> [<b>{projectRisksEntity.id}</b>]
+            <Translate contentKey="noRiskNoFunApp.projectRisks.detail.title">ProjectRisks</Translate>
           </h2>
           <dl className="jh-entity-details">
             <dt>
-              <span id="projectSeverity">
-                <Translate contentKey="noRiskNoFunApp.projectRisks.projectSeverity">Project Severity</Translate>
+              <span id="personInCharge">
+                <Translate contentKey="noRiskNoFunApp.projectRisks.personInCharge" />
               </span>
             </dt>
-            <dd>{projectRisksEntity.projectSeverity}</dd>
+            {projectRisksEntity.personInCharge == null ? (
+              <>
+                <Translate contentKey="noRiskNoFunApp.projectRisks.actions.beInChargeNone" />{' '}
+                <Button onClick={() => beInCharge()} color="primary" size="sm">
+                <span className="d-none d-md-inline">
+                              <Translate contentKey="noRiskNoFunApp.projectRisks.actions.beInCharge" />
+                            </span>
+                </Button>
+              </>
+
+            ) : (
+              <dd>{projectRisksEntity.personInCharge.firstName} {projectRisksEntity.personInCharge.lastName}</dd>
+            )}
+
+            <dt>
+              <span id="projectSeverity">
+<Translate contentKey="noRiskNoFunApp.projectRisks.projectSeverity" />
+              </span>
+            </dt>
+            <dd><Translate contentKey={`noRiskNoFunApp.SeverityType.${projectRisksEntity.projectSeverity}`} /></dd>
             <dt>
               <span id="projectProbability">
                 <Translate contentKey="noRiskNoFunApp.projectRisks.projectProbability">Project Probability</Translate>
               </span>
             </dt>
-            <dd>{projectRisksEntity.projectProbability}</dd>
+            <dd><Translate contentKey={`noRiskNoFunApp.ProbabilityType.${projectRisksEntity.projectProbability}`} /></dd>
             <dt>
               <span id="hasOccured">
                 <Translate contentKey="noRiskNoFunApp.projectRisks.hasOccured">Has Occured</Translate>
               </span>
             </dt>
-            <dd>{projectRisksEntity.hasOccured ? 'true' : 'false'}</dd>
-            <dt>
-              <Translate contentKey="noRiskNoFunApp.projectRisks.riskResponse">Risk Response</Translate>
-            </dt>
-            <dd>
-              {projectRisksEntity.riskResponses
-                ? projectRisksEntity.riskResponses.map((val, i) => (
-                    <span key={val.id}>
-                      <a>{val.id}</a>
-                      {i === projectRisksEntity.riskResponses.length - 1 ? '' : ', '}
-                    </span>
-                  ))
-                : null}
-            </dd>
-            <dt>
-              <Translate contentKey="noRiskNoFunApp.projectRisks.project">Project</Translate>
-            </dt>
-            <dd>{projectRisksEntity.project ? projectRisksEntity.project.id : ''}</dd>
-            <dt>
-              <Translate contentKey="noRiskNoFunApp.projectRisks.risk">Risk</Translate>
-            </dt>
-            <dd>{projectRisksEntity.risk ? projectRisksEntity.risk.id : ''}</dd>
+            <dd><Translate contentKey={`noRiskNoFunApp.projectRisks.hasOccured${projectRisksEntity.hasOccured ? 'Yes' : 'No'}`} /></dd>
           </dl>
+          <RiskResponse history={props.history} location={props.location} match={props.match} />
           <Button tag={Link} to={`/entity/project/${projectRisksEntity.project ? `${projectRisksEntity.project.id}/${risktype}` : ''}`} replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}
             <span className="d-none d-md-inline">
@@ -86,11 +91,12 @@ function ProjectRisksDetail(props) {
     );
 }
 
-const mapStateToProps = ({ projectRisks }: IRootState) => ({
-  projectRisksEntity: projectRisks.entity
+const mapStateToProps = ({ projectRisks, authentication }: IRootState) => ({
+  projectRisksEntity: projectRisks.entity,
+  user: authentication.account
 });
 
-const mapDispatchToProps = { getEntity };
+const mapDispatchToProps = { getEntity, updateProjectRisk };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

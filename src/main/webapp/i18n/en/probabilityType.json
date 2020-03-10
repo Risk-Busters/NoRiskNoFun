@@ -2,11 +2,11 @@
   "noRiskNoFunApp": {
     "ProbabilityType": {
       "null": "",
-      "SURE": "SURE",
-      "PROBABLY": "PROBABLY",
-      "MAYBE": "MAYBE",
-      "NOTLIKELY": "NOTLIKELY",
-      "NOTGONNAHAPPEN": "NOTGONNAHAPPEN"
+      "SURE": "Sure",
+      "PROBABLY": "Probably",
+      "MAYBE": "Maybe",
+      "NOTLIKELY": "Not likely",
+      "NOTGONNAHAPPEN": "Not gonna happen"
     }
   }
 }

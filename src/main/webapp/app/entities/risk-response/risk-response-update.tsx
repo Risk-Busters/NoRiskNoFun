@@ -3,20 +3,15 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
+import { Translate, translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { IRisk } from 'app/shared/model/risk.model';
 import { getEntities as getRisks } from 'app/entities/risk/risk.reducer';
-import { IProjectRisks } from 'app/shared/model/project-risks.model';
 import { getEntities as getProjectRisks } from 'app/entities/project-risks/project-risks.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './risk-response.reducer';
-import { IRiskResponse } from 'app/shared/model/risk-response.model';
-import { convertDateTimeFromServer, convertDateTimeToServer } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
+import {getEntity, updateEntity, createEntity, reset, createEntityForProject} from './risk-response.reducer';
 
-export interface IRiskResponseUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IRiskResponseUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ riskId: string; responseId: string }> {}
 
 export interface IRiskResponseUpdateState {
   isNew: boolean;
@@ -29,8 +24,8 @@ export class RiskResponseUpdate extends React.Component<IRiskResponseUpdateProps
     super(props);
     this.state = {
       riskId: '0',
-      projectRisksId: '0',
-      isNew: !this.props.match.params || !this.props.match.params.id
+      projectRisksId: this.props.match.params.riskId,
+      isNew: !this.props.match.params || !this.props.match.params.responseId
     };
   }
 
@@ -44,7 +39,7 @@ export class RiskResponseUpdate extends React.Component<IRiskResponseUpdateProps
     if (this.state.isNew) {
       this.props.reset();
     } else {
-      this.props.getEntity(this.props.match.params.id);
+      this.props.getEntity(this.props.match.params.responseId);
     }
 
     this.props.getRisks();
@@ -60,7 +55,12 @@ export class RiskResponseUpdate extends React.Component<IRiskResponseUpdateProps
       };
 
       if (this.state.isNew) {
-        this.props.createEntity(entity);
+        const createRiskResponse = {
+          projectRiskId: parseInt(this.state.projectRisksId, 10),
+          riskResponse: entity
+        };
+
+        this.props.createEntityForProject(createRiskResponse);
       } else {
         this.props.updateEntity(entity);
       }
@@ -68,7 +68,7 @@ export class RiskResponseUpdate extends React.Component<IRiskResponseUpdateProps
   };
 
   handleClose = () => {
-    this.props.history.push('/entity/risk-response');
+    this.props.history.goBack();
   };
 
   render() {
@@ -144,7 +144,7 @@ export class RiskResponseUpdate extends React.Component<IRiskResponseUpdateProps
                     <option value="DONE">{translate('noRiskNoFunApp.StatusType.DONE')}</option>
                   </AvInput>
                 </AvGroup>
-                <Button tag={Link} id="cancel-save" to="/entity/risk-response" replace color="info">
+                <Button onClick={() => this.props.history.goBack()} replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />
                   &nbsp;
                   <span className="d-none d-md-inline">
@@ -181,6 +181,7 @@ const mapDispatchToProps = {
   getEntity,
   updateEntity,
   createEntity,
+  createEntityForProject,
   reset
 };
 

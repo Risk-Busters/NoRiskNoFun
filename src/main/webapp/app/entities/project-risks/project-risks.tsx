@@ -4,9 +4,10 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { updateEntity as updateProjectRisks } from './project-risks.reducer';
 import { IRootState } from 'app/shared/reducers';
 import {getEntities, getProposedProjectRisks, getToBeDiscussedProjectRisks} from "app/entities/project-risks/project-risks.reducer";
+import {IProjectRisks} from "app/shared/model/project-risks.model";
 
 type ProjectRisksProps = {
   riskDiscussionStatus: string
@@ -19,20 +20,30 @@ function ProjectRisks(props: IProjectRisksProps) {
   const [riskList, setRiskList] = useState([]);
   const { match } = props;
 
-  useEffect(() => {
-    if(props.riskDiscussionStatus === "proposed") {
+  const upvote = (projectRisk: IProjectRisks) => {
+    const newUpvotedProjectRisks = projectRisk;
+    newUpvotedProjectRisks.likes++;
+    props.updateProjectRisks(newUpvotedProjectRisks);
+  };
+
+  const fetch = () => {
       props.getProposedProjectRisks();
-    } else if(props.riskDiscussionStatus === "toBeDiscussed") {
       props.getToBeDiscussedProjectRisks();
-    } else if(props.riskDiscussionStatus === "final") {
       props.getEntities();
-    }
+  };
+
+  useEffect(() => {
+    fetch();
   }, []);
+
+  useEffect(() => {
+    console.log(props.riskDiscussionStatus)
+  }, [props.riskDiscussionStatus]);
 
   useEffect(() => {
     if(props.riskDiscussionStatus === "proposed") {
       setRiskList(Array.from(props.proposedProjectRiskEntities));
-    } else if(props.riskDiscussionStatus === "toBeDiscussed") {
+    } else if(props.riskDiscussionStatus.toLocaleUpperCase()  === "toBeDiscussed".toLocaleUpperCase()) {
       setRiskList(Array.from(props.toBeDiscussedProjectRiskEntities));
     } else if(props.riskDiscussionStatus === "final") {
       setRiskList(Array.from(props.projectRisksList));
@@ -64,11 +75,11 @@ function ProjectRisks(props: IProjectRisksProps) {
             </td>
             <td className="text-right">
               <div className="btn-group flex-btn-group-container">
-                <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}`} color="info" size="sm">
-                  <FontAwesomeIcon icon="eye" />{' '}
+                <Button onClick={() => upvote(projectRisks)} color="primary" size="sm" style={{marginRight: '5px'}}>
                   <span className="d-none d-md-inline">
-                            <Translate contentKey="entity.action.view">View</Translate>
-                          </span>
+                    {projectRisks.likes}
+                  </span>
+                  {' '}<FontAwesomeIcon icon="thumbs-up" />
                 </Button>
                 <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}/edit`} color="primary" size="sm">
                   <FontAwesomeIcon icon="pencil-alt" />{' '}
@@ -91,13 +102,71 @@ function ProjectRisks(props: IProjectRisksProps) {
     )
   };
 
-  const renderElse = (): JSX.Element => {
+  const renderDiscuss = (): JSX.Element => {
     return (
       <Table responsive aria-describedby="project-risks-heading">
         <thead>
         <tr>
           <th>
-            <Translate contentKey="global.field.id">ID</Translate>
+            <Translate contentKey="noRiskNoFunApp.risk.name">Title</Translate>
+          </th>
+          <th>
+            <Translate contentKey="noRiskNoFunApp.risk.description">Description</Translate>
+          </th>
+          <th />
+        </tr>
+        </thead>
+        <tbody>
+        {riskList.map((projectRisks, i) => (
+          <tr key={`entity-${i}`}>
+            <td>
+              <p>{projectRisks.risk.name}</p>
+            </td>
+            <td>
+              <p>{projectRisks.risk.description}</p>
+            </td>
+            <td className="text-right">
+              <div className="btn-group flex-btn-group-container">
+                {(projectRisks.projectSeverity == null || projectRisks.projectProbability == null) ? (
+                  <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}/edit`} color="primary" size="sm">
+                    <FontAwesomeIcon icon="pencil-alt" />{' '}
+                    <span className="d-none d-md-inline">
+                            <Translate contentKey="noRiskNoFunApp.projectRisks.actions.discuss">Discuss!</Translate>
+                          </span>
+                  </Button>
+                ) : (
+                  <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}`} color="primary" size="sm">
+                    <FontAwesomeIcon icon="pencil-alt" />{' '}
+                    <span className="d-none d-md-inline">
+                            <Translate contentKey="noRiskNoFunApp.projectRisks.actions.finalize">Finalize it!</Translate>
+                          </span>
+                  </Button>
+                )}
+                <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}/delete`} color="danger" size="sm">
+                  <FontAwesomeIcon icon="trash" />{' '}
+                  <span className="d-none d-md-inline">
+                            <Translate contentKey="entity.action.delete">Delete</Translate>
+                          </span>
+                </Button>
+              </div>
+            </td>
+          </tr>
+        ))}
+        </tbody>
+      </Table>
+    )
+  };
+
+  const renderFinal = (): JSX.Element => {
+    return (
+      <Table responsive aria-describedby="project-risks-heading">
+        <thead>
+        <tr>
+          <th>
+            <Translate contentKey="noRiskNoFunApp.risk.name">Title</Translate>
+          </th>
+          <th>
+            <Translate contentKey="noRiskNoFunApp.risk.description">Description</Translate>
           </th>
           <th>
             <Translate contentKey="noRiskNoFunApp.projectRisks.projectSeverity">Project Severity</Translate>
@@ -108,15 +177,6 @@ function ProjectRisks(props: IProjectRisksProps) {
           <th>
             <Translate contentKey="noRiskNoFunApp.projectRisks.hasOccured">Has Occured</Translate>
           </th>
-          <th>
-            <Translate contentKey="noRiskNoFunApp.projectRisks.riskResponse">Risk Response</Translate>
-          </th>
-          <th>
-            <Translate contentKey="noRiskNoFunApp.projectRisks.project">Project</Translate>
-          </th>
-          <th>
-            <Translate contentKey="noRiskNoFunApp.projectRisks.risk">Risk</Translate>
-          </th>
           <th />
         </tr>
         </thead>
@@ -124,9 +184,10 @@ function ProjectRisks(props: IProjectRisksProps) {
         {riskList.map((projectRisks, i) => (
           <tr key={`entity-${i}`}>
             <td>
-              <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}`} color="link" size="sm">
-                {projectRisks.id}
-              </Button>
+              <p>{projectRisks.risk.name}</p>
+            </td>
+            <td>
+              <p>{projectRisks.risk.description}</p>
             </td>
             <td>
               <Translate contentKey={`noRiskNoFunApp.SeverityType.${projectRisks.projectSeverity}`} />
@@ -134,25 +195,13 @@ function ProjectRisks(props: IProjectRisksProps) {
             <td>
               <Translate contentKey={`noRiskNoFunApp.ProbabilityType.${projectRisks.projectProbability}`} />
             </td>
-            <td>{projectRisks.hasOccured ? 'true' : 'false'}</td>
-            <td>
-              {projectRisks.riskResponses
-                ? projectRisks.riskResponses.map((val, j) => (
-                  <span key={j}>
-                              <Link to={`risk-response/${val.id}`}>{val.id}</Link>
-                    {j === projectRisks.riskResponses.length - 1 ? '' : ', '}
-                            </span>
-                ))
-                : null}
-            </td>
-            <td>{projectRisks.project ? <Link to={`project/${projectRisks.project.id}`}>{projectRisks.project.id}</Link> : ''}</td>
-            <td>{projectRisks.risk ? <Link to={`risk/${projectRisks.risk.id}`}>{projectRisks.risk.id}</Link> : ''}</td>
+            <td><Translate contentKey={`noRiskNoFunApp.projectRisks.hasOccured${projectRisks.hasOccured ? 'Yes' : 'No'}`} /></td>
             <td className="text-right">
               <div className="btn-group flex-btn-group-container">
                 <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}`} color="info" size="sm">
                   <FontAwesomeIcon icon="eye" />{' '}
                   <span className="d-none d-md-inline">
-                            <Translate contentKey="entity.action.view">View</Translate>
+                            <Translate contentKey="noRiskNoFunApp.projectRisks.actions.seemore">See more!</Translate>
                           </span>
                 </Button>
                 <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}/edit`} color="primary" size="sm">
@@ -180,9 +229,9 @@ function ProjectRisks(props: IProjectRisksProps) {
     if(props.riskDiscussionStatus === "proposed") {
       return renderProposed();
     } else if(props.riskDiscussionStatus === "toBeDiscussed") {
-      return renderElse();
-    } else if(props.riskDiscussionStatus === "final") {
-      return renderElse();
+      return renderDiscuss();
+    } else {
+      return renderFinal();
     }
   };
 
@@ -217,7 +266,8 @@ const mapStateToProps = ({ projectRisks }: IRootState) => ({
 const mapDispatchToProps = {
   getEntities,
   getProposedProjectRisks,
-  getToBeDiscussedProjectRisks
+  getToBeDiscussedProjectRisks,
+  updateProjectRisks
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

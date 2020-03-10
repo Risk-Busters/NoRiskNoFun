@@ -3,6 +3,8 @@ import com.riskbusters.norisknofun.domain.RiskResponse;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 /**
  * Spring Data  repository for the RiskResponse entity.
@@ -10,5 +12,4 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface RiskResponseRepository extends JpaRepository<RiskResponse, Long> {
-
 }

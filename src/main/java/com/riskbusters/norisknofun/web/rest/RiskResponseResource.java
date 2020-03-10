@@ -1,22 +1,26 @@
 package com.riskbusters.norisknofun.web.rest;
 
+import com.riskbusters.norisknofun.domain.ProjectRisks;
 import com.riskbusters.norisknofun.domain.RiskResponse;
+import com.riskbusters.norisknofun.repository.ProjectRisksBaseRepository;
 import com.riskbusters.norisknofun.repository.RiskResponseRepository;
+import com.riskbusters.norisknofun.service.ProjectRiskService;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
 
+import com.riskbusters.norisknofun.web.rest.vm.NewRiskResponseVM;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -34,25 +38,41 @@ public class RiskResponseResource {
     private String applicationName;
 
     private final RiskResponseRepository riskResponseRepository;
+    private final ProjectRisksBaseRepository projectRisksBaseRepository;
+    private final ProjectRiskService projectRiskService;
 
-    public RiskResponseResource(RiskResponseRepository riskResponseRepository) {
+    public RiskResponseResource(RiskResponseRepository riskResponseRepository, ProjectRisksBaseRepository projectRisksBaseRepository, ProjectRiskService projectRiskService) {
         this.riskResponseRepository = riskResponseRepository;
+        this.projectRisksBaseRepository = projectRisksBaseRepository;
+        this.projectRiskService = projectRiskService;
     }
 
     /**
      * {@code POST  /risk-responses} : Create a new riskResponse.
      *
-     * @param riskResponse the riskResponse to create.
+     * @param riskResponseVM the riskResponse to create and potential projectrisk id.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new riskResponse, or with status {@code 400 (Bad Request)} if the riskResponse has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    @Transactional
     @PostMapping("/risk-responses")
-    public ResponseEntity<RiskResponse> createRiskResponse(@Valid @RequestBody RiskResponse riskResponse) throws URISyntaxException {
-        log.debug("REST request to save RiskResponse : {}", riskResponse);
-        if (riskResponse.getId() != null) {
+    public ResponseEntity<RiskResponse> createRiskResponse(@Valid @RequestBody NewRiskResponseVM riskResponseVM) throws URISyntaxException {
+        log.debug("REST request to save RiskResponse : {}", riskResponseVM);
+        if (riskResponseVM.getRiskResponse().getId() != null) {
             throw new BadRequestAlertException("A new riskResponse cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        RiskResponse result = riskResponseRepository.save(riskResponse);
+
+        RiskResponse result = riskResponseRepository.save(riskResponseVM.getRiskResponse());
+
+        if (riskResponseVM.getProjectRiskId() != null) {
+            Optional<ProjectRisks> projectRisk = projectRisksBaseRepository.findById(riskResponseVM.getProjectRiskId());
+
+            projectRisk.ifPresent(projectRisks -> {
+                projectRisks.addRiskResponse(result);
+                projectRisksBaseRepository.save(projectRisks);
+                projectRiskService.updateDiscussionStatus(projectRisks);
+            });
+        }
         return ResponseEntity.created(new URI("/api/risk-responses/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -80,16 +100,17 @@ public class RiskResponseResource {
     }
 
     /**
+     * GET RISK RESPONSES VIA THE PROJECT RISK!
      * {@code GET  /risk-responses} : get all the riskResponses.
      *
 
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of riskResponses in body.
-     */
     @GetMapping("/risk-responses")
     public List<RiskResponse> getAllRiskResponses() {
         log.debug("REST request to get all RiskResponses");
         return riskResponseRepository.findAll();
     }
+    */
 
     /**
      * {@code GET  /risk-responses/:id} : get the "id" riskResponse.

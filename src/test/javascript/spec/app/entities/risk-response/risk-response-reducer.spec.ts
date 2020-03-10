@@ -223,13 +223,6 @@ describe('Entities reducer tests', () => {
         {
           type: SUCCESS(ACTION_TYPES.CREATE_RISKRESPONSE),
           payload: resolvedObject
-        },
-        {
-          type: REQUEST(ACTION_TYPES.FETCH_RISKRESPONSE_LIST)
-        },
-        {
-          type: SUCCESS(ACTION_TYPES.FETCH_RISKRESPONSE_LIST),
-          payload: resolvedObject
         }
       ];
       await store.dispatch(createEntity({ id: 1 })).then(() => expect(store.getActions()).toEqual(expectedActions));
@@ -243,13 +236,6 @@ describe('Entities reducer tests', () => {
         {
           type: SUCCESS(ACTION_TYPES.UPDATE_RISKRESPONSE),
           payload: resolvedObject
-        },
-        {
-          type: REQUEST(ACTION_TYPES.FETCH_RISKRESPONSE_LIST)
-        },
-        {
-          type: SUCCESS(ACTION_TYPES.FETCH_RISKRESPONSE_LIST),
-          payload: resolvedObject
         }
       ];
       await store.dispatch(updateEntity({ id: 1 })).then(() => expect(store.getActions()).toEqual(expectedActions));
@@ -262,13 +248,6 @@ describe('Entities reducer tests', () => {
         },
         {
           type: SUCCESS(ACTION_TYPES.DELETE_RISKRESPONSE),
-          payload: resolvedObject
-        },
-        {
-          type: REQUEST(ACTION_TYPES.FETCH_RISKRESPONSE_LIST)
-        },
-        {
-          type: SUCCESS(ACTION_TYPES.FETCH_RISKRESPONSE_LIST),
           payload: resolvedObject
         }
       ];

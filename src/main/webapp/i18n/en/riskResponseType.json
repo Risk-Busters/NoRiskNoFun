@@ -2,10 +2,10 @@
   "noRiskNoFunApp": {
     "RiskResponseType": {
       "null": "",
-      "PREVENTION": "PREVENTION",
-      "CONTINGENCY": "CONTINGENCY",
-      "MITIGATION": "MITIGATION",
-      "TOLERANCE": "TOLERANCE"
+      "PREVENTION": "Prevention",
+      "CONTINGENCY": "Contingency",
+      "MITIGATION": "Mitigation",
+      "TOLERANCE": "Tolerance"
     }
   }
 }

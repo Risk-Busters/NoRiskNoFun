@@ -39,6 +39,7 @@ import { faUsers } from '@fortawesome/free-solid-svg-icons/faUsers';
 import { faCrown } from '@fortawesome/free-solid-svg-icons/faCrown';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 
 export const loadIcons = () => {
   library.add(
@@ -80,6 +81,7 @@ export const loadIcons = () => {
     faMedal,
     faUsers,
     faCrown,
-    faAward
+    faAward,
+    faThumbsUp
   );
 };

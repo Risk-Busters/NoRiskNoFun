@@ -2,10 +2,10 @@
   "noRiskNoFunApp": {
     "SeverityType": {
       "null": "",
-      "BAD": "BAD",
-      "LESSBAD": "LESSBAD",
-      "NEUTRAL": "NEUTRAL",
-      "SOSO": "SOSO",
+      "BAD": "Bad",
+      "LESSBAD": "Less bad",
+      "NEUTRAL": "Neutral",
+      "SOSO": "So so",
       "OK": "OK"
     }
   }

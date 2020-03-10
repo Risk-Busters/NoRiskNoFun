@@ -17,6 +17,8 @@
     <include file="config/liquibase/changelog/20200111214706_set_db_time.xml" relativeToChangelogFile="false"/>
     <!-- Changelogs -->
     <include file="config/liquibase/changelog/20200127200224_changelog_project_owner_not_unique.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200306163126_changelog_project_risks_likes.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200309102208_changelog_project_risk_owner.xml" relativeToChangelogFile="false"/>
     <!-- Test data -->
     <include file="config/liquibase/changelog/insert-test-data/20200701_load_user_test_data.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/insert-test-data/20202701_load_risk_test_data.xml" relativeToChangelogFile="false"/>

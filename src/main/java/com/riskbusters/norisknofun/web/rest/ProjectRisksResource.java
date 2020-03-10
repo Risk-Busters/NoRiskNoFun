@@ -1,14 +1,16 @@
 package com.riskbusters.norisknofun.web.rest;
 
+import com.riskbusters.norisknofun.domain.Project;
 import com.riskbusters.norisknofun.domain.ProjectRisks;
-import com.riskbusters.norisknofun.domain.projectrisks.FinalProjectRisk;
-import com.riskbusters.norisknofun.domain.projectrisks.ProposedProjectRisk;
-import com.riskbusters.norisknofun.domain.projectrisks.ToBeDiscussedProjectRisk;
-import com.riskbusters.norisknofun.repository.DoBeDiscussedProjectRiskRepository;
-import com.riskbusters.norisknofun.repository.FinalProjectRiskRepository;
-import com.riskbusters.norisknofun.repository.ProposedProjectRiskRepository;
+import com.riskbusters.norisknofun.domain.User;
+import com.riskbusters.norisknofun.domain.enumeration.RiskDiscussionState;
+import com.riskbusters.norisknofun.repository.ProjectRepository;
+import com.riskbusters.norisknofun.repository.ProjectRisksBaseRepository;
 import com.riskbusters.norisknofun.repository.RiskRepository;
+import com.riskbusters.norisknofun.service.ProjectRiskService;
+import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
+import com.riskbusters.norisknofun.web.rest.vm.ProposeRiskVM;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -38,17 +40,16 @@ public class ProjectRisksResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final RiskRepository riskRepository;
+    private final UserService userService;
+    private final ProjectRepository projectRepository;
+    private final ProjectRisksBaseRepository projectRisksBaseRepository;
+    private final ProjectRiskService projectRiskService;
 
-    private final ProposedProjectRiskRepository proposedProjectRiskRepository;
-    private final DoBeDiscussedProjectRiskRepository discussedProjectRiskRepository;
-    private final FinalProjectRiskRepository finalProjectRiskRepository;
-
-    public ProjectRisksResource(ProposedProjectRiskRepository proposedProjectRiskRepository, FinalProjectRiskRepository finalProjectRiskRepository, DoBeDiscussedProjectRiskRepository discussedProjectRiskRepository, RiskRepository riskRepository) {
-        this.proposedProjectRiskRepository = proposedProjectRiskRepository;
-        this.finalProjectRiskRepository = finalProjectRiskRepository;
-        this.discussedProjectRiskRepository = discussedProjectRiskRepository;
-        this.riskRepository = riskRepository;
+    public ProjectRisksResource(ProjectRisksBaseRepository projectRisksBaseRepository, RiskRepository riskRepository, UserService userService, ProjectRepository projectRepository, ProjectRiskService projectRiskService) {
+        this.projectRisksBaseRepository = projectRisksBaseRepository;
+        this.userService = userService;
+        this.projectRepository = projectRepository;
+        this.projectRiskService = projectRiskService;
     }
 
     /**
@@ -59,12 +60,16 @@ public class ProjectRisksResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/project-risks")
-    public ResponseEntity<ProjectRisks> createProjectRisks(@Valid @RequestBody ProposedProjectRisk proposedProjectRisk) throws URISyntaxException {
-        log.debug("REST request to save ProjectRisks : {}", proposedProjectRisk);
-        if (proposedProjectRisk.getId() != null) {
-            throw new BadRequestAlertException("A new proposedProjectRisk cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        ProposedProjectRisk result = proposedProjectRiskRepository.save(proposedProjectRisk);
+    public ResponseEntity<ProjectRisks> createProjectRisks(@Valid @RequestBody ProposeRiskVM proposedProjectRisk) throws URISyntaxException {
+        log.debug("REST request to save new proposed ProjectRisk : {}", proposedProjectRisk);
+
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (!user.isPresent()) throw new BadRequestAlertException("Missing credentials", ENTITY_NAME, "usernull");
+
+        Optional<Project> project = projectRepository.findByUsersIsContainingOrOwnerEqualsAndIdEquals(user.get(), user.get(), proposedProjectRisk.getProjectId());
+        if (!project.isPresent()) throw new BadRequestAlertException("User not in project", ENTITY_NAME, "projectnotexist");
+
+        ProjectRisks result = projectRiskService.proposeProjectRisk(proposedProjectRisk.title, proposedProjectRisk.description, project.get());
         return ResponseEntity.created(new URI("/api/project-risks/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -85,23 +90,8 @@ public class ProjectRisksResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
 
-        riskRepository.save(projectRisks.getRisk());
-
-        ProjectRisks result;
-        switch (projectRisks.riskDiscussionStatus) {
-
-            case "proposed":
-                result = proposedProjectRiskRepository.save((ProposedProjectRisk) projectRisks);
-                break;
-            case "toBeDiscussed":
-                result = discussedProjectRiskRepository.save((ToBeDiscussedProjectRisk) projectRisks);
-                break;
-            case "final":
-                result = finalProjectRiskRepository.save((FinalProjectRisk) projectRisks);
-                break;
-            default:
-                throw new BadRequestAlertException("Seems like this risks doesnt have an status", null, "nostatus");
-        }
+        ProjectRisks result = projectRiskService.saveProjectRisk(projectRisks);
+        projectRiskService.updateDiscussionStatus(projectRisks);
 
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, projectRisks.getId().toString()))
@@ -109,16 +99,15 @@ public class ProjectRisksResource {
     }
 
     /**
-     * {@code GET  /project-risks} : get all the projectRisks.
+     * {@code GET  /project-risks} : get all final projectRisks.
      *
      * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projectRisks in body.
      */
     @GetMapping("/project-risks")
-    public List<FinalProjectRisk> getAllProjectRisks(@RequestHeader("referer") URL url, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public List<ProjectRisks> getAllProjectRisks(@RequestHeader("referer") URL url, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         long projectId;
         try {
-            //TODO: maybe not the best way (hacky to get projectId out of referer URL)
             projectId = Long.parseLong(url.getPath().split("/")[3]);
         } catch (ArrayIndexOutOfBoundsException e) {
             log.debug("Error while getting projectId. Set projectId to -1");
@@ -126,8 +115,48 @@ public class ProjectRisksResource {
         }
 
         log.debug("REST request to get all finalProjectRisks for project with id " + projectId);
-        log.debug("all finalProjectRisks" + finalProjectRiskRepository.findAllByProject_Id(projectId).toString());
-        return finalProjectRiskRepository.findAllByProject_Id(projectId);
+        log.debug("all finalProjectRisks" + projectRisksBaseRepository.findAllByProjectIdAndRiskDiscussionStatusEquals(projectId, RiskDiscussionState.FINAL.getState()));
+        return projectRisksBaseRepository.findAllByProjectIdAndRiskDiscussionStatusEquals(projectId, RiskDiscussionState.FINAL.getState());
+    }
+
+    /**
+     * {@code GET  /project-risks} : get all discussion projectRisks.
+     *
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projectRisks in body.
+     */
+    @GetMapping("/discuss-project-risks")
+    public List<ProjectRisks> getAllDiscussProjectRisks(@RequestHeader("referer") URL url, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+        long projectId;
+        try {
+            projectId = Long.parseLong(url.getPath().split("/")[3]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            log.debug("Error while getting projectId. Set projectId to -1");
+            projectId = -1L;
+        }
+
+        log.debug("REST request to get all proposedProjectRisks for project with id " + projectId);
+        return projectRisksBaseRepository.findAllByProjectIdAndRiskDiscussionStatusEquals(projectId, RiskDiscussionState.DISCUSSION.getState());
+    }
+
+    /**
+     * {@code GET  /project-risks} : get all proposed projectRisks.
+     *
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projectRisks in body.
+     */
+    @GetMapping("/proposed-project-risks")
+    public List<ProjectRisks> getAllProposedProjectRisks(@RequestHeader("referer") URL url, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+        long projectId;
+        try {
+            projectId = Long.parseLong(url.getPath().split("/")[3]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            log.debug("Error while getting projectId. Set projectId to -1");
+            projectId = -1L;
+        }
+
+        log.debug("REST request to get all proposedProjectRisks for project with id " + projectId);
+        return projectRisksBaseRepository.findAllByProjectIdAndRiskDiscussionStatusEquals(projectId, RiskDiscussionState.PROPOSED.getState());
     }
 
     /**
@@ -137,9 +166,9 @@ public class ProjectRisksResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the projectRisks, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/project-risks/{id}")
-    public ResponseEntity<ProposedProjectRisk> getProjectRisks(@PathVariable Long id) {
+    public ResponseEntity<ProjectRisks> getProjectRisks(@PathVariable Long id) {
         log.debug("REST request to get ProjectRisks : {}", id);
-        Optional<ProposedProjectRisk> projectRisks = proposedProjectRiskRepository.findOneWithEagerRelationships(id);
+        Optional<ProjectRisks> projectRisks = projectRisksBaseRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(projectRisks);
     }
 
@@ -152,7 +181,7 @@ public class ProjectRisksResource {
     @DeleteMapping("/project-risks/{id}")
     public ResponseEntity<Void> deleteProjectRisks(@PathVariable Long id) {
         log.debug("REST request to delete ProjectRisks : {}", id);
-        proposedProjectRiskRepository.deleteById(id);
+        projectRisksBaseRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 }

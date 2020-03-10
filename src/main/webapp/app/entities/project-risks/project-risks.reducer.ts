@@ -117,6 +117,7 @@ export default (state: ProjectRisksState = initialState, action): ProjectRisksSt
 
 const apiUrl = 'api/project-risks';
 const apiUrlProposedProjectRisks = 'api/proposed-project-risks';
+const apiUrlDiscussProjectRisks = 'api/discuss-project-risks';
 
 // Actions
 
@@ -130,10 +131,9 @@ export const getProposedProjectRisks: ICrudGetAllAction<IProjectRisks> = (page, 
   payload: axios.get<IProjectRisks>(`${apiUrlProposedProjectRisks}?cacheBuster=${new Date().getTime()}`)
 });
 
-// TODO: adapt this method and call suitable controller!
 export const getToBeDiscussedProjectRisks: ICrudGetAllAction<IProjectRisks> = (page, size, sort) => ({
   type: ACTION_TYPES.FETCH_TOBEDISCUSSEDPROJECTRISKS_LIST,
-  payload: axios.get<IProjectRisks>(`${apiUrl}?cacheBuster=${new Date().getTime()}`)
+  payload: axios.get<IProjectRisks>(`${apiUrlDiscussProjectRisks}?cacheBuster=${new Date().getTime()}`)
 });
 
 export const getEntity: ICrudGetAction<IProjectRisks> = id => {
@@ -147,7 +147,7 @@ export const getEntity: ICrudGetAction<IProjectRisks> = id => {
 export const createEntity: ICrudPutAction<IProjectRisks> = entity => async dispatch => {
   const result = await dispatch({
     type: ACTION_TYPES.CREATE_PROJECTRISKS,
-    payload: axios.post(apiUrlProposedProjectRisks, cleanEntity(entity))
+    payload: axios.post(apiUrl, cleanEntity(entity))
   });
   dispatch(getEntities());
   return result;
@@ -159,6 +159,8 @@ export const updateEntity: ICrudPutAction<IProjectRisks> = entity => async dispa
     payload: axios.put(apiUrl, cleanEntity(entity))
   });
   dispatch(getEntities());
+  dispatch(getProposedProjectRisks());
+  dispatch(getToBeDiscussedProjectRisks());
   return result;
 };
 

@@ -10,9 +10,6 @@ public class PointsWithDate implements Serializable {
 
     private String date;
 
-    public PointsWithDate() {
-    }
-
     public PointsWithDate(Long pointsScore, CustomDate date) {
         this.pointsScore = pointsScore;
         this.date = date.getCurrentDateFormatted();

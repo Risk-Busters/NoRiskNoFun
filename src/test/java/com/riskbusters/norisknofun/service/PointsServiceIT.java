@@ -6,7 +6,7 @@ import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.domain.achievements.Achievement;
 import com.riskbusters.norisknofun.domain.achievements.ProjectMember;
-import com.riskbusters.norisknofun.repository.UserGamificationRepository;
+import com.riskbusters.norisknofun.repository.gamification.UserGamificationRepository;
 import com.riskbusters.norisknofun.repository.UserRepository;
 import com.riskbusters.norisknofun.web.rest.UserResourceIT;
 import org.junit.jupiter.api.BeforeEach;

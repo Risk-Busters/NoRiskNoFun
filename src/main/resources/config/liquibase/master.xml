@@ -19,6 +19,8 @@
     <include file="config/liquibase/changelog/20200127200224_changelog_project_owner_not_unique.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200306163126_changelog_project_risks_likes.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200309102208_changelog_project_risk_owner.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200311160501_changelog_add_table_for_points_over_time.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200311164641_changelog_change_date_column.xml" relativeToChangelogFile="false"/>
     <!-- Test data -->
     <include file="config/liquibase/changelog/insert-test-data/20200701_load_user_test_data.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/insert-test-data/20202701_load_risk_test_data.xml" relativeToChangelogFile="false"/>
@@ -26,6 +28,7 @@
     <include file="config/liquibase/changelog/insert-test-data/20202701_load_project_test_data.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/insert-test-data/20202701_load_risk_response_test_data.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/insert-test-data/20202701_load_user_gamification_test_data.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/insert-test-data/20202701_load_user_gamification_points_over_time_test_data.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

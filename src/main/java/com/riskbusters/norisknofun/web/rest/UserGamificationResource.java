@@ -1,7 +1,7 @@
 package com.riskbusters.norisknofun.web.rest;
 
 import com.riskbusters.norisknofun.domain.User;
-import com.riskbusters.norisknofun.service.UserGamificationService;
+import com.riskbusters.norisknofun.service.gamification.UserGamificationService;
 import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.service.dto.UserGamificationDTO;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
@@ -52,11 +52,16 @@ public class UserGamificationResource {
         if (userGamificationDTO.getId() != null) {
             throw new BadRequestAlertException("A new userGamification cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Long userId = userService.getUserWithAuthorities().get().getId();
-        UserGamificationDTO result = userGamificationService.save(userGamificationDTO, userId);
-        return ResponseEntity.created(new URI("/api/user-gamifications/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        Optional<User> user = userService.getUserWithAuthorities();
+        if(user.isPresent()) {
+            Long userId = user.get().getId();
+            UserGamificationDTO result = userGamificationService.save(userGamificationDTO, userId);
+            return ResponseEntity.created(new URI("/api/user-gamifications/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                .body(result);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -74,11 +79,16 @@ public class UserGamificationResource {
         if (userGamificationDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        Long userId = userService.getUserWithAuthorities().get().getId();
-        UserGamificationDTO result = userGamificationService.save(userGamificationDTO, userId);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, userGamificationDTO.getId().toString()))
-            .body(result);
+        Optional<User> user = userService.getUserWithAuthorities();
+        if(user.isPresent()) {
+            Long userId = user.get().getId();
+            UserGamificationDTO result = userGamificationService.save(userGamificationDTO, userId);
+            return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, userGamificationDTO.getId().toString()))
+                .body(result);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -89,9 +99,13 @@ public class UserGamificationResource {
      */
     @GetMapping("/user-gamifications")
     public UserGamificationDTO getAllUserGamifications(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
-        User user = userService.getUserWithAuthorities().get();
-        log.debug("REST request to get all UserGamifications for user with id: {}", user.getId());
-        return userGamificationService.findAllForOneUser(user);
+        Optional<User> user = userService.getUserWithAuthorities();
+        if(user.isPresent()) {
+            log.debug("REST request to get all UserGamifications for user with id: {}", user.get().getId());
+            return userGamificationService.findAllForOneUser(user.get());
+        } else {
+            return null;
+        }
     }
 
     /**

@@ -6,6 +6,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * A Table holding all points by day and user.
+ */
 @Entity
 @Table(name = "user_gamification_points_over_time")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

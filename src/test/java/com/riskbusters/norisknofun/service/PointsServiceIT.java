@@ -6,6 +6,7 @@ import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.domain.achievements.Achievement;
 import com.riskbusters.norisknofun.domain.achievements.ProjectMember;
+import com.riskbusters.norisknofun.repository.gamification.PointsOverTimeRepository;
 import com.riskbusters.norisknofun.repository.gamification.UserGamificationRepository;
 import com.riskbusters.norisknofun.repository.UserRepository;
 import com.riskbusters.norisknofun.web.rest.UserResourceIT;
@@ -33,6 +34,9 @@ public class PointsServiceIT {
 
     @Autowired
     private UserGamificationRepository userGamificationRepository;
+
+    @Autowired
+    private PointsOverTimeRepository pointsOverTimeRepository;
 
     @Autowired
     private PointsService pointsService;
@@ -66,6 +70,7 @@ public class PointsServiceIT {
 
     @BeforeEach
     public void init() {
+        pointsOverTimeRepository.deleteAll();
         userRepository.deleteAll();
         user = UserResourceIT.createEntity(em);
         userRepository.save(user);

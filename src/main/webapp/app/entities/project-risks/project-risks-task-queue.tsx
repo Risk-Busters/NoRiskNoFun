@@ -1,43 +1,44 @@
 import React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import {useParams} from 'react-router-dom';
+import {useParams, useHistory} from 'react-router-dom';
 import {Translate} from 'react-jhipster';
 
 function ProjectRisksTaskQueue() {
 
+  const history = useHistory();
   const { id } = useParams();
 
   const handleClose = event => {
     event.stopPropagation();
-    this.props.history.go(2);
+    history.push(`/entity/project/${id}/proposed`);
   };
 
   const handleProposeAnother = event => {
     event.stopPropagation();
-    this.props.history.goBack();
+    history.push(`/entity/project/${id}/project-risks/new`);
   };
 
   const handleReviewRisks = event => {
     event.stopPropagation();
-    this.props.history.push(`/entities/projects/${id}/toBeDiscussed`);
+    history.push(`/entity/project/${id}/toBeDiscussed`);
   };
 
   return (
-    <Modal isOpen toggle={this.handleClose}>
-      <ModalHeader toggle={this.handleClose}>
+    <Modal isOpen toggle={handleClose}>
+      <ModalHeader toggle={handleClose}>
         <Translate contentKey="noRiskNoFunApp.projectRisks.taskQueue.title" />
       </ModalHeader>
       <ModalBody id="noRiskNoFunApp.projectRisks.taskQueue.description">
         <Translate contentKey="noRiskNoFunApp.projectRisks.taskQueue.description" />
       </ModalBody>
       <ModalFooter>
-        <Button id="noRiskNoFunApp.projectRisks.taskQueue.another" color="secondary" onClick={(e) => handleProposeAnother(e)}>
+        <Button id="noRiskNoFunApp.projectRisks.taskQueue.another" color="primary" onClick={(e) => handleProposeAnother(e)}>
           <Translate contentKey="noRiskNoFunApp.projectRisks.taskQueue.another" />
         </Button>
-        <Button id="noRiskNoFunApp.projectRisks.taskQueue.reviewDiscussable" color="primary" onClick={(e) => handleReviewRisks(e)}>
+        <Button id="noRiskNoFunApp.projectRisks.taskQueue.reviewDiscussable" color="secondary" onClick={(e) => handleClose(e)}>
           <Translate contentKey="noRiskNoFunApp.projectRisks.taskQueue.reviewProposed" />
         </Button>
-        <Button id="noRiskNoFunApp.projectRisks.taskQueue.reviewDiscussable" color="primary" onClick={(e) => handleReviewRisks(e)}>
+        <Button id="noRiskNoFunApp.projectRisks.taskQueue.reviewDiscussable" color="secondary" onClick={(e) => handleReviewRisks(e)}>
           <Translate contentKey="noRiskNoFunApp.projectRisks.taskQueue.reviewDiscussable" />
         </Button>
       </ModalFooter>

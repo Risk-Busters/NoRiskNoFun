@@ -36,7 +36,14 @@
       "risk": "Risk",
       "title": "Risk Title",
       "description": "Risk Description",
-      "personInCharge": "Person in charge"
+      "personInCharge": "Person in charge",
+      "taskQueue": {
+        "title": "Good job on proposing a project risk!",
+        "description": "Keep it going by proposing another risk or work on other risks.",
+        "another": "Propose another",
+        "reviewProposed": "Review proposed",
+        "reviewDiscussable": "Discuss risks"
+      }
     },
     "proposeRiskVM": {
       "title": "Title",

@@ -14,6 +14,7 @@ import ProjectRisksDeleteDialog from "app/entities/project-risks/project-risks-d
 import RiskResponseUpdate from "app/entities/risk-response/risk-response-update";
 import RiskResponseDetail from "app/entities/risk-response/risk-response-detail";
 import RiskResponseDeleteDialog from "app/entities/risk-response/risk-response-delete-dialog";
+import ProjectRisksTaskQueue from "app/entities/project-risks/project-risks-task-queue";
 
 const Routes = ({ match }) => (
   <>
@@ -32,6 +33,7 @@ const Routes = ({ match }) => (
       <ErrorBoundaryRoute path={`${match.url}/:id/:risktype?/project-risks/:riskId/response/:responseId/delete`} component={RiskResponseDeleteDialog} />
 
       <ErrorBoundaryRoute exact path={`${match.url}/:id/:risktype?/project-risks/new`} component={ProjectRisksUpdate} />
+      <ErrorBoundaryRoute exact path={`${match.url}/:id/:risktype?/project-risks/taskqueue`} component={ProjectRisksTaskQueue} />
       <ErrorBoundaryRoute exact path={`${match.url}/:id/:risktype?/project-risks/:riskId/edit`} component={ProjectRisksUpdate} />
       <ErrorBoundaryRoute exact path={`${match.url}/:id/:risktype?/project-risks/:riskId`} component={ProjectRisksDetail} />
       <ErrorBoundaryRoute path={`${match.url}/:id/:risktype?/project-risks/:riskId`} component={ProjectRisks} />

@@ -82,7 +82,7 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
     };
 
   handleClose = () => {
-    this.state.isNew ? this.props.history.push(`/entity/project/${this.state.projectId}/proposed`) : this.props.history.push(`/entity/project/${this.state.projectId}`);
+    this.state.isNew ? this.props.history.push(`/entity/project/${this.state.projectId}/proposed/project-risks/taskqueue`) : this.props.history.push(`/entity/project/${this.state.projectId}`);
   };
 
   renderProjectRiskForm = () => {

@@ -127,7 +127,7 @@ function ProjectRisks(props: IProjectRisksProps) {
             </td>
             <td className="text-right">
               <div className="btn-group flex-btn-group-container">
-                {(projectRisks.discussions === null || Object.keys(projectRisks.discussions).length < 2) ? (
+                {(projectRisks.discussions === null || projectRisks.discussions.size < 2) ? (
                   <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}/edit`} color="primary" size="sm">
                     <FontAwesomeIcon icon="pencil-alt" />{' '}
                     <span className="d-none d-md-inline">

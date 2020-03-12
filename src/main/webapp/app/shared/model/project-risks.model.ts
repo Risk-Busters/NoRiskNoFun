@@ -7,7 +7,7 @@ import { IUser } from 'app/shared/model/user.model';
 
 export interface IProjectRisks {
   id?: number;
-  discussions?: Map<IUser, IRiskDiscussion>;
+  discussions?: Set<IRiskDiscussion>;
   hasOccured?: boolean;
   riskResponses?: IRiskResponse[];
   project?: IProject;
@@ -24,6 +24,7 @@ export interface IRiskDiscussionVM {
 }
 
 export interface IRiskDiscussion {
+  user: IUser;
   projectSeverity: any;
   projectProbability: any;
 }

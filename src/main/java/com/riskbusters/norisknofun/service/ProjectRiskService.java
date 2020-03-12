@@ -57,11 +57,23 @@ public class ProjectRiskService {
      */
     public RiskDiscussion saveProjectRiskDiscussion(SeverityType severityType, ProbabilityType probabilityType, ProjectRisks projectRisk, User user) {
         RiskDiscussion discussion = new RiskDiscussion();
+        discussion.setUser(user);
         discussion.setProjectProbability(probabilityType);
         discussion.setProjectSeverity(severityType);
 
-        projectRisk.putDiscussion(discussion, user);
+        for (RiskDiscussion riskDiscussion : projectRisk.getDiscussions()) {
+            if (riskDiscussion.getUser().equals(discussion.getUser())) {
+                riskDiscussion.setProjectSeverity(severityType);
+                riskDiscussion.setProjectProbability(probabilityType);
+
+                riskDiscussionRepository.save(riskDiscussion);
+                return riskDiscussion;
+            }
+        }
+
         riskDiscussionRepository.save(discussion);
+
+        projectRisk.getDiscussions().add(discussion);
         projectRisksBaseRepository.save(projectRisk);
 
         return discussion;

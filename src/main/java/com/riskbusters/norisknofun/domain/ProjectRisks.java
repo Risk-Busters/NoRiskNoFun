@@ -28,9 +28,9 @@ public class ProjectRisks implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @Column(name = "discussions")
-    private Map<User, RiskDiscussion> discussions = new HashMap<>();
+    private Set<RiskDiscussion> discussions = new HashSet<>();
 
     @NotNull
     @Column(name = "has_occured", nullable = false)
@@ -87,17 +87,12 @@ public class ProjectRisks implements Serializable {
         this.personInCharge = personInCharge;
     }
 
-    public Map<User, RiskDiscussion> getDiscussions() {
-        return this.discussions;
+    public Set<RiskDiscussion> getDiscussions() {
+        return discussions;
     }
 
-    public void setDiscussions(Map<User, RiskDiscussion> discussions) {
+    public void setDiscussions(Set<RiskDiscussion> discussions) {
         this.discussions = discussions;
-    }
-
-
-    public void putDiscussion(RiskDiscussion discussion, User user) {
-        this.discussions.put(user, discussion);
     }
 
     public Boolean isHasOccured() {
@@ -186,7 +181,6 @@ public class ProjectRisks implements Serializable {
         return "ProjectRisks{" +
             "id=" + getId() +
             ", hasOccured='" + isHasOccured() + "'" +
-            ", discussions='" + getDiscussions().toString() + "'" +
             "}";
     }
 }

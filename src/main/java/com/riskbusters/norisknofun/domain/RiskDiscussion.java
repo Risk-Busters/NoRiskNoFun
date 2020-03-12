@@ -14,6 +14,10 @@ public class RiskDiscussion {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
+    @OneToOne
+    @JoinColumn
+    private User user;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "project_severity")
@@ -23,6 +27,14 @@ public class RiskDiscussion {
     @Enumerated(EnumType.STRING)
     @Column(name = "project_probability")
     private ProbabilityType projectProbability;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Long getId() {
         return id;

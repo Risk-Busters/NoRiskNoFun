@@ -1,11 +1,10 @@
 package com.riskbusters.norisknofun.service.dto;
 
+import com.riskbusters.norisknofun.domain.PointsWithDate;
 import com.riskbusters.norisknofun.domain.achievements.Achievement;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A DTO for the {@link com.riskbusters.norisknofun.domain.UserGamification} entity.
@@ -21,6 +20,8 @@ public class UserGamificationDTO implements Serializable {
     private String userLogin;
 
     private Set<Achievement> userAchievements = new HashSet<>();
+
+    private List<PointsWithDate> pointsOverTime = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -62,6 +63,14 @@ public class UserGamificationDTO implements Serializable {
         this.userAchievements = userAchievements;
     }
 
+    public List<PointsWithDate> getPointsOverTime() {
+        return pointsOverTime;
+    }
+
+    public void setPointsOverTime(List<PointsWithDate> pointsOverTime) {
+        this.pointsOverTime = pointsOverTime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -91,6 +100,7 @@ public class UserGamificationDTO implements Serializable {
             ", user=" + getUserId() +
             ", user='" + getUserLogin() + "'" +
             ", userAchievements='" + getUserAchievements() + "'" +
+            ", pointsOverTime='" + getPointsOverTime() + "'" +
             "}";
     }
 }

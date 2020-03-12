@@ -1,4 +1,4 @@
-package com.riskbusters.norisknofun.repository;
+package com.riskbusters.norisknofun.repository.gamification;
 
 import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.UserGamification;

@@ -2,7 +2,7 @@ package com.riskbusters.norisknofun.service;
 
 import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.domain.achievements.Achievement;
-import com.riskbusters.norisknofun.repository.UserGamificationRepository;
+import com.riskbusters.norisknofun.repository.gamification.UserGamificationRepository;
 import com.riskbusters.norisknofun.repository.achievements.AchievementBaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +41,7 @@ public class AchievementService {
     }
 
     /**
-     * Save a list of achievements.
+     * Add Achievements for one user
      *
      * @param userAchievements achievements to add to the user
      * @param userId           add points for this user

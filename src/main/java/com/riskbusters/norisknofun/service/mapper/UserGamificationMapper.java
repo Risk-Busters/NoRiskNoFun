@@ -1,10 +1,13 @@
 package com.riskbusters.norisknofun.service.mapper;
 
 import com.riskbusters.norisknofun.domain.Points;
+import com.riskbusters.norisknofun.domain.PointsWithDate;
 import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.repository.UserRepository;
 import com.riskbusters.norisknofun.service.dto.UserGamificationDTO;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class UserGamificationMapper {
@@ -20,6 +23,15 @@ public class UserGamificationMapper {
         userGamificationDTO.setId(userGamification.getId());
         userGamificationDTO.setPointsScore(userGamification.getPointsScore().getPointsAsLong());
         userGamificationDTO.setUserAchievements((userGamification.getUserAchievements()));
+        return userGamificationDTO;
+    }
+
+    public UserGamificationDTO toUserGamificationDTO(UserGamification userGamification, List<PointsWithDate> pointsOverTime) {
+        UserGamificationDTO userGamificationDTO = new UserGamificationDTO();
+        userGamificationDTO.setId(userGamification.getId());
+        userGamificationDTO.setPointsScore(userGamification.getPointsScore().getPointsAsLong());
+        userGamificationDTO.setUserAchievements((userGamification.getUserAchievements()));
+        userGamificationDTO.setPointsOverTime(pointsOverTime);
         return userGamificationDTO;
     }
 

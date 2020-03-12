@@ -46,7 +46,9 @@ function UserGamification(props: IUserGamificationProps) {
               <th>
                 <Translate contentKey="noRiskNoFunApp.userGamification.achievementType">Achievement Type</Translate>
               </th>
-              <th/>
+              <th>
+                <Translate contentKey="noRiskNoFunApp.userGamification.pointsOverTime" />
+              </th>
             </tr>
             </thead>
             <tbody>
@@ -66,6 +68,15 @@ function UserGamification(props: IUserGamificationProps) {
                         {val.name}
                         {j === props.userGamification.userAchievements.length - 1 ? '' : ', '}
                             </span>
+                    ))
+                    : null}
+                </td>
+                <td>
+                  {props.userGamification.pointsOverTime
+                    ? props.userGamification.pointsOverTime.map((val, j) => (
+                      <span key={j}>
+                        {val.date + ': ' + val.pointsScore + ', '}
+                      </span>
                     ))
                     : null}
                 </td>

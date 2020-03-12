@@ -5,7 +5,6 @@ import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.repository.UserRepository;
 import com.riskbusters.norisknofun.security.AuthoritiesConstants;
 import com.riskbusters.norisknofun.service.MailService;
-import com.riskbusters.norisknofun.service.UserGamificationService;
 import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.service.dto.UserDTO;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;

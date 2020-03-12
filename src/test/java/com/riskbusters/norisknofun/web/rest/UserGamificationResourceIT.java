@@ -2,8 +2,8 @@
 //
 //import com.riskbusters.norisknofun.NoRiskNoFunApp;
 //import com.riskbusters.norisknofun.domain.UserGamification;
-//import com.riskbusters.norisknofun.repository.UserGamificationRepository;
-//import com.riskbusters.norisknofun.service.UserGamificationService;
+//import com.riskbusters.norisknofun.repository.gamification.UserGamificationRepository;
+//import com.riskbusters.norisknofun.service.userGamification.UserGamificationService;
 //import com.riskbusters.norisknofun.service.UserService;
 //import com.riskbusters.norisknofun.service.dto.UserGamificationDTO;
 //import com.riskbusters.norisknofun.web.rest.errors.ExceptionTranslator;

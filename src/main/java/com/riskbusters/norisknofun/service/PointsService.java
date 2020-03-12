@@ -2,7 +2,7 @@ package com.riskbusters.norisknofun.service;
 
 import com.riskbusters.norisknofun.domain.Points;
 import com.riskbusters.norisknofun.domain.UserGamification;
-import com.riskbusters.norisknofun.repository.UserGamificationRepository;
+import com.riskbusters.norisknofun.repository.gamification.UserGamificationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

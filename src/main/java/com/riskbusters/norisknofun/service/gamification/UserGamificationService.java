@@ -1,11 +1,13 @@
-package com.riskbusters.norisknofun.service;
+package com.riskbusters.norisknofun.service.gamification;
 
+import com.riskbusters.norisknofun.domain.PointsWithDate;
 import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.domain.achievements.Achievement;
-import com.riskbusters.norisknofun.repository.UserGamificationRepository;
+import com.riskbusters.norisknofun.repository.gamification.UserGamificationRepository;
 import com.riskbusters.norisknofun.repository.UserRepository;
 import com.riskbusters.norisknofun.repository.achievements.AchievementBaseRepository;
+import com.riskbusters.norisknofun.service.AchievementService;
 import com.riskbusters.norisknofun.service.dto.UserGamificationDTO;
 import com.riskbusters.norisknofun.service.mapper.UserGamificationMapper;
 import org.slf4j.Logger;
@@ -27,6 +29,8 @@ public class UserGamificationService {
 
     private final UserGamificationRepository userGamificationRepository;
 
+    private final PointsOverTimeService pointsOverTimeService;
+
     private final AchievementBaseRepository achievementBaseRepository;
 
     private final UserRepository userRepository;
@@ -35,12 +39,13 @@ public class UserGamificationService {
 
     private UserGamificationMapper mapper;
 
-    public UserGamificationService(UserGamificationRepository userGamificationRepository, AchievementBaseRepository achievementBaseRepository, AchievementService achievementService, UserRepository userRepository) {
+    public UserGamificationService(UserGamificationRepository userGamificationRepository, AchievementBaseRepository achievementBaseRepository, AchievementService achievementService, UserRepository userRepository, PointsOverTimeService pointsOverTimeService) {
         this.userGamificationRepository = userGamificationRepository;
         this.achievementBaseRepository = achievementBaseRepository;
         this.achievementService = achievementService;
         this.userRepository = userRepository;
         this.mapper = new UserGamificationMapper(this.userRepository);
+        this.pointsOverTimeService = pointsOverTimeService;
     }
 
     /**
@@ -69,11 +74,9 @@ public class UserGamificationService {
     public UserGamificationDTO findAllForOneUser(User user) {
         log.debug("Request to get all UserGamifications for user: {}", user);
         Optional<UserGamification> userGamification = userGamificationRepository.findOneWithEagerRelationships(user);
-        if (userGamification.isPresent()) {
-            return mapper.toUserGamificationDTO(userGamification.get());
-        } else {
-            return null;
-        }
+        List<PointsWithDate> pointsOverTimeAsList = pointsOverTimeService.getAllPointsOverTimeForOneUser(user);
+
+        return userGamification.map(gamification -> mapper.toUserGamificationDTO(gamification, pointsOverTimeAsList)).orElse(null);
     }
 
     /**

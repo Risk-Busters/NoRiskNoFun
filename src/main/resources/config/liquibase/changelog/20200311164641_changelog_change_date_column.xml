@@ -1,0 +1,11 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="st (generated)" id="1583945208227-4">
+        <addColumn tableName="user_gamification_points_over_time">
+            <column name="current_date_formatted" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="st (generated)" id="1583945208227-5">
+        <dropColumn columnName="date" tableName="user_gamification_points_over_time"/>
+    </changeSet>
+</databaseChangeLog>

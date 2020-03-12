@@ -7,8 +7,7 @@ import { IUser } from 'app/shared/model/user.model';
 
 export interface IProjectRisks {
   id?: number;
-  projectSeverity?: SeverityType;
-  projectProbability?: ProbabilityType;
+  discussions?: Map<IUser, IRiskDiscussion>;
   hasOccured?: boolean;
   riskResponses?: IRiskResponse[];
   project?: IProject;
@@ -16,6 +15,17 @@ export interface IProjectRisks {
   riskDiscussionStatus?: 'proposed' | 'toBeDiscussed' | 'final';
   likes?: number;
   personInCharge?: IUser;
+}
+
+export interface IRiskDiscussionVM {
+  projectRiskId: number;
+  projectSeverity?: SeverityType;
+  projectProbability?: ProbabilityType;
+}
+
+export interface IRiskDiscussion {
+  projectSeverity: any;
+  projectProbability: any;
 }
 
 export const defaultValue: Readonly<IProjectRisks> = {

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {Link, RouteComponentProps, useParams} from 'react-router-dom';
 import {Button, Col, Row} from 'reactstrap';
@@ -8,6 +8,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {IRootState} from 'app/shared/reducers';
 import {getEntity, updateEntity as updateProjectRisk} from './project-risks.reducer';
 import RiskResponse from "app/entities/risk-response/risk-response";
+import {enumAverage} from "app/shared/util/enum-utils";
+import "./project-risks.scss"
 
 export interface IProjectRisksDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -15,10 +17,30 @@ function ProjectRisksDetail(props: IProjectRisksDetailProps) {
 
   const { projectRisksEntity, user } = props;
   const { riskId, risktype } = useParams();
+  const [averageSeverity, setAverageSeverity] = useState("none");
+  const [averageProbability, setAverageProbability] = useState("none");
 
   useEffect(() => {
     props.getEntity(riskId);
   }, []);
+
+  useEffect(() => {
+    const severties: string[] = [];
+    const probabilities: string[] = [];
+
+    if (projectRisksEntity.discussions === undefined || Object.values(projectRisksEntity.discussions).length === 0) {
+      setAverageSeverity("null");
+      setAverageProbability("null");
+    } else {
+      Object.values(projectRisksEntity.discussions).forEach(value => {
+        severties.push(value.projectSeverity);
+        probabilities.push(value.projectProbability);
+      });
+      setAverageSeverity(enumAverage(severties));
+      setAverageProbability(enumAverage(probabilities));
+    }
+
+  }, [projectRisksEntity]);
 
   const beInCharge = () => {
     const newPersonInCharge = Object.assign(projectRisksEntity);
@@ -55,16 +77,16 @@ function ProjectRisksDetail(props: IProjectRisksDetailProps) {
 
             <dt>
               <span id="projectSeverity">
-<Translate contentKey="noRiskNoFunApp.projectRisks.projectSeverity" />
+                  <Translate contentKey="noRiskNoFunApp.projectRisks.projectSeverity" />
               </span>
             </dt>
-            <dd><Translate contentKey={`noRiskNoFunApp.SeverityType.${projectRisksEntity.projectSeverity}`} /></dd>
+            <dd ><span className={`serv-${averageSeverity}`}><b>&#8226;</b></span>{' '}<Translate contentKey={`noRiskNoFunApp.SeverityType.${averageSeverity}`} /></dd>
             <dt>
               <span id="projectProbability">
                 <Translate contentKey="noRiskNoFunApp.projectRisks.projectProbability">Project Probability</Translate>
               </span>
             </dt>
-            <dd><Translate contentKey={`noRiskNoFunApp.ProbabilityType.${projectRisksEntity.projectProbability}`} /></dd>
+            <dd><span className={`prob-${averageProbability}`}><b>&#8226;</b></span>{' '}<Translate contentKey={`noRiskNoFunApp.ProbabilityType.${averageProbability}`} /></dd>
             <dt>
               <span id="hasOccured">
                 <Translate contentKey="noRiskNoFunApp.projectRisks.hasOccured">Has Occured</Translate>

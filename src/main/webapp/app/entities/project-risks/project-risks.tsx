@@ -127,7 +127,7 @@ function ProjectRisks(props: IProjectRisksProps) {
             </td>
             <td className="text-right">
               <div className="btn-group flex-btn-group-container">
-                {(projectRisks.projectSeverity == null || projectRisks.projectProbability == null) ? (
+                {(projectRisks.discussions === null || Object.keys(projectRisks.discussions).length < 2) ? (
                   <Button tag={Link} to={`${match.url}/project-risks/${projectRisks.id}/edit`} color="primary" size="sm">
                     <FontAwesomeIcon icon="pencil-alt" />{' '}
                     <span className="d-none d-md-inline">
@@ -169,12 +169,6 @@ function ProjectRisks(props: IProjectRisksProps) {
             <Translate contentKey="noRiskNoFunApp.risk.description">Description</Translate>
           </th>
           <th>
-            <Translate contentKey="noRiskNoFunApp.projectRisks.projectSeverity">Project Severity</Translate>
-          </th>
-          <th>
-            <Translate contentKey="noRiskNoFunApp.projectRisks.projectProbability">Project Probability</Translate>
-          </th>
-          <th>
             <Translate contentKey="noRiskNoFunApp.projectRisks.hasOccured">Has Occured</Translate>
           </th>
           <th />
@@ -188,12 +182,6 @@ function ProjectRisks(props: IProjectRisksProps) {
             </td>
             <td>
               <p>{projectRisks.risk.description}</p>
-            </td>
-            <td>
-              <Translate contentKey={`noRiskNoFunApp.SeverityType.${projectRisks.projectSeverity}`} />
-            </td>
-            <td>
-              <Translate contentKey={`noRiskNoFunApp.ProbabilityType.${projectRisks.projectProbability}`} />
             </td>
             <td><Translate contentKey={`noRiskNoFunApp.projectRisks.hasOccured${projectRisks.hasOccured ? 'Yes' : 'No'}`} /></td>
             <td className="text-right">

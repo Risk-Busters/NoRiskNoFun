@@ -8,13 +8,10 @@ import javax.validation.constraints.*;
 
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
-
-import com.riskbusters.norisknofun.domain.enumeration.SeverityType;
-
-import com.riskbusters.norisknofun.domain.enumeration.ProbabilityType;
-
 /**
  * A ProjectRisks.
  */
@@ -31,13 +28,9 @@ public class ProjectRisks implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "project_severity")
-    private SeverityType projectSeverity;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "project_probability")
-    private ProbabilityType projectProbability;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Column(name = "discussions")
+    private Map<User, RiskDiscussion> discussions = new HashMap<>();
 
     @NotNull
     @Column(name = "has_occured", nullable = false)
@@ -68,6 +61,7 @@ public class ProjectRisks implements Serializable {
     @JoinColumn
     private User personInCharge;
 
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -75,15 +69,6 @@ public class ProjectRisks implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public SeverityType getProjectSeverity() {
-        return projectSeverity;
-    }
-
-    public ProjectRisks projectSeverity(SeverityType projectSeverity) {
-        this.projectSeverity = projectSeverity;
-        return this;
     }
 
     public int getLikes() {
@@ -102,21 +87,17 @@ public class ProjectRisks implements Serializable {
         this.personInCharge = personInCharge;
     }
 
-    public void setProjectSeverity(SeverityType projectSeverity) {
-        this.projectSeverity = projectSeverity;
+    public Map<User, RiskDiscussion> getDiscussions() {
+        return this.discussions;
     }
 
-    public ProbabilityType getProjectProbability() {
-        return projectProbability;
+    public void setDiscussions(Map<User, RiskDiscussion> discussions) {
+        this.discussions = discussions;
     }
 
-    public ProjectRisks projectProbability(ProbabilityType projectProbability) {
-        this.projectProbability = projectProbability;
-        return this;
-    }
 
-    public void setProjectProbability(ProbabilityType projectProbability) {
-        this.projectProbability = projectProbability;
+    public void putDiscussion(RiskDiscussion discussion, User user) {
+        this.discussions.put(user, discussion);
     }
 
     public Boolean isHasOccured() {
@@ -204,9 +185,8 @@ public class ProjectRisks implements Serializable {
     public String toString() {
         return "ProjectRisks{" +
             "id=" + getId() +
-            ", projectSeverity='" + getProjectSeverity() + "'" +
-            ", projectProbability='" + getProjectProbability() + "'" +
             ", hasOccured='" + isHasOccured() + "'" +
+            ", discussions='" + getDiscussions().toString() + "'" +
             "}";
     }
 }

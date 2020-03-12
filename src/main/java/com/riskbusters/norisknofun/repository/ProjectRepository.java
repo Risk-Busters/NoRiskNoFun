@@ -23,7 +23,8 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     // TODO: Rewrite to Query to avoid having user parameter twice
     List<Project> findAllByUsersIsContainingOrOwnerEquals(User user, User owner);
 
-    Optional<Project> findByUsersIsContainingOrOwnerEqualsAndIdEquals(User user, User owner, long id);
+
+    Optional<Project> findByUsersIsContainingAndIdEquals(User user, long id);
 
     @Query("select distinct project from Project project left join fetch project.users")
     List<Project> findAllWithEagerRelationships();

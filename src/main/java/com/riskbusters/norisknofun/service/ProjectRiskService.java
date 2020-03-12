@@ -1,16 +1,11 @@
 package com.riskbusters.norisknofun.service;
 
-import com.riskbusters.norisknofun.domain.Project;
-import com.riskbusters.norisknofun.domain.ProjectRisks;
-import com.riskbusters.norisknofun.domain.Risk;
-import com.riskbusters.norisknofun.domain.User;
+import com.riskbusters.norisknofun.domain.*;
+import com.riskbusters.norisknofun.domain.enumeration.ProbabilityType;
 import com.riskbusters.norisknofun.domain.enumeration.RiskDiscussionState;
+import com.riskbusters.norisknofun.domain.enumeration.SeverityType;
 import com.riskbusters.norisknofun.repository.*;
-import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
-import com.riskbusters.norisknofun.web.rest.vm.ProposeRiskVM;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 /*
  * Service for handling project risks.
@@ -21,10 +16,12 @@ public class ProjectRiskService {
 
     private ProjectRisksBaseRepository projectRisksBaseRepository;
     private RiskRepository riskRepository;
+    private RiskDiscussionRepository riskDiscussionRepository;
 
-    public ProjectRiskService(ProjectRisksBaseRepository projectRisksBaseRepository, RiskRepository riskRepository, UserService userService, ProjectRepository projectRepository) {
+    public ProjectRiskService(ProjectRisksBaseRepository projectRisksBaseRepository, RiskRepository riskRepository, UserService userService, ProjectRepository projectRepository, RiskDiscussionRepository riskDiscussionRepository) {
         this.projectRisksBaseRepository = projectRisksBaseRepository;
         this.riskRepository = riskRepository;
+        this.riskDiscussionRepository = riskDiscussionRepository;
     }
 
     public ProjectRisks proposeProjectRisk(String title, String description, Project project) {
@@ -51,6 +48,23 @@ public class ProjectRiskService {
     public ProjectRisks saveProjectRisk(ProjectRisks projectRisk) {
         riskRepository.save(projectRisk.getRisk());
         return projectRisksBaseRepository.save(projectRisk);
+    }
+
+    /**
+     * Saves an project risk discussion.
+     *
+     * @return the project risk discussion.
+     */
+    public RiskDiscussion saveProjectRiskDiscussion(SeverityType severityType, ProbabilityType probabilityType, ProjectRisks projectRisk, User user) {
+        RiskDiscussion discussion = new RiskDiscussion();
+        discussion.setProjectProbability(probabilityType);
+        discussion.setProjectSeverity(severityType);
+
+        projectRisk.putDiscussion(discussion, user);
+        riskDiscussionRepository.save(discussion);
+        projectRisksBaseRepository.save(projectRisk);
+
+        return discussion;
     }
 
     /**
@@ -91,7 +105,6 @@ public class ProjectRiskService {
     private boolean isFinal(ProjectRisks projectRisks) {
         return projectRisks.getRiskResponses() != null && !projectRisks.getRiskResponses().isEmpty()
             && projectRisks.getPersonInCharge() != null
-            && projectRisks.getProjectProbability() != null
-            && projectRisks.getProjectSeverity() != null;
+            && projectRisks.getDiscussions().size() >= 2;
     }
 }

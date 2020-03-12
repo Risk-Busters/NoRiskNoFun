@@ -1,0 +1,40 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="moritz (generated)" id="1584025544446-4">
+        <createTable tableName="project_risks_discussions">
+            <column name="project_risks_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="discussions_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="discussions_key" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="moritz (generated)" id="1584025544446-5">
+        <createTable tableName="risk_discussion">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="risk_discussionPK"/>
+            </column>
+            <column name="project_probability" type="VARCHAR(255)"/>
+            <column name="project_severity" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="moritz (generated)" id="1584025544446-6">
+        <addForeignKeyConstraint baseColumnNames="project_risks_id" baseTableName="project_risks_discussions" constraintName="FK7336sot23m7pvljvyeau1ckku" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="project_risks" validate="true"/>
+    </changeSet>
+    <changeSet author="moritz (generated)" id="1584025544446-7">
+        <addForeignKeyConstraint baseColumnNames="discussions_id" baseTableName="project_risks_discussions" constraintName="FKisx7uplv59pe9oujboydphafw" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="risk_discussion" validate="true"/>
+    </changeSet>
+    <changeSet author="moritz (generated)" id="1584025544446-8">
+        <addForeignKeyConstraint baseColumnNames="discussions_key" baseTableName="project_risks_discussions" constraintName="FKldt75ij1ai3q3cy973lr22oqn" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user" validate="true"/>
+    </changeSet>
+    <changeSet author="moritz (generated)" id="1584025544446-9">
+        <dropColumn columnName="project_probability" tableName="project_risks"/>
+    </changeSet>
+    <changeSet author="moritz (generated)" id="1584025544446-10">
+        <dropColumn columnName="project_severity" tableName="project_risks"/>
+    </changeSet>
+</databaseChangeLog>

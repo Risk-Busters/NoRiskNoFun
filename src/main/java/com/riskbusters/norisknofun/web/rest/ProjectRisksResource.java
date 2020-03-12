@@ -2,6 +2,7 @@ package com.riskbusters.norisknofun.web.rest;
 
 import com.riskbusters.norisknofun.domain.Project;
 import com.riskbusters.norisknofun.domain.ProjectRisks;
+import com.riskbusters.norisknofun.domain.RiskDiscussion;
 import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.enumeration.RiskDiscussionState;
 import com.riskbusters.norisknofun.repository.ProjectRepository;
@@ -10,6 +11,7 @@ import com.riskbusters.norisknofun.repository.RiskRepository;
 import com.riskbusters.norisknofun.service.ProjectRiskService;
 import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
+import com.riskbusters.norisknofun.web.rest.vm.DiscussRiskVM;
 import com.riskbusters.norisknofun.web.rest.vm.ProposeRiskVM;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -17,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -66,7 +69,7 @@ public class ProjectRisksResource {
         Optional<User> user = userService.getUserWithAuthorities();
         if (!user.isPresent()) throw new BadRequestAlertException("Missing credentials", ENTITY_NAME, "usernull");
 
-        Optional<Project> project = projectRepository.findByUsersIsContainingOrOwnerEqualsAndIdEquals(user.get(), user.get(), proposedProjectRisk.getProjectId());
+        Optional<Project> project = projectRepository.findByUsersIsContainingAndIdEquals(user.get(), proposedProjectRisk.getProjectId());
         if (!project.isPresent()) throw new BadRequestAlertException("User not in project", ENTITY_NAME, "projectnotexist");
 
         ProjectRisks result = projectRiskService.proposeProjectRisk(proposedProjectRisk.title, proposedProjectRisk.description, project.get());
@@ -75,6 +78,24 @@ public class ProjectRisksResource {
             .body(result);
     }
 
+    @Transactional
+    @PostMapping("/project-risks-discussion")
+    public ResponseEntity<RiskDiscussion> createProjectRisksDiscussion(@Valid @RequestBody DiscussRiskVM discussRiskVM) throws URISyntaxException {
+        log.debug("REST request to save new risk discussion : {}", discussRiskVM);
+
+        Optional<User> user = userService.getUserWithAuthorities();
+        if (!user.isPresent()) throw new BadRequestAlertException("Missing credentials", ENTITY_NAME, "usernull");
+
+        Optional<ProjectRisks> projectRisks = projectRisksBaseRepository.findById(discussRiskVM.getProjectRiskId());
+        if (!projectRisks.isPresent()) throw new BadRequestAlertException("Project risk doesnt exist", ENTITY_NAME, "projectrisknotexist");
+
+        RiskDiscussion result = projectRiskService.saveProjectRiskDiscussion(discussRiskVM.getProjectSeverity(), discussRiskVM.getProjectProbability(), projectRisks.get(), user.get());
+        projectRiskService.updateDiscussionStatus(projectRisks.get());
+
+        return ResponseEntity.created(new URI("/api/project-risks-discussion/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
     /**
      * {@code PUT  /project-risks} : Updates an existing projectRisks.
      *
@@ -83,7 +104,7 @@ public class ProjectRisksResource {
      * or with status {@code 400 (Bad Request)} if the projectRisks is not valid,
      * or with status {@code 500 (Internal Server Error)} if the projectRisks couldn't be updated.
      */
-    @PutMapping("/project-risks")
+    @PutMapping(value = "/project-risks")
     public ResponseEntity<ProjectRisks> updateProjectRisks(@Valid @RequestBody ProjectRisks projectRisks) {
         log.debug("REST request to update ProjectRisks : {}", projectRisks);
         if (projectRisks.getId() == null) {

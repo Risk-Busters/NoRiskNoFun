@@ -1,4 +1,5 @@
 export const enum ProbabilityType {
+  NULL = 'NONE',
   SURE = 'SURE',
   PROBABLY = 'PROBABLY',
   MAYBE = 'MAYBE',

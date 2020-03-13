@@ -8,6 +8,8 @@ import { IUser } from 'app/shared/model/user.model';
 export interface IProjectRisks {
   id?: number;
   discussions?: Set<IRiskDiscussion>;
+  averageProbability?: ProbabilityType;
+  averageSeverity?: SeverityType;
   hasOccured?: boolean;
   riskResponses?: IRiskResponse[];
   project?: IProject;

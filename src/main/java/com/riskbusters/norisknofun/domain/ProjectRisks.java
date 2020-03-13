@@ -1,5 +1,10 @@
 package com.riskbusters.norisknofun.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.riskbusters.norisknofun.domain.enumeration.ProbabilityType;
+import com.riskbusters.norisknofun.domain.enumeration.SeverityType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -95,6 +100,16 @@ public class ProjectRisks implements Serializable {
         this.discussions = discussions;
     }
 
+    @JsonSerialize
+    public ProbabilityType getAverageProbability() {
+        return ProbabilityType.getAverage(this.discussions.stream().map(RiskDiscussion::getProjectProbability).toArray(ProbabilityType[]::new));
+    }
+
+    @JsonSerialize
+    public SeverityType getAverageSeverity() {
+        return SeverityType.getAverage(this.discussions.stream().map(RiskDiscussion::getProjectSeverity).toArray(SeverityType[]::new));
+    }
+
     public Boolean isHasOccured() {
         return hasOccured;
     }
@@ -181,6 +196,8 @@ public class ProjectRisks implements Serializable {
         return "ProjectRisks{" +
             "id=" + getId() +
             ", hasOccured='" + isHasOccured() + "'" +
+            ", averageProbability='" + getAverageProbability() + "'" +
+            ", averageSeverity='" + getAverageSeverity() + "'" +
             "}";
     }
 }

@@ -17,30 +17,10 @@ function ProjectRisksDetail(props: IProjectRisksDetailProps) {
 
   const { projectRisksEntity, user } = props;
   const { riskId, risktype } = useParams();
-  const [averageSeverity, setAverageSeverity] = useState("none");
-  const [averageProbability, setAverageProbability] = useState("none");
 
   useEffect(() => {
     props.getEntity(riskId);
   }, []);
-
-  useEffect(() => {
-    const severties: string[] = [];
-    const probabilities: string[] = [];
-
-    if (projectRisksEntity.discussions === undefined || Object.values(projectRisksEntity.discussions).length === 0) {
-      setAverageSeverity("null");
-      setAverageProbability("null");
-    } else {
-      Object.values(projectRisksEntity.discussions).forEach(value => {
-        severties.push(value.projectSeverity);
-        probabilities.push(value.projectProbability);
-      });
-      setAverageSeverity(enumAverage(severties));
-      setAverageProbability(enumAverage(probabilities));
-    }
-
-  }, [projectRisksEntity]);
 
   const beInCharge = () => {
     const newPersonInCharge = Object.assign(projectRisksEntity);
@@ -80,13 +60,13 @@ function ProjectRisksDetail(props: IProjectRisksDetailProps) {
                   <Translate contentKey="noRiskNoFunApp.projectRisks.projectSeverity" />
               </span>
             </dt>
-            <dd ><span className={`serv-${averageSeverity}`}><b>&#8226;</b></span>{' '}<Translate contentKey={`noRiskNoFunApp.SeverityType.${averageSeverity}`} /></dd>
+            <dd ><span className={`serv-${projectRisksEntity.averageSeverity}`}><b>&#8226;</b></span>{' '}<Translate contentKey={`noRiskNoFunApp.SeverityType.${projectRisksEntity.averageSeverity}`} /></dd>
             <dt>
               <span id="projectProbability">
                 <Translate contentKey="noRiskNoFunApp.projectRisks.projectProbability">Project Probability</Translate>
               </span>
             </dt>
-            <dd><span className={`prob-${averageProbability}`}><b>&#8226;</b></span>{' '}<Translate contentKey={`noRiskNoFunApp.ProbabilityType.${averageProbability}`} /></dd>
+            <dd><span className={`prob-${projectRisksEntity.averageProbability}`}><b>&#8226;</b></span>{' '}<Translate contentKey={`noRiskNoFunApp.ProbabilityType.${projectRisksEntity.averageProbability}`} /></dd>
             <dt>
               <span id="hasOccured">
                 <Translate contentKey="noRiskNoFunApp.projectRisks.hasOccured">Has Occured</Translate>

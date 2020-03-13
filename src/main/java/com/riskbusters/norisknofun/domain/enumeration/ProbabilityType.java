@@ -1,5 +1,9 @@
 package com.riskbusters.norisknofun.domain.enumeration;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Comparator;
+
 /**
  * The ProbabilityType enumeration.
  */
@@ -7,12 +11,7 @@ public enum ProbabilityType {
     NULL, SURE, PROBABLY, MAYBE, NOTLIKELY, NOTGONNAHAPPEN;
 
     public static ProbabilityType getAverage(ProbabilityType[] probabilities) {
-        double sum = 0;
-        for (ProbabilityType probability : probabilities) {
-            sum += probability.ordinal();
-        }
-        sum = sum / probabilities.length;
-
-        return ProbabilityType.values()[(int) Math.round(sum)];
+        Arrays.sort(probabilities, Comparator.comparing(ProbabilityType::ordinal));
+        return probabilities[probabilities.length / 2];
     }
 }

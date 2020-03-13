@@ -8,7 +8,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {IRootState} from 'app/shared/reducers';
 import {getEntity, updateEntity as updateProjectRisk} from './project-risks.reducer';
 import RiskResponse from "app/entities/risk-response/risk-response";
-import {enumAverage} from "app/shared/util/enum-utils";
 import "./project-risks.scss"
 
 export interface IProjectRisksDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {Link, RouteComponentProps, useParams} from 'react-router-dom';
-import {Button, Col, Row} from 'reactstrap';
+import {Button, Col, Row, Input} from 'reactstrap';
 import {Translate} from 'react-jhipster';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
@@ -15,7 +15,7 @@ export interface IProjectRisksDetailProps extends StateProps, DispatchProps, Rou
 
 function ProjectRisksDetail(props: IProjectRisksDetailProps) {
 
-  const { projectRisksEntity, user } = props;
+  const { projectRisksEntity, user, loading } = props;
   const { riskId, risktype } = useParams();
 
   useEffect(() => {
@@ -38,7 +38,7 @@ function ProjectRisksDetail(props: IProjectRisksDetailProps) {
 
   const renderInChargeButton = () => {
     return (
-      <Button onClick={() => beInCharge()} color="primary" size="sm">
+      <Button onClick={() => beInCharge()} color="primary" size="sm" disabled={loading}>
                 <span className="d-none d-md-inline">
                               <Translate contentKey="noRiskNoFunApp.projectRisks.actions.beInCharge" />
                             </span>
@@ -48,11 +48,7 @@ function ProjectRisksDetail(props: IProjectRisksDetailProps) {
 
   const renderToggleOccured = () => {
     return (
-      <Button onClick={() => toggleHasOccured()} color="primary" size="sm">
-                <span className="d-none d-md-inline">
-                              <Translate contentKey={`noRiskNoFunApp.projectRisks.actions.${projectRisksEntity.hasOccured ? 'toggleHasNotOccured' : 'toggleHasOccured'}`} />
-                            </span>
-      </Button>
+      <input onChange={() => toggleHasOccured()} type="checkbox" checked={projectRisksEntity.hasOccured} disabled={loading}/>
     )
   };
 
@@ -112,8 +108,7 @@ function ProjectRisksDetail(props: IProjectRisksDetailProps) {
               </span>
             </dt>
             <dd>
-              <Translate contentKey={`noRiskNoFunApp.projectRisks.hasOccured${projectRisksEntity.hasOccured ? 'Yes' : 'No'}`} />{' '}
-              { renderToggleOccured() }
+              <Translate contentKey={`noRiskNoFunApp.projectRisks.hasOccured${projectRisksEntity.hasOccured ? 'Yes' : 'No'}`} />{' '}{ renderToggleOccured() }
             </dd>
           </dl>
           <RiskResponse history={props.history} location={props.location} match={props.match} />
@@ -129,6 +124,7 @@ function ProjectRisksDetail(props: IProjectRisksDetailProps) {
 }
 
 const mapStateToProps = ({ projectRisks, authentication }: IRootState) => ({
+  loading: projectRisks.updating,
   projectRisksEntity: projectRisks.entity,
   user: authentication.account
 });

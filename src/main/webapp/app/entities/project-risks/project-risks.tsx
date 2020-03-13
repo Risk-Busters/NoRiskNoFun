@@ -18,7 +18,7 @@ export interface IProjectRisksProps extends StateProps, DispatchProps, ProjectRi
 function ProjectRisks(props: IProjectRisksProps) {
 
   const [riskList, setRiskList] = useState([]);
-  const { match } = props;
+  const { match, loading } = props;
 
   const upvote = (projectRisk: IProjectRisks) => {
     const newUpvotedProjectRisks = projectRisk;
@@ -75,7 +75,7 @@ function ProjectRisks(props: IProjectRisksProps) {
             </td>
             <td className="text-right">
               <div className="btn-group flex-btn-group-container">
-                <Button onClick={() => upvote(projectRisks)} color="primary" size="sm" style={{marginRight: '5px'}}>
+                <Button onClick={() => upvote(projectRisks)} color="primary" size="sm" style={{marginRight: '5px'}} disabled={loading}>
                   <span className="d-none d-md-inline">
                     {projectRisks.likes}
                   </span>
@@ -240,6 +240,7 @@ function ProjectRisks(props: IProjectRisksProps) {
 }
 
 const mapStateToProps = ({ projectRisks }: IRootState) => ({
+  loading: projectRisks.updating,
   projectRisksList: projectRisks.projectRiskEntities,
   proposedProjectRiskEntities: projectRisks.proposedProjectRiskEntities,
   toBeDiscussedProjectRiskEntities: projectRisks.toBeDiscussedProjectRiskEntities

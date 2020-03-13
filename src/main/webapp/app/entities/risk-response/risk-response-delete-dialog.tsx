@@ -5,11 +5,11 @@ import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { Translate, ICrudGetAction, ICrudDeleteAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { IRiskResponse } from 'app/shared/model/risk-response.model';
+import {getEntity as getProjectRisk} from '../project-risks/project-risks.reducer';
 import { IRootState } from 'app/shared/reducers';
 import { getEntity, deleteEntity } from './risk-response.reducer';
 
-export interface IRiskResponseDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ responseId: string }> {}
+export interface IRiskResponseDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ responseId: string; riskId: string }> {}
 
 export class RiskResponseDeleteDialog extends React.Component<IRiskResponseDeleteDialogProps> {
   componentDidMount() {
@@ -18,6 +18,7 @@ export class RiskResponseDeleteDialog extends React.Component<IRiskResponseDelet
 
   confirmDelete = event => {
     this.props.deleteEntity(this.props.riskResponseEntity.id);
+    this.props.getProjectRisk(this.props.match.params.riskId);
     this.handleClose(event);
   };
 
@@ -59,7 +60,7 @@ const mapStateToProps = ({ riskResponse }: IRootState) => ({
   riskResponseEntity: riskResponse.entity
 });
 
-const mapDispatchToProps = { getEntity, deleteEntity };
+const mapDispatchToProps = { getEntity, deleteEntity, getProjectRisk };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

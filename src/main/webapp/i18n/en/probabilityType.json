@@ -1,7 +1,8 @@
 {
   "noRiskNoFunApp": {
     "ProbabilityType": {
-      "null": "None yet.",
+      "undefined": "None yet",
+      "NULL": "None yet",
       "SURE": "Sure",
       "PROBABLY": "Probably",
       "MAYBE": "Maybe",

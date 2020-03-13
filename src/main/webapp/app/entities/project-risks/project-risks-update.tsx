@@ -135,12 +135,6 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
                 <option value="NOTGONNAHAPPEN">{translate('noRiskNoFunApp.ProbabilityType.NOTGONNAHAPPEN')}</option>
               </AvInput>
             </AvGroup>
-            <AvGroup>
-              <Label id="hasOccuredLabel" check>
-                <AvInput id="project-risks-hasOccured" type="checkbox" className="form-control" name="hasOccured" />
-                <Translate contentKey="noRiskNoFunApp.projectRisks.hasOccured">Has Occured</Translate>
-              </Label>
-            </AvGroup>
           </>
         );
       case "proposed":

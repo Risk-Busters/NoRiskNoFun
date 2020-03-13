@@ -7,7 +7,7 @@ import { IUser } from 'app/shared/model/user.model';
 
 export interface IProjectRisks {
   id?: number;
-  discussions?: Set<IRiskDiscussion>;
+  discussions?: IRiskDiscussion[];
   averageProbability?: ProbabilityType;
   averageSeverity?: SeverityType;
   hasOccured?: boolean;

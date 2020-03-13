@@ -32,6 +32,15 @@ public class PointsOverTime implements Serializable {
     @Column
     private Points pointsAtThisDay;
 
+    public PointsOverTime(User user) {
+        this.user = user;
+        this.date = new CustomDate();
+        this.pointsAtThisDay = new Points(0L);
+    }
+
+    public PointsOverTime() {
+    }
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }

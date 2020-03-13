@@ -47,22 +47,16 @@ public class PointsOverTimeService {
      *
      * @param points amount of points to add.
      * @param user   the user to add points for.
-     * @return the persisted entity.
+     * @return the new amount of points.
      */
     public Long addPointsForToday(Points points, User user) {
         log.debug("Request to add {} points for user with id {}", points.getPointsAsLong(), user.getId());
-        PointsOverTime pointsOverTimeForUser = pointsOverTimeRepository.findAllByUserIdAndDate(user.getId(), new CustomDate());
 
-        // TODO: implement scheduler to create values and enable better null handling
-        if (pointsOverTimeForUser == null) {
-            log.debug("Avoid null");
-            PointsOverTime pointsOverTimeForCurrentDay = new PointsOverTime();
-            pointsOverTimeForCurrentDay.setUser(user);
-            pointsOverTimeForCurrentDay.setDate(new CustomDate());
-            pointsOverTimeForCurrentDay.setPointsAtThisDay(new Points(0L));
-            pointsOverTimeRepository.save(pointsOverTimeForCurrentDay);
-            pointsOverTimeForUser = pointsOverTimeRepository.findAllByUserIdAndDate(user.getId(), new CustomDate());
+        if(isNull(user)) {
+            createEntry(user);
         }
+
+        PointsOverTime pointsOverTimeForUser = pointsOverTimeRepository.findAllByUserIdAndDate(user.getId(), new CustomDate());
 
         log.debug("Points at current day before adding points {}", pointsOverTimeForUser);
         Points newPointsValue = pointsOverTimeForUser.addPointsForCurrentDay(points);
@@ -70,5 +64,15 @@ public class PointsOverTimeService {
         log.debug("Points at current day after adding {} points: {}", points.getPointsAsLong(), pointsOverTimeForUser);
 
         return newPointsValue.getPointsAsLong();
+    }
+
+    public boolean isNull(User user) {
+        PointsOverTime pointsOverTimeForUser = pointsOverTimeRepository.findAllByUserIdAndDate(user.getId(), new CustomDate());
+        return pointsOverTimeForUser == null;
+    }
+
+    private void createEntry(User user) {
+        PointsOverTime pointsOneDay = new PointsOverTime(user);
+        pointsOverTimeRepository.save(pointsOneDay);
     }
 }

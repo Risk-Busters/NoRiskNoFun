@@ -23,16 +23,13 @@ public class PointsOverTimeCreator {
     }
 
     // TODO: set it to 00:00 and test it
-    @Scheduled(cron = "0 14 15 * * ?")
+    @Scheduled(cron = "0 23 16 * * ?")
     public void createDatabaseEntryForPointsPerDayAndUser() {
         log.debug("Create database entries for the Points value for each day and each user:");
         List<User> allUsers = userRepository.findAll();
 
         for (User user : allUsers) {
-            PointsOverTime pointsOneDay = new PointsOverTime();
-            pointsOneDay.setUser(user);
-            pointsOneDay.setDate(new CustomDate());
-            pointsOneDay.setPointsAtThisDay(new Points(0L));
+            PointsOverTime pointsOneDay = new PointsOverTime(user);
             pointsOverTimeRepository.save(pointsOneDay);
             log.debug("Points for one Day created object: {}", pointsOneDay);
         }

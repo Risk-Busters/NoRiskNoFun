@@ -1,13 +1,12 @@
 package com.riskbusters.norisknofun.service.gamification;
 
-import com.riskbusters.norisknofun.domain.Points;
 import com.riskbusters.norisknofun.domain.PointsWithDate;
 import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.domain.achievements.Achievement;
-import com.riskbusters.norisknofun.repository.gamification.UserGamificationRepository;
 import com.riskbusters.norisknofun.repository.UserRepository;
 import com.riskbusters.norisknofun.repository.achievements.AchievementBaseRepository;
+import com.riskbusters.norisknofun.repository.gamification.UserGamificationRepository;
 import com.riskbusters.norisknofun.service.AchievementService;
 import com.riskbusters.norisknofun.service.dto.UserGamificationDTO;
 import com.riskbusters.norisknofun.service.mapper.UserGamificationMapper;
@@ -76,9 +75,6 @@ public class UserGamificationService {
         log.debug("Request to get all UserGamifications for user: {}", user);
         Optional<UserGamification> userGamification = userGamificationRepository.findOneWithEagerRelationships(user);
         List<PointsWithDate> pointsOverTimeAsList = pointsOverTimeService.getAllPointsOverTimeForOneUser(user);
-
-        // TODO only temporary for test:
-        pointsOverTimeService.addPointsForToday(new Points(44L), user);
 
         return userGamification.map(gamification -> mapper.toUserGamificationDTO(gamification, pointsOverTimeAsList)).orElse(null);
     }

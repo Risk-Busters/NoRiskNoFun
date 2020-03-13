@@ -32,8 +32,8 @@
         "description": "Description",
         "noDescription": "Description loading or not available..."
       },
-      "projectSeverity": "Project Severity",
-      "projectProbability": "Project Probability",
+      "projectSeverity": "Average Severity",
+      "projectProbability": "Average Probability",
       "hasOccured": "Has Occured",
       "hasOccuredYes": "Yes",
       "hasOccuredNo": "No",

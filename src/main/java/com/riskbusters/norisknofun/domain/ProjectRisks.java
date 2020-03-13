@@ -1,5 +1,10 @@
 package com.riskbusters.norisknofun.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.riskbusters.norisknofun.domain.enumeration.ProbabilityType;
+import com.riskbusters.norisknofun.domain.enumeration.SeverityType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -8,13 +13,10 @@ import javax.validation.constraints.*;
 
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
-
-import com.riskbusters.norisknofun.domain.enumeration.SeverityType;
-
-import com.riskbusters.norisknofun.domain.enumeration.ProbabilityType;
-
 /**
  * A ProjectRisks.
  */
@@ -31,13 +33,9 @@ public class ProjectRisks implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "project_severity")
-    private SeverityType projectSeverity;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "project_probability")
-    private ProbabilityType projectProbability;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Column(name = "discussions")
+    private Set<RiskDiscussion> discussions = new HashSet<>();
 
     @NotNull
     @Column(name = "has_occured", nullable = false)
@@ -68,6 +66,7 @@ public class ProjectRisks implements Serializable {
     @JoinColumn
     private User personInCharge;
 
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -75,15 +74,6 @@ public class ProjectRisks implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public SeverityType getProjectSeverity() {
-        return projectSeverity;
-    }
-
-    public ProjectRisks projectSeverity(SeverityType projectSeverity) {
-        this.projectSeverity = projectSeverity;
-        return this;
     }
 
     public int getLikes() {
@@ -102,21 +92,22 @@ public class ProjectRisks implements Serializable {
         this.personInCharge = personInCharge;
     }
 
-    public void setProjectSeverity(SeverityType projectSeverity) {
-        this.projectSeverity = projectSeverity;
+    public Set<RiskDiscussion> getDiscussions() {
+        return discussions;
     }
 
-    public ProbabilityType getProjectProbability() {
-        return projectProbability;
+    public void setDiscussions(Set<RiskDiscussion> discussions) {
+        this.discussions = discussions;
     }
 
-    public ProjectRisks projectProbability(ProbabilityType projectProbability) {
-        this.projectProbability = projectProbability;
-        return this;
+    @JsonSerialize
+    public ProbabilityType getAverageProbability() {
+        return ProbabilityType.getAverage(this.discussions.stream().map(RiskDiscussion::getProjectProbability).toArray(ProbabilityType[]::new));
     }
 
-    public void setProjectProbability(ProbabilityType projectProbability) {
-        this.projectProbability = projectProbability;
+    @JsonSerialize
+    public SeverityType getAverageSeverity() {
+        return SeverityType.getAverage(this.discussions.stream().map(RiskDiscussion::getProjectSeverity).toArray(SeverityType[]::new));
     }
 
     public Boolean isHasOccured() {
@@ -204,9 +195,9 @@ public class ProjectRisks implements Serializable {
     public String toString() {
         return "ProjectRisks{" +
             "id=" + getId() +
-            ", projectSeverity='" + getProjectSeverity() + "'" +
-            ", projectProbability='" + getProjectProbability() + "'" +
             ", hasOccured='" + isHasOccured() + "'" +
+            ", averageProbability='" + getAverageProbability() + "'" +
+            ", averageSeverity='" + getAverageSeverity() + "'" +
             "}";
     }
 }

@@ -1,7 +1,8 @@
 {
   "noRiskNoFunApp": {
     "SeverityType": {
-      "null": "",
+      "undefined": "None yet",
+      "NULL": "None yet",
       "BAD": "Bad",
       "LESSBAD": "Less bad",
       "NEUTRAL": "Neutral",

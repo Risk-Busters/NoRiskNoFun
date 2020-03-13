@@ -13,8 +13,8 @@ import { IProject } from 'app/shared/model/project.model';
 import { getEntities as getProjects } from 'app/entities/project/project.reducer';
 import { IRisk } from 'app/shared/model/risk.model';
 import { getEntities as getRisks } from 'app/entities/risk/risk.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './project-risks.reducer';
-import { IProjectRisks } from 'app/shared/model/project-risks.model';
+import { getEntity, updateEntity, createEntity, reset, createDiscussion } from './project-risks.reducer';
+import {IProjectRisks, IRiskDiscussionVM} from 'app/shared/model/project-risks.model';
 import { convertDateTimeFromServer, convertDateTimeToServer } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 
@@ -64,20 +64,28 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
         const entity = {...project, projectId:  this.state.projectId};
         this.props.createEntity(entity);
       } else {
-        const { projectRisksEntity } = this.props;
+        const { projectRisksEntity, currentUser } = this.props;
+        const deepCopyEntity: IProjectRisks = Object.assign(projectRisksEntity);
 
-        // If not set then its a proposed risk so inRiskpool should
-        // default to false to avoid null constraint checks.
-        if (values.risk !== undefined) {
-          values.risk.inRiskpool = projectRisksEntity.riskDiscussionStatus === "proposed" ? false : projectRisksEntity.risk.inRiskpool;
+        if (deepCopyEntity.riskDiscussionStatus === "proposed") {
+
+          // If not set then its a proposed risk so inRiskpool should
+          // default to false to avoid null constraint checks.
+          if (values.risk !== undefined) {
+            values.risk.inRiskpool = false;
+          }
+
+          const risk = Object.assign(deepCopyEntity.risk, values.risk || {});
+
+          deepCopyEntity.hasOccured = values.hasOccured;
+          deepCopyEntity.risk = risk;
+
+          this.props.updateEntity(deepCopyEntity);
+        } else {
+          const riskDiscussion: IRiskDiscussionVM = { projectRiskId: deepCopyEntity.id, projectSeverity: values.projectSeverity, projectProbability: values.projectProbability};
+
+          this.props.createDiscussion(riskDiscussion);
         }
-        const risk = Object.assign(projectRisksEntity.risk, values.risk || {});
-
-        const entity = {
-          ...projectRisksEntity,
-          ...values,
-          risk};
-        this.props.updateEntity(entity);
       }
     };
 
@@ -86,7 +94,7 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
   };
 
   renderProjectRiskForm = () => {
-    const { projectRisksEntity, riskResponses, projects, risks } = this.props;
+    const { projectRisksEntity } = this.props;
 
     switch (this.props.projectRisksEntity.riskDiscussionStatus) {
       case "toBeDiscussed":
@@ -101,7 +109,6 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
                 type="select"
                 className="form-control"
                 name="projectSeverity"
-                value={projectRisksEntity.projectSeverity || 'BAD'}
                 required
               >
                 <option value="BAD">{translate('noRiskNoFunApp.SeverityType.BAD')}</option>
@@ -120,7 +127,6 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
                 type="select"
                 className="form-control"
                 name="projectProbability"
-                value={projectRisksEntity.projectProbability || 'SURE'}
               >
                 <option value="SURE">{translate('noRiskNoFunApp.ProbabilityType.SURE')}</option>
                 <option value="PROBABLY">{translate('noRiskNoFunApp.ProbabilityType.PROBABLY')}</option>
@@ -128,12 +134,6 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
                 <option value="NOTLIKELY">{translate('noRiskNoFunApp.ProbabilityType.NOTLIKELY')}</option>
                 <option value="NOTGONNAHAPPEN">{translate('noRiskNoFunApp.ProbabilityType.NOTGONNAHAPPEN')}</option>
               </AvInput>
-            </AvGroup>
-            <AvGroup>
-              <Label id="hasOccuredLabel" check>
-                <AvInput id="project-risks-hasOccured" type="checkbox" className="form-control" name="hasOccured" />
-                <Translate contentKey="noRiskNoFunApp.projectRisks.hasOccured">Has Occured</Translate>
-              </Label>
             </AvGroup>
           </>
         );
@@ -259,7 +259,8 @@ const mapStateToProps = (storeState: IRootState) => ({
   projectRisksEntity: storeState.projectRisks.entity,
   loading: storeState.projectRisks.loading,
   updating: storeState.projectRisks.updating,
-  updateSuccess: storeState.projectRisks.updateSuccess
+  updateSuccess: storeState.projectRisks.updateSuccess,
+  currentUser: storeState.authentication.account
 });
 
 const mapDispatchToProps = {
@@ -269,7 +270,8 @@ const mapDispatchToProps = {
   getEntity,
   updateEntity,
   createEntity,
-  reset
+  reset,
+  createDiscussion
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

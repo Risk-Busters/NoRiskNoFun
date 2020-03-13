@@ -4,7 +4,7 @@ import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
-import { IProjectRisks, defaultValue } from 'app/shared/model/project-risks.model';
+import { IProjectRisks, defaultValue, IRiskDiscussionVM } from 'app/shared/model/project-risks.model';
 
 export const ACTION_TYPES = {
   FETCH_PROJECTRISKS_LIST: 'projectRisks/FETCH_PROJECTRISKS_LIST',
@@ -118,6 +118,7 @@ export default (state: ProjectRisksState = initialState, action): ProjectRisksSt
 const apiUrl = 'api/project-risks';
 const apiUrlProposedProjectRisks = 'api/proposed-project-risks';
 const apiUrlDiscussProjectRisks = 'api/discuss-project-risks';
+const apiUrlDiscussion = 'api/project-risks-discussion';
 
 // Actions
 
@@ -150,6 +151,17 @@ export const createEntity: ICrudPutAction<IProjectRisks> = entity => async dispa
     payload: axios.post(apiUrl, cleanEntity(entity))
   });
   dispatch(getEntities());
+  return result;
+};
+
+export const createDiscussion: ICrudPutAction<IRiskDiscussionVM> = entity => async dispatch => {
+  const result = await dispatch({
+    type: ACTION_TYPES.UPDATE_PROJECTRISKS,
+    payload: axios.post(apiUrlDiscussion, cleanEntity(entity))
+  });
+  dispatch(getEntities());
+  dispatch(getProposedProjectRisks());
+  dispatch(getToBeDiscussedProjectRisks());
   return result;
 };
 

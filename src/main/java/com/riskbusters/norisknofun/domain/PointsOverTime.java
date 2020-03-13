@@ -68,8 +68,13 @@ public class PointsOverTime implements Serializable {
         this.pointsAtThisDay = pointsAtThisDay;
     }
 
+    public Points addPointsForCurrentDay(Points points) {
+        this.pointsAtThisDay.addPoints(points);
+        return this.pointsAtThisDay;
+    }
+
     @Override
     public String toString() {
-        return "PointsOverTime{" + "id=" + id + ", user=" + user + ", date=" + date + ", pointsAtThisDay=" + pointsAtThisDay + '}';
+        return "PointsOverTime{" + "id=" + id + ", userId=" + user.getId() + ", date=" + date.getCurrentDateFormatted() + ", pointsAtThisDay=" + pointsAtThisDay.getPointsAsLong() + '}';
     }
 }

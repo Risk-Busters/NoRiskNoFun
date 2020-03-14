@@ -140,6 +140,20 @@ public class ProjectRiskService {
         return saveProjectRisk(proposedProjectRisk);
     }
 
+    /**
+     * Add person in charge to a discussed project risk
+     *
+     * @param discussedProjectRisk the discussed project risk where a person in Charge is added.
+     * @param userInCharge user who is in charge of this risk.
+     * @return the updated discussed project risk.
+     */
+    public ProjectRisks addPersonInCharge(ProjectRisks discussedProjectRisk, User userInCharge) {
+        discussedProjectRisk.setPersonInCharge(userInCharge);
+        rewardUser(PointsPerAction.BE_PERSON_IN_CHARGE, userInCharge);
+        updateDiscussionStatus(discussedProjectRisk);
+        return saveProjectRisk(discussedProjectRisk);
+    }
+
     private void rewardUser(Points pointsToBeAdded,User userWhoProposed) {
         pointsOverTimeService.addPointsForToday(pointsToBeAdded, userWhoProposed);
     }

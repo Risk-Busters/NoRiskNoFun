@@ -7,7 +7,6 @@ import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.enumeration.RiskDiscussionState;
 import com.riskbusters.norisknofun.repository.ProjectRepository;
 import com.riskbusters.norisknofun.repository.ProjectRisksBaseRepository;
-import com.riskbusters.norisknofun.repository.RiskRepository;
 import com.riskbusters.norisknofun.service.ProjectRiskService;
 import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
@@ -48,7 +47,7 @@ public class ProjectRisksResource {
     private final ProjectRisksBaseRepository projectRisksBaseRepository;
     private final ProjectRiskService projectRiskService;
 
-    public ProjectRisksResource(ProjectRisksBaseRepository projectRisksBaseRepository, RiskRepository riskRepository, UserService userService, ProjectRepository projectRepository, ProjectRiskService projectRiskService) {
+    public ProjectRisksResource(ProjectRisksBaseRepository projectRisksBaseRepository, UserService userService, ProjectRepository projectRepository, ProjectRiskService projectRiskService) {
         this.projectRisksBaseRepository = projectRisksBaseRepository;
         this.userService = userService;
         this.projectRepository = projectRepository;
@@ -70,9 +69,10 @@ public class ProjectRisksResource {
         if (!user.isPresent()) throw new BadRequestAlertException("Missing credentials", ENTITY_NAME, "usernull");
 
         Optional<Project> project = projectRepository.findByUsersIsContainingAndIdEquals(user.get(), proposedProjectRisk.getProjectId());
-        if (!project.isPresent()) throw new BadRequestAlertException("User not in project", ENTITY_NAME, "projectnotexist");
+        if (!project.isPresent())
+            throw new BadRequestAlertException("User not in project", ENTITY_NAME, "projectnotexist");
 
-        ProjectRisks result = projectRiskService.proposeProjectRisk(proposedProjectRisk.title, proposedProjectRisk.description, project.get());
+        ProjectRisks result = projectRiskService.proposeProjectRisk(proposedProjectRisk.title, proposedProjectRisk.description, project.get(), user.get());
         return ResponseEntity.created(new URI("/api/project-risks/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -87,7 +87,8 @@ public class ProjectRisksResource {
         if (!user.isPresent()) throw new BadRequestAlertException("Missing credentials", ENTITY_NAME, "usernull");
 
         Optional<ProjectRisks> projectRisks = projectRisksBaseRepository.findById(discussRiskVM.getProjectRiskId());
-        if (!projectRisks.isPresent()) throw new BadRequestAlertException("Project risk doesnt exist", ENTITY_NAME, "projectrisknotexist");
+        if (!projectRisks.isPresent())
+            throw new BadRequestAlertException("Project risk doesnt exist", ENTITY_NAME, "projectrisknotexist");
 
         RiskDiscussion result = projectRiskService.saveProjectRiskDiscussion(discussRiskVM.getProjectSeverity(), discussRiskVM.getProjectProbability(), projectRisks.get(), user.get());
         projectRiskService.updateDiscussionStatus(projectRisks.get());
@@ -96,6 +97,7 @@ public class ProjectRisksResource {
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
+
     /**
      * {@code PUT  /project-risks} : Updates an existing projectRisks.
      *
@@ -135,8 +137,8 @@ public class ProjectRisksResource {
             projectId = -1L;
         }
 
-        log.debug("REST request to get all finalProjectRisks for project with id " + projectId);
-        log.debug("all finalProjectRisks" + projectRisksBaseRepository.findAllByProjectIdAndRiskDiscussionStatusEquals(projectId, RiskDiscussionState.FINAL.getState()));
+        log.debug("REST request to get all finalProjectRisks for project with id {}", projectId);
+        log.debug("all finalProjectRisks {}", projectRisksBaseRepository.findAllByProjectIdAndRiskDiscussionStatusEquals(projectId, RiskDiscussionState.FINAL.getState()));
         return projectRisksBaseRepository.findAllByProjectIdAndRiskDiscussionStatusEquals(projectId, RiskDiscussionState.FINAL.getState());
     }
 
@@ -156,7 +158,7 @@ public class ProjectRisksResource {
             projectId = -1L;
         }
 
-        log.debug("REST request to get all proposedProjectRisks for project with id " + projectId);
+        log.debug("REST request to get all proposedProjectRisks for project with id {}", projectId);
         return projectRisksBaseRepository.findAllByProjectIdAndRiskDiscussionStatusEquals(projectId, RiskDiscussionState.DISCUSSION.getState());
     }
 
@@ -176,7 +178,7 @@ public class ProjectRisksResource {
             projectId = -1L;
         }
 
-        log.debug("REST request to get all proposedProjectRisks for project with id " + projectId);
+        log.debug("REST request to get all proposedProjectRisks for project with id {}", projectId);
         return projectRisksBaseRepository.findAllByProjectIdAndRiskDiscussionStatusEquals(projectId, RiskDiscussionState.PROPOSED.getState());
     }
 

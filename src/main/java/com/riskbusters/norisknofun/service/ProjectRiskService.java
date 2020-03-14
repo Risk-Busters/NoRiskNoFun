@@ -5,6 +5,7 @@ import com.riskbusters.norisknofun.domain.enumeration.ProbabilityType;
 import com.riskbusters.norisknofun.domain.enumeration.RiskDiscussionState;
 import com.riskbusters.norisknofun.domain.enumeration.SeverityType;
 import com.riskbusters.norisknofun.repository.*;
+import com.riskbusters.norisknofun.service.gamification.PointsOverTimeService;
 import org.springframework.stereotype.Service;
 
 /*
@@ -17,14 +18,16 @@ public class ProjectRiskService {
     private ProjectRisksBaseRepository projectRisksBaseRepository;
     private RiskRepository riskRepository;
     private RiskDiscussionRepository riskDiscussionRepository;
+    private PointsOverTimeService pointsOverTimeService;
 
-    public ProjectRiskService(ProjectRisksBaseRepository projectRisksBaseRepository, RiskRepository riskRepository, UserService userService, ProjectRepository projectRepository, RiskDiscussionRepository riskDiscussionRepository) {
+    public ProjectRiskService(ProjectRisksBaseRepository projectRisksBaseRepository, RiskRepository riskRepository, RiskDiscussionRepository riskDiscussionRepository, PointsOverTimeService pointsOverTimeService) {
         this.projectRisksBaseRepository = projectRisksBaseRepository;
         this.riskRepository = riskRepository;
         this.riskDiscussionRepository = riskDiscussionRepository;
+        this.pointsOverTimeService = pointsOverTimeService;
     }
 
-    public ProjectRisks proposeProjectRisk(String title, String description, Project project) {
+    public ProjectRisks proposeProjectRisk(String title, String description, Project project, User userWhoProposed) {
         Risk risk = new Risk();
         risk.setName(title);
         risk.setDescription(description);
@@ -36,7 +39,14 @@ public class ProjectRiskService {
         proposedProjectRisk.setRisk(risk);
         proposedProjectRisk.setProject(project);
         proposedProjectRisk.setHasOccured(false);
+
+        rewardUser(userWhoProposed);
+
         return  projectRisksBaseRepository.save(proposedProjectRisk);
+    }
+
+    private void rewardUser(User userWhoProposed) {
+        pointsOverTimeService.addPointsForToday(PointsPerAction.PROPOSED_A_RISK, userWhoProposed);
     }
 
     /**

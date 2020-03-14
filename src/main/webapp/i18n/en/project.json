@@ -23,6 +23,7 @@
       "end": "End",
       "projectDates": "Time",
       "owner": "Owner",
+      "projectActivity": "Project activity status today",
       "projectRisks": "Project Risks",
       "user": "User",
       "toProjectRisks": "to Project Risks",

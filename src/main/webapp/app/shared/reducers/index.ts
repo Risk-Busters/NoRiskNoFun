@@ -25,6 +25,10 @@ import project, {
   ProjectState
 } from 'app/entities/project/project.reducer';
 // prettier-ignore
+import projectActivity, {
+  ProjectActivityState
+} from 'app/entities/project/project-activity.reducer';
+// prettier-ignore
 import projectRisks, {
   ProjectRisksState
 } from 'app/entities/project-risks/project-risks.reducer';
@@ -47,6 +51,7 @@ export interface IRootState {
   readonly risk: RiskState;
   readonly riskResponse: RiskResponseState;
   readonly project: ProjectState;
+  readonly projectActivity: ProjectActivityState;
   readonly projectRisks: ProjectRisksState;
   readonly userGamification: UserGamificationState;
   readonly activity: ActivityState;
@@ -69,6 +74,7 @@ const rootReducer = combineReducers<IRootState>({
   risk,
   riskResponse,
   project,
+  projectActivity,
   projectRisks,
   userGamification,
   activity,

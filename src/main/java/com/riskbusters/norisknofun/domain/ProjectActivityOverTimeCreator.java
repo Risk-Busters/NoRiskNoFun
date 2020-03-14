@@ -10,21 +10,21 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class PointsOverTimeCreator {
+public class ProjectActivityOverTimeCreator {
 
-    private final Logger log = LoggerFactory.getLogger(PointsOverTimeCreator.class);
+    private final Logger log = LoggerFactory.getLogger(ProjectActivityOverTimeCreator.class);
 
     private final UserRepository userRepository;
     private final PointsOverTimeRepository pointsOverTimeRepository;
 
-    public PointsOverTimeCreator(UserRepository userRepository, PointsOverTimeRepository pointsOverTimeRepository) {
+    public ProjectActivityOverTimeCreator(UserRepository userRepository, PointsOverTimeRepository pointsOverTimeRepository) {
         this.userRepository = userRepository;
         this.pointsOverTimeRepository = pointsOverTimeRepository;
     }
 
     @Scheduled(cron = "0 0 * * * *")
-    public void createDatabaseEntryForPointsPerDayAndUser() {
-        log.debug("Create database entries for the Points value for each day and each user:");
+    public void createDatabaseEntryForProjectActivityPerDay() {
+        log.debug("Create database entries for project activity per day:");
         List<User> allUsers = userRepository.findAll();
 
         for (User user : allUsers) {

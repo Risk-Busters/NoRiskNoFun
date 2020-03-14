@@ -32,6 +32,15 @@ public class PointsOverTime implements Serializable {
     @Column
     private Points pointsAtThisDay;
 
+    public PointsOverTime(User user) {
+        this.user = user;
+        this.date = new CustomDate();
+        this.pointsAtThisDay = new Points(0L);
+    }
+
+    public PointsOverTime() {
+    }
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -68,8 +77,13 @@ public class PointsOverTime implements Serializable {
         this.pointsAtThisDay = pointsAtThisDay;
     }
 
+    public Points addPointsForCurrentDay(Points points) {
+        this.pointsAtThisDay.addPoints(points);
+        return this.pointsAtThisDay;
+    }
+
     @Override
     public String toString() {
-        return "PointsOverTime{" + "id=" + id + ", user=" + user + ", date=" + date + ", pointsAtThisDay=" + pointsAtThisDay + '}';
+        return "PointsOverTime{" + "id=" + id + ", userId=" + user.getId() + ", date=" + date.getCurrentDateFormatted() + ", pointsAtThisDay=" + pointsAtThisDay.getPointsAsLong() + '}';
     }
 }

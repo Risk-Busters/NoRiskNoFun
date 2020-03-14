@@ -1,8 +1,6 @@
 package com.riskbusters.norisknofun.service.gamification;
 
-import com.riskbusters.norisknofun.domain.PointsOverTime;
-import com.riskbusters.norisknofun.domain.PointsWithDate;
-import com.riskbusters.norisknofun.domain.User;
+import com.riskbusters.norisknofun.domain.*;
 import com.riskbusters.norisknofun.repository.gamification.PointsOverTimeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,5 +40,39 @@ public class PointsOverTimeService {
             allPointsOverTime.add(new PointsWithDate(item.getPointsAtThisDay().getPointsAsLong(), item.getDate()));
         }
         return allPointsOverTime;
+    }
+
+    /**
+     * Add amount of points for user at the current date.
+     *
+     * @param points amount of points to add.
+     * @param user   the user to add points for.
+     * @return the new amount of points.
+     */
+    public Long addPointsForToday(Points points, User user) {
+        log.debug("Request to add {} points for user with id {}", points.getPointsAsLong(), user.getId());
+
+        if(isNull(user)) {
+            createEntry(user);
+        }
+
+        PointsOverTime pointsOverTimeForUser = pointsOverTimeRepository.findAllByUserIdAndDate(user.getId(), new CustomDate());
+
+        log.debug("Points at current day before adding points {}", pointsOverTimeForUser);
+        Points newPointsValue = pointsOverTimeForUser.addPointsForCurrentDay(points);
+        pointsOverTimeRepository.save(pointsOverTimeForUser);
+        log.debug("Points at current day after adding {} points: {}", points.getPointsAsLong(), pointsOverTimeForUser);
+
+        return newPointsValue.getPointsAsLong();
+    }
+
+    public boolean isNull(User user) {
+        PointsOverTime pointsOverTimeForUser = pointsOverTimeRepository.findAllByUserIdAndDate(user.getId(), new CustomDate());
+        return pointsOverTimeForUser == null;
+    }
+
+    private void createEntry(User user) {
+        PointsOverTime pointsOneDay = new PointsOverTime(user);
+        pointsOverTimeRepository.save(pointsOneDay);
     }
 }

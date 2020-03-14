@@ -40,13 +40,9 @@ public class ProjectRiskService {
         proposedProjectRisk.setProject(project);
         proposedProjectRisk.setHasOccured(false);
 
-        rewardUser(userWhoProposed);
+        rewardUser(PointsPerAction.PROPOSED_A_RISK, userWhoProposed);
 
         return  projectRisksBaseRepository.save(proposedProjectRisk);
-    }
-
-    private void rewardUser(User userWhoProposed) {
-        pointsOverTimeService.addPointsForToday(PointsPerAction.PROPOSED_A_RISK, userWhoProposed);
     }
 
     /**
@@ -128,5 +124,23 @@ public class ProjectRiskService {
         return projectRisks.getRiskResponses() != null && !projectRisks.getRiskResponses().isEmpty()
             && projectRisks.getPersonInCharge() != null
             && projectRisks.getDiscussions().size() >= 2;
+    }
+
+    /**
+     * Add like to proposed project risk
+     *
+     * @param proposedProjectRisk the proposed project risk where a like should be added.
+     * @param userWhoHasLiked the user who has liked the risk.
+     * @return the updated proposed project risk.
+     */
+    public ProjectRisks addLikeToProposedProjectRisk(ProjectRisks proposedProjectRisk, User userWhoHasLiked) {
+        proposedProjectRisk.addLike();
+        rewardUser(PointsPerAction.REVIEWED_A_RISK, userWhoHasLiked);
+        updateDiscussionStatus(proposedProjectRisk);
+        return saveProjectRisk(proposedProjectRisk);
+    }
+
+    private void rewardUser(Points pointsToBeAdded,User userWhoProposed) {
+        pointsOverTimeService.addPointsForToday(pointsToBeAdded, userWhoProposed);
     }
 }

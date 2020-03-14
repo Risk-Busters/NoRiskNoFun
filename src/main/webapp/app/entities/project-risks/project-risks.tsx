@@ -5,6 +5,7 @@ import { Button, Table } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { updateEntity as updateProjectRisks } from './project-risks.reducer';
+import { addLikeForProjectRisk as addLikeForProjectRisk } from './project-risks.reducer';
 import { IRootState } from 'app/shared/reducers';
 import {getEntities, getProposedProjectRisks, getToBeDiscussedProjectRisks} from "app/entities/project-risks/project-risks.reducer";
 import {IProjectRisks} from "app/shared/model/project-risks.model";
@@ -21,9 +22,9 @@ function ProjectRisks(props: IProjectRisksProps) {
   const { match, loading } = props;
 
   const upvote = (projectRisk: IProjectRisks) => {
-    const newUpvotedProjectRisks = projectRisk;
-    newUpvotedProjectRisks.likes++;
-    props.updateProjectRisks(newUpvotedProjectRisks);
+    props.addLikeForProjectRisk(projectRisk);
+    // TODO: @Moe: brauchen wir das so, damit die UI die Änderung direkt anzeigt?
+    projectRisk.likes ++;
   };
 
   const fetch = () => {
@@ -250,7 +251,8 @@ const mapDispatchToProps = {
   getEntities,
   getProposedProjectRisks,
   getToBeDiscussedProjectRisks,
-  updateProjectRisks
+  updateProjectRisks,
+  addLikeForProjectRisk
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

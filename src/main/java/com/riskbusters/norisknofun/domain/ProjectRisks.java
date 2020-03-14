@@ -1,7 +1,6 @@
 package com.riskbusters.norisknofun.domain;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.riskbusters.norisknofun.domain.enumeration.ProbabilityType;
 import com.riskbusters.norisknofun.domain.enumeration.SeverityType;
@@ -9,14 +8,11 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
-
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
+
 /**
  * A ProjectRisks.
  */
@@ -44,8 +40,8 @@ public class ProjectRisks implements Serializable {
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "project_risks_risk_response",
-               joinColumns = @JoinColumn(name = "project_risks_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "risk_response_id", referencedColumnName = "id"))
+        joinColumns = @JoinColumn(name = "project_risks_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "risk_response_id", referencedColumnName = "id"))
     private Set<RiskResponse> riskResponses = new HashSet<>();
 
     @ManyToOne
@@ -98,6 +94,10 @@ public class ProjectRisks implements Serializable {
 
     public void setDiscussions(Set<RiskDiscussion> discussions) {
         this.discussions = discussions;
+    }
+
+    public void addLike() {
+        this.likes++;
     }
 
     @JsonSerialize

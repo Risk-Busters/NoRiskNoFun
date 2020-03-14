@@ -14,6 +14,7 @@ export const ACTION_TYPES = {
   CREATE_PROJECTRISKS: 'projectRisks/CREATE_PROJECTRISKS',
   UPDATE_PROJECTRISKS: 'projectRisks/UPDATE_PROJECTRISKS',
   DELETE_PROJECTRISKS: 'projectRisks/DELETE_PROJECTRISKS',
+  ADD_LIKE_TO_PROJECT_RISK: 'projectRisks/ADD_LIKE_TO_PROJECT_RISK',
   RESET: 'projectRisks/RESET'
 };
 
@@ -119,6 +120,7 @@ const apiUrl = 'api/project-risks';
 const apiUrlProposedProjectRisks = 'api/proposed-project-risks';
 const apiUrlDiscussProjectRisks = 'api/discuss-project-risks';
 const apiUrlDiscussion = 'api/project-risks-discussion';
+const apiUrlAddLike = 'api/like-project-risks';
 
 // Actions
 
@@ -183,6 +185,17 @@ export const deleteEntity: ICrudDeleteAction<IProjectRisks> = id => async dispat
     payload: axios.delete(requestUrl)
   });
   dispatch(getEntities());
+  return result;
+};
+
+export const addLikeForProjectRisk: ICrudPutAction<IProjectRisks> = entity => async dispatch => {
+  const result = await dispatch({
+    type: ACTION_TYPES.ADD_LIKE_TO_PROJECT_RISK,
+    payload: axios.post(apiUrlAddLike, cleanEntity(entity))
+  });
+  dispatch(getEntities());
+  dispatch(getProposedProjectRisks());
+  dispatch(getToBeDiscussedProjectRisks());
   return result;
 };
 

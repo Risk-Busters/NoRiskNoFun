@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
-import {Link, RouteComponentProps, useParams, useHistory} from 'react-router-dom';
-import {Button, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane, Progress} from 'reactstrap';
+import {Link, RouteComponentProps, useHistory, useParams} from 'react-router-dom';
+import {Button, Col, Nav, NavItem, NavLink, Progress, Row, TabContent, TabPane} from 'reactstrap';
 import {TextFormat, Translate} from 'react-jhipster';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 import {IRootState} from 'app/shared/reducers';
 import {getEntity} from './project.reducer';
+import {getProjectActivity} from './project-activity.reducer';
 import {APP_LOCAL_DATE_FORMAT} from 'app/config/constants';
 import ProjectRisks from "app/entities/project-risks/project-risks";
 import moment from "moment";
@@ -28,12 +29,16 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-      props.getEntity(props.match.params.id);
-      if (risktype && Object.values(RiskUrlType).includes(risktype as RiskUrlType)) {
-        setActiveTab(risktype.toLowerCase());
-      } else {
-        setActiveTab(RiskUrlType.FINAL);
-      }
+    props.getProjectActivity(props.match.params.id);
+  }, []);
+
+  useEffect(() => {
+    props.getEntity(props.match.params.id);
+    if (risktype && Object.values(RiskUrlType).includes(risktype as RiskUrlType)) {
+      setActiveTab(risktype.toLowerCase());
+    } else {
+      setActiveTab(RiskUrlType.FINAL);
+    }
   }, []);
 
   useEffect(() => {
@@ -46,7 +51,7 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
     history.push(newTabUrl);
   }, [activeTab]);
 
-  const {projectEntity} = props;
+  const {projectEntity, projectActivityEntity} = props;
 
   useEffect(() => {
     if (projectEntity.end !== undefined && projectEntity.start !== undefined) {
@@ -99,6 +104,10 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
                     {timeStatus} %
                   </Progress>
                 </dd>
+                <dt>
+                  <Translate contentKey="noRiskNoFunApp.project.projectActivity" />
+                </dt>
+                <dd>{projectActivityEntity.projectActivityToday}</dd>
                 <dt>
                   <Translate contentKey="noRiskNoFunApp.project.owner">Owner</Translate>
                 </dt>
@@ -170,11 +179,12 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
     );
 };
 
-const mapStateToProps = ({project}: IRootState) => ({
-  projectEntity: project.entity
+const mapStateToProps = ({project, projectActivity}: IRootState) => ({
+  projectEntity: project.entity,
+  projectActivityEntity: projectActivity.entity
 });
 
-const mapDispatchToProps = {getEntity};
+const mapDispatchToProps = {getEntity, getProjectActivity};
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

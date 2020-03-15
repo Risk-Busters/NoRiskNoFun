@@ -24,8 +24,6 @@ function ProjectRisksDetail(props: IProjectRisksDetailProps) {
 
   const beInCharge = () => {
     const newPersonInCharge: IProjectRisks = Object.assign(projectRisksEntity);
-    // newPersonInCharge.personInCharge = user;
-    // props.updateProjectRisk(newPersonInCharge);
     props.addPersonInChargeForProjectRisk(newPersonInCharge);
     props.getEntity(riskId);
   };

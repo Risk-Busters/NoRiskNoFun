@@ -16,7 +16,7 @@ export interface IProjectDetailProps extends StateProps, DispatchProps, RouteCom
 
 enum RiskUrlType {
   FINAL = 'final',
-  DISCUSSION = 'toBeDiscussed',
+  DISCUSSION = 'tobediscussed',
   PROPOSED = 'proposed'
 }
 
@@ -160,7 +160,7 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
             <ProjectRisks riskDiscussionStatus={"final"} match={props.match} location={props.location} history={props.history} />
           </TabPane>
           <TabPane tabId={RiskUrlType.DISCUSSION}>
-            <ProjectRisks riskDiscussionStatus={"toBeDiscussed"} match={props.match} location={props.location} history={props.history} />
+            <ProjectRisks riskDiscussionStatus={"tobediscussed"} match={props.match} location={props.location} history={props.history} />
           </TabPane>
           <TabPane tabId={RiskUrlType.PROPOSED}>
             <ProjectRisks riskDiscussionStatus={"proposed"} match={props.match} location={props.location} history={props.history} />

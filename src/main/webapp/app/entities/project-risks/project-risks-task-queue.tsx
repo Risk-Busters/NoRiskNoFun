@@ -20,7 +20,7 @@ function ProjectRisksTaskQueue() {
 
   const handleReviewRisks = event => {
     event.stopPropagation();
-    history.push(`/entity/project/${id}/toBeDiscussed`);
+    history.push(`/entity/project/${id}/tobediscussed`);
   };
 
   return (
@@ -35,7 +35,7 @@ function ProjectRisksTaskQueue() {
         <Button id="noRiskNoFunApp.projectRisks.taskQueue.another" color="primary" onClick={(e) => handleProposeAnother(e)}>
           <Translate contentKey="noRiskNoFunApp.projectRisks.taskQueue.another" />
         </Button>
-        <Button id="noRiskNoFunApp.projectRisks.taskQueue.reviewDiscussable" color="secondary" onClick={(e) => handleClose(e)}>
+        <Button id="noRiskNoFunApp.projectRisks.taskQueue.reviewProposed" color="secondary" onClick={(e) => handleClose(e)}>
           <Translate contentKey="noRiskNoFunApp.projectRisks.taskQueue.reviewProposed" />
         </Button>
         <Button id="noRiskNoFunApp.projectRisks.taskQueue.reviewDiscussable" color="secondary" onClick={(e) => handleReviewRisks(e)}>

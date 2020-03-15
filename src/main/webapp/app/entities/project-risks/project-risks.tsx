@@ -37,13 +37,9 @@ function ProjectRisks(props: IProjectRisksProps) {
   }, []);
 
   useEffect(() => {
-    console.log(props.riskDiscussionStatus)
-  }, [props.riskDiscussionStatus]);
-
-  useEffect(() => {
     if(props.riskDiscussionStatus === "proposed") {
       setRiskList(Array.from(props.proposedProjectRiskEntities));
-    } else if(props.riskDiscussionStatus.toLocaleUpperCase()  === "toBeDiscussed".toLocaleUpperCase()) {
+    } else if(props.riskDiscussionStatus === "tobediscussed") {
       setRiskList(Array.from(props.toBeDiscussedProjectRiskEntities));
     } else if(props.riskDiscussionStatus === "final") {
       setRiskList(Array.from(props.projectRisksList));
@@ -210,7 +206,7 @@ function ProjectRisks(props: IProjectRisksProps) {
   const renderProjectRisk = (): JSX.Element => {
     if(props.riskDiscussionStatus === "proposed") {
       return renderProposed();
-    } else if(props.riskDiscussionStatus === "toBeDiscussed") {
+    } else if(props.riskDiscussionStatus === "tobediscussed") {
       return renderDiscuss();
     } else {
       return renderFinal();

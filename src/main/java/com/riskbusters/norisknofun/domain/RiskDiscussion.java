@@ -5,9 +5,10 @@ import com.riskbusters.norisknofun.domain.enumeration.SeverityType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
-public class RiskDiscussion {
+public class RiskDiscussion implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")

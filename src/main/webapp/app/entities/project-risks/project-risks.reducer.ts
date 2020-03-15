@@ -14,6 +14,8 @@ export const ACTION_TYPES = {
   CREATE_PROJECTRISKS: 'projectRisks/CREATE_PROJECTRISKS',
   UPDATE_PROJECTRISKS: 'projectRisks/UPDATE_PROJECTRISKS',
   DELETE_PROJECTRISKS: 'projectRisks/DELETE_PROJECTRISKS',
+  ADD_LIKE_TO_PROJECT_RISK: 'projectRisks/ADD_LIKE_TO_PROJECT_RISK',
+  ADD_PERSON_IN_CHARGE_FOR_PROJECT_RISK: 'projectRisks/ADD_PERSON_IN_CHARGE_FOR_PROJECT_RISK',
   RESET: 'projectRisks/RESET'
 };
 
@@ -47,6 +49,8 @@ export default (state: ProjectRisksState = initialState, action): ProjectRisksSt
     case REQUEST(ACTION_TYPES.CREATE_PROJECTRISKS):
     case REQUEST(ACTION_TYPES.UPDATE_PROJECTRISKS):
     case REQUEST(ACTION_TYPES.DELETE_PROJECTRISKS):
+    case REQUEST(ACTION_TYPES.ADD_LIKE_TO_PROJECT_RISK):
+    case REQUEST(ACTION_TYPES.ADD_PERSON_IN_CHARGE_FOR_PROJECT_RISK):
       return {
         ...state,
         errorMessage: null,
@@ -60,6 +64,8 @@ export default (state: ProjectRisksState = initialState, action): ProjectRisksSt
     case FAILURE(ACTION_TYPES.CREATE_PROJECTRISKS):
     case FAILURE(ACTION_TYPES.UPDATE_PROJECTRISKS):
     case FAILURE(ACTION_TYPES.DELETE_PROJECTRISKS):
+    case FAILURE(ACTION_TYPES.ADD_LIKE_TO_PROJECT_RISK):
+    case FAILURE(ACTION_TYPES.ADD_PERSON_IN_CHARGE_FOR_PROJECT_RISK):
       return {
         ...state,
         loading: false,
@@ -93,6 +99,8 @@ export default (state: ProjectRisksState = initialState, action): ProjectRisksSt
       };
     case SUCCESS(ACTION_TYPES.CREATE_PROJECTRISKS):
     case SUCCESS(ACTION_TYPES.UPDATE_PROJECTRISKS):
+    case SUCCESS(ACTION_TYPES.ADD_LIKE_TO_PROJECT_RISK):
+    case SUCCESS(ACTION_TYPES.ADD_PERSON_IN_CHARGE_FOR_PROJECT_RISK):
       return {
         ...state,
         updating: false,
@@ -119,6 +127,8 @@ const apiUrl = 'api/project-risks';
 const apiUrlProposedProjectRisks = 'api/proposed-project-risks';
 const apiUrlDiscussProjectRisks = 'api/discuss-project-risks';
 const apiUrlDiscussion = 'api/project-risks-discussion';
+const apiUrlAddLike = 'api/like-project-risks';
+const apiUrlAddPersonInCharge = 'api/person-in-charge-project-risks';
 
 // Actions
 
@@ -184,6 +194,24 @@ export const deleteEntity: ICrudDeleteAction<IProjectRisks> = id => async dispat
   });
   dispatch(getEntities());
   return result;
+};
+
+export const addLikeForProjectRisk: ICrudPutAction<IProjectRisks> = entity => async dispatch => {
+  const result = await dispatch({
+    type: ACTION_TYPES.ADD_LIKE_TO_PROJECT_RISK,
+    payload: axios.post(apiUrlAddLike, cleanEntity(entity))
+  });
+  dispatch(getEntities());
+  dispatch(getProposedProjectRisks());
+  dispatch(getToBeDiscussedProjectRisks());
+  return result;
+};
+
+export const addPersonInChargeForProjectRisk: ICrudPutAction<IProjectRisks> = entity => async dispatch => {
+  return await dispatch({
+    type: ACTION_TYPES.UPDATE_PROJECTRISKS,
+    payload: axios.post(apiUrlAddPersonInCharge, cleanEntity(entity))
+  });
 };
 
 export const reset = () => ({

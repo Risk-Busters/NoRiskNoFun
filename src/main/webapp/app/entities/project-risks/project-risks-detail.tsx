@@ -6,7 +6,7 @@ import {Translate} from 'react-jhipster';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 import {IRootState} from 'app/shared/reducers';
-import {getEntity, updateEntity as updateProjectRisk} from './project-risks.reducer';
+import {getEntity, updateEntity as updateProjectRisk, addPersonInChargeForProjectRisk} from './project-risks.reducer';
 import RiskResponse from "app/entities/risk-response/risk-response";
 import "./project-risks.scss"
 import {IProjectRisks} from "app/shared/model/project-risks.model";
@@ -24,8 +24,7 @@ function ProjectRisksDetail(props: IProjectRisksDetailProps) {
 
   const beInCharge = () => {
     const newPersonInCharge: IProjectRisks = Object.assign(projectRisksEntity);
-    newPersonInCharge.personInCharge = user;
-    props.updateProjectRisk(newPersonInCharge);
+    props.addPersonInChargeForProjectRisk(newPersonInCharge);
     props.getEntity(riskId);
   };
 
@@ -129,7 +128,7 @@ const mapStateToProps = ({ projectRisks, authentication }: IRootState) => ({
   user: authentication.account
 });
 
-const mapDispatchToProps = { getEntity, updateProjectRisk };
+const mapDispatchToProps = { getEntity, updateProjectRisk, addPersonInChargeForProjectRisk };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

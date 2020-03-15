@@ -1,5 +1,5 @@
 export interface IProjectActivity {
-  projectActivity?: number;
+  projectActivityToday?: number;
   projectActivityOverTime?: { date: string; pointsScore: number }[];
 }
 

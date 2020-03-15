@@ -107,7 +107,7 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
                 <dt>
                   <Translate contentKey="noRiskNoFunApp.project.projectActivity" />
                 </dt>
-                <dd>{projectActivityEntity.projectActivity ? 'Jep' : 'No'}</dd>
+                <dd>{projectActivityEntity.projectActivityToday}</dd>
                 <dt>
                   <Translate contentKey="noRiskNoFunApp.project.owner">Owner</Translate>
                 </dt>

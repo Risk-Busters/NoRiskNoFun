@@ -23,8 +23,6 @@ function ProjectRisks(props: IProjectRisksProps) {
 
   const upvote = (projectRisk: IProjectRisks) => {
     props.addLikeForProjectRisk(projectRisk);
-    // TODO: @Moe: brauchen wir das so, damit die UI die Änderung direkt anzeigt?
-    projectRisk.likes ++;
   };
 
   const fetch = () => {

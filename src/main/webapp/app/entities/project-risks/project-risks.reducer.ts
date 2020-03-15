@@ -208,14 +208,10 @@ export const addLikeForProjectRisk: ICrudPutAction<IProjectRisks> = entity => as
 };
 
 export const addPersonInChargeForProjectRisk: ICrudPutAction<IProjectRisks> = entity => async dispatch => {
-  const result = await dispatch({
+  return await dispatch({
     type: ACTION_TYPES.UPDATE_PROJECTRISKS,
-    payload: axios.put(apiUrlAddPersonInCharge, cleanEntity(entity))
+    payload: axios.post(apiUrlAddPersonInCharge, cleanEntity(entity))
   });
-  dispatch(getEntities());
-  dispatch(getProposedProjectRisks());
-  dispatch(getToBeDiscussedProjectRisks());
-  return result;
 };
 
 export const reset = () => ({

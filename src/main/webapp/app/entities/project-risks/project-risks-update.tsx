@@ -109,6 +109,7 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
                 type="select"
                 className="form-control"
                 name="projectSeverity"
+                value="BAD"
                 required
               >
                 <option value="BAD">{translate('noRiskNoFunApp.SeverityType.BAD')}</option>
@@ -127,6 +128,8 @@ export class ProjectRisksUpdate extends React.Component<IProjectRisksUpdateProps
                 type="select"
                 className="form-control"
                 name="projectProbability"
+                value="SURE"
+                required
               >
                 <option value="SURE">{translate('noRiskNoFunApp.ProbabilityType.SURE')}</option>
                 <option value="PROBABLY">{translate('noRiskNoFunApp.ProbabilityType.PROBABLY')}</option>

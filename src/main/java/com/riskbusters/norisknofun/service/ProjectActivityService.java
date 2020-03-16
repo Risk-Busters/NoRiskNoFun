@@ -55,7 +55,7 @@ public class ProjectActivityService {
 
     private Double calculateProjectActivityScore(Long projectId) {
         Optional<Project> project = projectRepository.findOneWithEagerRelationships(projectId);
-        if(project.isPresent()) {
+        if (project.isPresent()) {
             Set<User> users = project.get().getUsers();
             users.add(project.get().getOwner());
 

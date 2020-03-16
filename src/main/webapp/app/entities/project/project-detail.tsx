@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {Link, RouteComponentProps, useHistory, useParams} from 'react-router-dom';
-import {Button, Col, Nav, NavItem, NavLink, Progress, Row, TabContent, TabPane} from 'reactstrap';
+import {Button, Col, Nav, NavItem, NavLink, Progress, Row, TabContent, TabPane, Spinner} from 'reactstrap';
 import {TextFormat, Translate} from 'react-jhipster';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
@@ -11,6 +11,7 @@ import {getProjectActivity} from './project-activity.reducer';
 import {APP_LOCAL_DATE_FORMAT} from 'app/config/constants';
 import ProjectRisks from "app/entities/project-risks/project-risks";
 import moment from "moment";
+import {Chart} from "react-google-charts";
 
 export interface IProjectDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
 }
@@ -126,6 +127,35 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
                     : null}{' '}
                 </dd>
               </dl>
+
+
+              <Chart
+                width={'500px'}
+                height={'300px'}
+                chartType="AreaChart"
+                loader={<Spinner color="primary" />}
+                data={[
+                  // TODO: following form is needed: convert it
+                  // ['Date', 'Project Activity'],
+                  // ['2013', 1000],
+                  // ['2014', 1170],
+                  // ['2015', 660],
+                  // ['2016', 1030],
+                  // is an Array with Objects
+                  // projectActivityEntity.projectActivitiesOverTime
+                ]}
+                options={{
+                  title: 'Project Activity',
+                  hAxis: { title: 'Time', titleTextStyle: { color: '#333' } },
+                  vAxis: { title: 'Activity', minValue: 0 },
+                  // For the legend to fit, we make the chart area smaller
+                  chartArea: { width: '50%', height: '70%' },
+                  // lineWidth: 25
+                }}
+                // For tests
+                rootProps={{ 'data-testid': '1' }}
+              />
+
               <Button tag={Link} to="/entity/project" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />{' '}
                 <span className="d-none d-md-inline">

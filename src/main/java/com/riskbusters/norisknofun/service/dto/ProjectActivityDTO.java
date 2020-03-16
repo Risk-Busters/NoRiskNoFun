@@ -8,11 +8,16 @@ import java.util.List;
 public class ProjectActivityDTO implements Serializable {
 
     private Double projectActivityBasedOnUserScore;
-    private List<PointsWithDate> projectActivitiesOverTime;
+    private PointsWithDate[] projectActivitiesOverTime;
 
     public ProjectActivityDTO(Double projectActivityBasedOnUserScore, List<PointsWithDate> projectActivitiesOverTime) {
         this.projectActivityBasedOnUserScore = projectActivityBasedOnUserScore;
-        this.projectActivitiesOverTime = projectActivitiesOverTime;
+
+        this.projectActivitiesOverTime = new PointsWithDate[projectActivitiesOverTime.size()];
+
+        for (int i = 0; i < projectActivitiesOverTime.size(); i++) {
+            this.projectActivitiesOverTime[i] = projectActivitiesOverTime.get(i);
+        }
     }
 
     public Double getProjectActivityBasedOnUserScore() {
@@ -23,11 +28,11 @@ public class ProjectActivityDTO implements Serializable {
         this.projectActivityBasedOnUserScore = projectActivityBasedOnUserScore;
     }
 
-    public List<PointsWithDate> getProjectActivitiesOverTime() {
+    public PointsWithDate[] getProjectActivitiesOverTime() {
         return projectActivitiesOverTime;
     }
 
-    public void setProjectActivitiesOverTime(List<PointsWithDate> projectActivitiesOverTime) {
+    public void setProjectActivitiesOverTime(PointsWithDate[] projectActivitiesOverTime) {
         this.projectActivitiesOverTime = projectActivitiesOverTime;
     }
 

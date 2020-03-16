@@ -73,6 +73,7 @@ public class AchievementServiceIT {
     public void init() {
         pointsOverTimeRepository.deleteAll();
         userRepository.deleteAll();
+        userGamificationRepository.deleteAll();
         user = UserResourceIT.createEntity(em);
         userRepository.save(user);
         this.userId = user.getId();

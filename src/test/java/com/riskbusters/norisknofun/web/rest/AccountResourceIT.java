@@ -7,6 +7,7 @@ import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.repository.AuthorityRepository;
 import com.riskbusters.norisknofun.repository.UserRepository;
 import com.riskbusters.norisknofun.repository.gamification.PointsOverTimeRepository;
+import com.riskbusters.norisknofun.repository.gamification.UserGamificationRepository;
 import com.riskbusters.norisknofun.security.AuthoritiesConstants;
 import com.riskbusters.norisknofun.service.MailService;
 import com.riskbusters.norisknofun.service.UserService;
@@ -54,6 +55,9 @@ public class AccountResourceIT {
     private PointsOverTimeRepository pointsOverTimeRepository;
 
     @Autowired
+    private UserGamificationRepository userGamificationRepository;
+
+    @Autowired
     private AuthorityRepository authorityRepository;
 
     @Autowired
@@ -81,6 +85,7 @@ public class AccountResourceIT {
     @BeforeEach
     public void setup() {
         pointsOverTimeRepository.deleteAll();
+        userGamificationRepository.deleteAll();
         MockitoAnnotations.initMocks(this);
         doNothing().when(mockMailService).sendActivationEmail(any());
         AccountResource accountResource =

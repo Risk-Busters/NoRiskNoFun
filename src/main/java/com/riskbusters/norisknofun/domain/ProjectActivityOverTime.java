@@ -30,12 +30,12 @@ public class ProjectActivityOverTime implements Serializable {
     private CustomDate date;
 
     @Column
-    private Points projectActivityAtThisDay;
+    private Double projectActivityScoreAtThisDay;
 
-    public ProjectActivityOverTime(Project project) {
+    public ProjectActivityOverTime(Project project, Double projectActivityScoreAtThisDay, CustomDate date) {
         this.project = project;
-        this.date = new CustomDate();
-        this.projectActivityAtThisDay = new Points(0L);
+        this.projectActivityScoreAtThisDay = projectActivityScoreAtThisDay;
+        this.date = date;
     }
 
     public ProjectActivityOverTime() {
@@ -69,16 +69,16 @@ public class ProjectActivityOverTime implements Serializable {
         this.date = date;
     }
 
-    public Points getProjectActivityAtThisDay() {
-        return projectActivityAtThisDay;
+    public Double getProjectActivityScoreAtThisDay() {
+        return projectActivityScoreAtThisDay;
     }
 
-    public void setProjectActivityAtThisDay(Points pointsAtThisDay) {
-        this.projectActivityAtThisDay = pointsAtThisDay;
+    public void setProjectActivityScoreAtThisDay(Double pointsAtThisDay) {
+        this.projectActivityScoreAtThisDay = pointsAtThisDay;
     }
 
     @Override
     public String toString() {
-        return "ProjectActivity{" + "id=" + id + ", projectId=" + project.getId() + ", date=" + date.getDateFormatted() + ", activityAtThisDay=" + projectActivityAtThisDay.getPointsAsLong() + '}';
+        return "ProjectActivity{" + "id=" + id + ", projectId=" + project.getId() + ", date=" + date.getDateFormatted() + ", activityAtThisDay=" + projectActivityScoreAtThisDay + '}';
     }
 }

@@ -40,7 +40,7 @@ public class PointsOverTimeService {
         List<PointsOverTime> allPointsOverTimeRowsFromDB = pointsOverTimeRepository.findAllByUserId(user.getId());
         List<PointsWithDate> allPointsOverTime = new ArrayList<>();
         for (PointsOverTime item : allPointsOverTimeRowsFromDB) {
-            allPointsOverTime.add(new PointsWithDate(item.getPointsAtThisDay().getPointsAsLong(), item.getDate()));
+            allPointsOverTime.add(new PointsWithDate(item.getPointsAtThisDay().getPointsAsLong().doubleValue(), item.getDate()));
         }
         return allPointsOverTime;
     }
@@ -56,7 +56,7 @@ public class PointsOverTimeService {
         log.debug("Request to get points over time for user: {} and date {}", user, date);
         createIfNotExists(user, date);
         PointsOverTime neededPointDBEntry = pointsOverTimeRepository.findAllByUserIdAndDate(user.getId(), date);
-        return new PointsWithDate(neededPointDBEntry.getPointsAtThisDay().getPointsAsLong(), neededPointDBEntry.getDate());
+        return new PointsWithDate(neededPointDBEntry.getPointsAtThisDay().getPointsAsLong().doubleValue(), neededPointDBEntry.getDate());
     }
 
     /**

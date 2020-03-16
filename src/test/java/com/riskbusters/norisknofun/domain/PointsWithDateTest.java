@@ -15,7 +15,7 @@ class PointsWithDateTest {
 
     @BeforeEach
     void setUp() {
-        pointsWithDate = new PointsWithDate(42L, new CustomDate());
+        pointsWithDate = new PointsWithDate(42.0, new CustomDate());
     }
 
     @Test

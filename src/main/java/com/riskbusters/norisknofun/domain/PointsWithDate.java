@@ -6,16 +6,19 @@ import java.io.Serializable;
 @Embeddable
 public class PointsWithDate implements Serializable {
 
-    private Long pointsScore;
+    private Double pointsScore;
 
     private String date;
 
-    public PointsWithDate(Long pointsScore, CustomDate date) {
+    public PointsWithDate(Double pointsScore, CustomDate date) {
         this.pointsScore = pointsScore;
         this.date = date.getDateFormatted();
     }
 
-    public Long getPointsScore() {
+    public PointsWithDate() {
+    }
+
+    public Double getPointsScore() {
         return pointsScore;
     }
 

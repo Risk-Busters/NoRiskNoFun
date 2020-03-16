@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +47,7 @@ public class ProjectActivityService {
 
         List<PointsWithDate> allProjectActivitiesOverTime = new ArrayList<>();
         for (ProjectActivityOverTime item : projectActivityOverTime) {
-            allProjectActivitiesOverTime.add(new PointsWithDate(item.getProjectActivityAtThisDay().getPointsAsLong(), item.getDate()));
+            allProjectActivitiesOverTime.add(new PointsWithDate(item.getProjectActivityScoreAtThisDay(), item.getDate()));
         }
 
         return new ProjectActivityDTO(projectActivityBasedOnUserScore, allProjectActivitiesOverTime);
@@ -54,19 +55,46 @@ public class ProjectActivityService {
 
     private Double calculateProjectActivityScore(Long projectId) {
         Optional<Project> project = projectRepository.findOneWithEagerRelationships(projectId);
-        Set<User> users = project.get().getUsers();
-        users.add(project.get().getOwner());
+        if(project.isPresent()) {
+            Set<User> users = project.get().getUsers();
+            users.add(project.get().getOwner());
 
-        List<Double> activityScoreBasedOnPointsFromAllUsersOfProject = new ArrayList<>();
-        for (User user : users) {
-            activityScoreBasedOnPointsFromAllUsersOfProject.add(userGamificationRepository.findByUserId(user.getId()).getActivityScoreBasedOnPoints());
+            List<Double> activityScoreBasedOnPointsFromAllUsersOfProject = new ArrayList<>();
+            for (User user : users) {
+                activityScoreBasedOnPointsFromAllUsersOfProject.add(userGamificationRepository.findByUserId(user.getId()).getActivityScoreBasedOnPoints());
+            }
+            log.debug("Activity list: {}", activityScoreBasedOnPointsFromAllUsersOfProject);
+
+            int numberOfProjectMembers = activityScoreBasedOnPointsFromAllUsersOfProject.size();
+            Double sumOfUserActivityScores = activityScoreBasedOnPointsFromAllUsersOfProject.stream().mapToDouble(Double::doubleValue).sum();
+
+            Double projectActivityScore = sumOfUserActivityScores / numberOfProjectMembers;
+
+            // save value over time
+            createIfNotExists(project.get(), new CustomDate());
+            ProjectActivityOverTime projectActivityScoreDBObject = projectActivityOverTimeRepository.findAllByProjectIdAndDate(project.get().getId(), new CustomDate());
+            projectActivityScoreDBObject.setProjectActivityScoreAtThisDay(projectActivityScore);
+            projectActivityOverTimeRepository.save(projectActivityScoreDBObject);
+            return projectActivityScore;
+        } else {
+            throw new EntityNotFoundException();
         }
-        log.debug("Activity list: {}", activityScoreBasedOnPointsFromAllUsersOfProject);
 
-        int numberOfProjectMembers = activityScoreBasedOnPointsFromAllUsersOfProject.size();
-        Double sumOfUserActivityScores = activityScoreBasedOnPointsFromAllUsersOfProject.stream().mapToDouble(Double::doubleValue).sum();
+    }
 
-        Double projectActivityScore = sumOfUserActivityScores / numberOfProjectMembers;
-        return projectActivityScore;
+    private void createIfNotExists(Project project, CustomDate date) {
+        if (isNull(project, date)) {
+            createEntry(project, date);
+        }
+    }
+
+    private boolean isNull(Project project, CustomDate date) {
+        ProjectActivityOverTime projectActivityOverTime = projectActivityOverTimeRepository.findAllByProjectIdAndDate(project.getId(), date);
+        return projectActivityOverTime == null;
+    }
+
+    private void createEntry(Project project, CustomDate date) {
+        ProjectActivityOverTime pointsOneDay = new ProjectActivityOverTime(project, 0.0, date);
+        projectActivityOverTimeRepository.save(pointsOneDay);
     }
 }

@@ -8,20 +8,27 @@ import java.util.Date;
 @Embeddable
 public class CustomDate implements Serializable {
 
-    private String currentDateFormatted;
+    private String dateFormatted;
 
     public CustomDate() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date currentDate = new Date();
-        this.currentDateFormatted = dateFormat.format(currentDate);
+        this.dateFormatted = getDateFormat().format(currentDate);
     }
 
-    public String getCurrentDateFormatted() {
-        return currentDateFormatted;
+    public CustomDate(Date date) {
+        this.dateFormatted = getDateFormat().format(date);
+    }
+
+    public String getDateFormatted() {
+        return dateFormatted;
+    }
+
+    public SimpleDateFormat getDateFormat() {
+        return new SimpleDateFormat("yyyy-MM-dd");
     }
 
     @Override
     public String toString() {
-        return "CustomDate{" + "localDate=" + currentDateFormatted + '}';
+        return "CustomDate{" + "localDate=" + dateFormatted + '}';
     }
 }

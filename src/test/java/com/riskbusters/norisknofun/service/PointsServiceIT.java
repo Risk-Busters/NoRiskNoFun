@@ -39,9 +39,6 @@ public class PointsServiceIT {
     private PointsOverTimeRepository pointsOverTimeRepository;
 
     @Autowired
-    private PointsService pointsService;
-
-    @Autowired
     private AchievementService achievementService;
 
     @Autowired
@@ -61,7 +58,7 @@ public class PointsServiceIT {
     public UserGamification createUserGamificationEntity(User user) {
         UserGamification userGamificationEntity = new UserGamification();
         userGamificationEntity.setUser(user);
-        userGamificationEntity.setPointsScore(new Points(0L));
+        userGamificationEntity.setActivityScoreBasedOnPoints(0.0);
         Set<Achievement> achievements = createAchievements();
         userGamificationEntity.setUserAchievements(achievements);
 
@@ -80,29 +77,5 @@ public class PointsServiceIT {
         userGamificationRepository.save(userGamificationEntity);
     }
 
-
-    @Test
-    @Transactional
-    public void assertThatPointsAreIncreasedCorrectly() {
-        pointsService.addPointsForUser(new Points(42L), this.userId);
-
-        assertEquals(Long.valueOf(42), userGamificationRepository.findByUserId(this.userId).getPointsScore().getPointsAsLong());
-    }
-
-    @Test
-    @Transactional
-    public void assertThatNegativePointValuesNotPossible() {
-        pointsService.addPointsForUser(new Points(-42L), this.userId);
-
-        assertEquals(Long.valueOf(0), userGamificationRepository.findByUserId(this.userId).getPointsScore().getPointsAsLong());
-    }
-
-    @Test
-    @Transactional
-    public void assertThatMultipleIncreseProcessesAreCorrect() {
-        pointsService.addPointsForUser(new Points(2L), this.userId);
-        assertEquals(Long.valueOf(2), userGamificationRepository.findByUserId(this.userId).getPointsScore().getPointsAsLong());
-        pointsService.addPointsForUser(new Points(6L), this.userId);
-        assertEquals(Long.valueOf(8), userGamificationRepository.findByUserId(this.userId).getPointsScore().getPointsAsLong());
-    }
+    // TODO: adapt to new database model
 }

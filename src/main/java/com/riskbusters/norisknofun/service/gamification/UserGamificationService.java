@@ -1,9 +1,12 @@
 package com.riskbusters.norisknofun.service.gamification;
 
+import com.riskbusters.norisknofun.domain.CustomDate;
 import com.riskbusters.norisknofun.domain.PointsWithDate;
 import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.domain.achievements.Achievement;
+import com.riskbusters.norisknofun.domain.activityscore.SlopeCalculation;
+import com.riskbusters.norisknofun.domain.activityscore.SlopeCalculationImpl;
 import com.riskbusters.norisknofun.repository.UserRepository;
 import com.riskbusters.norisknofun.repository.achievements.AchievementBaseRepository;
 import com.riskbusters.norisknofun.repository.gamification.UserGamificationRepository;
@@ -15,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +42,8 @@ public class UserGamificationService {
 
     private final AchievementService achievementService;
 
+    private SlopeCalculation slopeCalculation;
+
     private UserGamificationMapper mapper;
 
     public UserGamificationService(UserGamificationRepository userGamificationRepository, AchievementBaseRepository achievementBaseRepository, AchievementService achievementService, UserRepository userRepository, PointsOverTimeService pointsOverTimeService) {
@@ -46,6 +53,7 @@ public class UserGamificationService {
         this.userRepository = userRepository;
         this.mapper = new UserGamificationMapper(this.userRepository);
         this.pointsOverTimeService = pointsOverTimeService;
+        this.slopeCalculation = new SlopeCalculationImpl();
     }
 
     /**
@@ -73,6 +81,7 @@ public class UserGamificationService {
     @Transactional(readOnly = true)
     public UserGamificationDTO findAllForOneUser(User user) {
         log.debug("Request to get all UserGamifications for user: {}", user);
+        calculateActivityScoreBasedOnPoints(user);
         Optional<UserGamification> userGamification = userGamificationRepository.findOneWithEagerRelationships(user);
         List<PointsWithDate> pointsOverTimeAsList = pointsOverTimeService.getAllPointsOverTimeForOneUser(user);
 
@@ -118,5 +127,35 @@ public class UserGamificationService {
 
     public void saveAchievements(List<Achievement> userAchievements) {
         achievementBaseRepository.saveAll(userAchievements);
+    }
+
+    /**
+     * Calculate the activityScoreBasedOnPoints for a user and store the result in his/her UserGamification object.
+     *
+     * @param user the user to calculate the activityScore for.
+     */
+    public void calculateActivityScoreBasedOnPoints(User user) {
+
+        // TODO: refactor process of getting points after discussion day vs. week
+        // hacky to get Date yesterday
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
+        Date yesterdayDate = calendar.getTime();
+
+        PointsWithDate today = pointsOverTimeService.getPointsByUserAndDate(user, new CustomDate());
+        PointsWithDate yesterday = pointsOverTimeService.getPointsByUserAndDate(user, new CustomDate(yesterdayDate));
+
+        Double calculatedActivityScoreBasedOnPoints = slopeCalculation.calculateSlopeBetweenTwoPoints(yesterday, today);
+
+        log.debug("Calculated and stored activityScoreBasedOnPoints (result = {}) for user with id {} for olderPoints: {} and youngerPoint: {}", calculatedActivityScoreBasedOnPoints, user.getId(), yesterday, today);
+
+        Optional<UserGamification> userGamification = userGamificationRepository.findOneWithEagerRelationships(user);
+        if (userGamification.isPresent()) {
+            userGamification.get().setActivityScoreBasedOnPoints(calculatedActivityScoreBasedOnPoints);
+            userGamificationRepository.save(userGamification.get());
+        } else {
+            UserGamification newUserGamification = new UserGamification(user, calculatedActivityScoreBasedOnPoints);
+            userGamificationRepository.save(newUserGamification);
+        }
     }
 }

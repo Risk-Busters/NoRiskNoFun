@@ -25,11 +25,11 @@ public class PointsOverTime implements Serializable {
     @JoinColumn
     private User user;
 
-    @Column
+    @Column(name = "date")
     @Embedded
     private CustomDate date;
 
-    @Column
+    @Column(name = "points_at_this_day")
     private Points pointsAtThisDay;
 
     public PointsOverTime(User user) {
@@ -84,6 +84,6 @@ public class PointsOverTime implements Serializable {
 
     @Override
     public String toString() {
-        return "PointsOverTime{" + "id=" + id + ", userId=" + user.getId() + ", date=" + date.getCurrentDateFormatted() + ", pointsAtThisDay=" + pointsAtThisDay.getPointsAsLong() + '}';
+        return "PointsOverTime{" + "id=" + id + ", userId=" + user.getId() + ", date=" + date.getDateFormatted() + ", pointsAtThisDay=" + pointsAtThisDay.getPointsAsLong() + '}';
     }
 }

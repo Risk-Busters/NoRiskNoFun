@@ -28,9 +28,8 @@ public class UserGamification implements Serializable {
     @JoinColumn(unique = true)
     private User user;
 
-    @Column(name = "points_score")
-    @Embedded
-    private Points pointsScore;
+    @Column(name = "activity_score_based_on_points")
+    private Double activityScoreBasedOnPoints;
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -40,6 +39,14 @@ public class UserGamification implements Serializable {
     private Set<Achievement> userAchievements = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+
+
+    public UserGamification(User user, Double activityScoreBasedOnPoints) {
+    }
+
+    public UserGamification() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -48,21 +55,17 @@ public class UserGamification implements Serializable {
         this.id = id;
     }
 
-    public Points getPointsScore() {
-        return pointsScore;
+    public Double getActivityScoreBasedOnPoints() {
+        return activityScoreBasedOnPoints;
     }
 
-    public UserGamification pointsScore(Points pointsScore) {
-        this.pointsScore = pointsScore;
+    public UserGamification pointsScore(Double activityScoreBasedOnPoints) {
+        this.activityScoreBasedOnPoints = activityScoreBasedOnPoints;
         return this;
     }
 
-    public void addPoints(Points pointsToAdd) {
-        this.pointsScore.addPoints(pointsToAdd);
-    }
-
-    public void setPointsScore(Points pointsScore) {
-        this.pointsScore = pointsScore;
+    public void setActivityScoreBasedOnPoints(Double activityScoreBasedOnPoints) {
+        this.activityScoreBasedOnPoints = activityScoreBasedOnPoints;
     }
 
     public User getUser() {
@@ -107,7 +110,9 @@ public class UserGamification implements Serializable {
     public String toString() {
         return "UserGamification{" +
             "id=" + getId() +
-            ", pointsScore=" + getPointsScore() +
+            "userId=" + getUser().getId() +
+            ", activityScoreBasedOnPoints=" + getActivityScoreBasedOnPoints() +
+            ", achievements=" + getUserAchievements() +
             "}";
     }
 }

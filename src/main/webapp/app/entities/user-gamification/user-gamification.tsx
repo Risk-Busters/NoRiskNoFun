@@ -58,7 +58,7 @@ function UserGamification(props: IUserGamificationProps) {
                     {props.userGamification.id}
                   </Button>
                 </td>
-                <td>{props.userGamification.pointsScore}</td>
+                <td>{props.userGamification.activityScoreBasedOnPoints}</td>
                 <td>Its always you, dummy.</td>
                 <td>
                   {props.userGamification.userAchievements

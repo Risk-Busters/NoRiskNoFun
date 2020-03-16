@@ -79,6 +79,6 @@ public class ProjectActivityOverTime implements Serializable {
 
     @Override
     public String toString() {
-        return "ProjectActivity{" + "id=" + id + ", projectId=" + project.getId() + ", date=" + date.getCurrentDateFormatted() + ", activityAtThisDay=" + projectActivityAtThisDay.getPointsAsLong() + '}';
+        return "ProjectActivity{" + "id=" + id + ", projectId=" + project.getId() + ", date=" + date.getDateFormatted() + ", activityAtThisDay=" + projectActivityAtThisDay.getPointsAsLong() + '}';
     }
 }

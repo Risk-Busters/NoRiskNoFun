@@ -43,6 +43,19 @@ public class PointsOverTimeService {
     }
 
     /**
+     * Get one points value based on date and user
+     *
+     * @param user for which the points over time should be returned.
+     * @param date for which the points over time should be returned.
+     * @return the list of points
+     */
+    public PointsWithDate getPointsByUserAndDate(User user, CustomDate date) {
+        log.debug("Request to get points over time for user: {} and date {}", user, date);
+        PointsOverTime neededPointDBEntry = pointsOverTimeRepository.findAllByUserIdAndDate(user.getId(), date);
+        return new PointsWithDate(neededPointDBEntry.getPointsAtThisDay().getPointsAsLong(), neededPointDBEntry.getDate());
+    }
+
+    /**
      * Add amount of points for user at the current date.
      *
      * @param points amount of points to add.

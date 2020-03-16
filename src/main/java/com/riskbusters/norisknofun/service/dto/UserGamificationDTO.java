@@ -15,7 +15,7 @@ public class UserGamificationDTO implements Serializable {
 
     private Long userId;
 
-    private Long pointsScore;
+    private Double activityScoreBasedOnPoints;
 
     private String userLogin;
 
@@ -31,12 +31,12 @@ public class UserGamificationDTO implements Serializable {
         this.id = id;
     }
 
-    public Long getPointsScore() {
-        return pointsScore;
+    public Double getActivityScoreBasedOnPoints() {
+        return activityScoreBasedOnPoints;
     }
 
-    public void setPointsScore(Long pointsScore) {
-        this.pointsScore = pointsScore;
+    public void setActivityScoreBasedOnPoints(Double activityScoreBasedOnPoints) {
+        this.activityScoreBasedOnPoints = activityScoreBasedOnPoints;
     }
 
     public Long getUserId() {
@@ -96,7 +96,7 @@ public class UserGamificationDTO implements Serializable {
     public String toString() {
         return "UserGamificationDTO{" +
             "id=" + getId() +
-            ", pointsScore=" + getPointsScore() +
+            ", pointsScore=" + getActivityScoreBasedOnPoints() +
             ", user=" + getUserId() +
             ", user='" + getUserLogin() + "'" +
             ", userAchievements='" + getUserAchievements() + "'" +

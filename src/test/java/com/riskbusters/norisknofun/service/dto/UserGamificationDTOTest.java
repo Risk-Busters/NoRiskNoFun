@@ -22,7 +22,7 @@ class UserGamificationDTOTest {
     void setUp() {
         this.userGamificationDTO = new UserGamificationDTO();
         userGamificationDTO.setUserId(1L);
-        userGamificationDTO.setPointsScore(42L);
+        userGamificationDTO.setActivityScoreBasedOnPoints(42.0);
         userGamificationDTO.setId(7L);
         userGamificationDTO.setUserLogin("admin");
         userAchievements.add(new ProjectMember());
@@ -41,14 +41,14 @@ class UserGamificationDTOTest {
     }
 
     @Test
-    void getPointsScore() {
-        assertEquals(42L, (long) userGamificationDTO.getPointsScore());
+    void testGetActivityScoreBasedOnPoints() {
+        assertEquals(Double.valueOf(42.0), userGamificationDTO.getActivityScoreBasedOnPoints());
     }
 
     @Test
-    void setPointsScore() {
-        userGamificationDTO.setPointsScore(4242L);
-        assertEquals(4242L, (long) userGamificationDTO.getPointsScore());
+    void testSetActivityScoreBasedOnPoints() {
+        userGamificationDTO.setActivityScoreBasedOnPoints(42.42);
+        assertEquals(Double.valueOf(42.42), userGamificationDTO.getActivityScoreBasedOnPoints());
     }
 
     @Test

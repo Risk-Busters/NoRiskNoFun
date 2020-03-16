@@ -30,7 +30,7 @@ export class UserGamificationDetail extends React.Component<IUserGamificationDet
                 <Translate contentKey="noRiskNoFunApp.userGamification.pointsScore">Points Score</Translate>
               </span>
             </dt>
-            <dd>{userGamificationEntity.pointsScore}</dd>
+            <dd>{userGamificationEntity.activityScoreBasedOnPoints}</dd>
             <dt>
               <Translate contentKey="noRiskNoFunApp.userGamification.achievementType">Achievement Type</Translate>
             </dt>

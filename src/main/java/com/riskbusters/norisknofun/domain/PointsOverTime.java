@@ -32,9 +32,9 @@ public class PointsOverTime implements Serializable {
     @Column(name = "points_at_this_day")
     private Points pointsAtThisDay;
 
-    public PointsOverTime(User user) {
+    public PointsOverTime(User user, CustomDate date) {
         this.user = user;
-        this.date = new CustomDate();
+        this.date = date;
         this.pointsAtThisDay = new Points(0L);
     }
 

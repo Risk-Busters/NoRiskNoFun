@@ -78,7 +78,6 @@ public class UserGamificationService {
      * @param user the user.
      * @return the list of userGamifications for one specific user.
      */
-    @Transactional(readOnly = true)
     public UserGamificationDTO findAllForOneUser(User user) {
         log.debug("Request to get all UserGamifications for user: {}", user);
         calculateActivityScoreBasedOnPoints(user);

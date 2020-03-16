@@ -7,20 +7,20 @@ import java.util.List;
 
 public class ProjectActivityDTO implements Serializable {
 
-    private Long projectActivityToday;
+    private Double projectActivityBasedOnUserScore;
     private List<PointsWithDate> projectActivitiesOverTime;
 
-    public ProjectActivityDTO(Long projectActivityToday, List<PointsWithDate> projectActivitiesOverTime) {
-        this.projectActivityToday = projectActivityToday;
+    public ProjectActivityDTO(Double projectActivityBasedOnUserScore, List<PointsWithDate> projectActivitiesOverTime) {
+        this.projectActivityBasedOnUserScore = projectActivityBasedOnUserScore;
         this.projectActivitiesOverTime = projectActivitiesOverTime;
     }
 
-    public Long getProjectActivityToday() {
-        return projectActivityToday;
+    public Double getProjectActivityBasedOnUserScore() {
+        return projectActivityBasedOnUserScore;
     }
 
-    public void setProjectActivityToday(Long projectActivityToday) {
-        this.projectActivityToday = projectActivityToday;
+    public void setProjectActivityBasedOnUserScore(Double projectActivityBasedOnUserScore) {
+        this.projectActivityBasedOnUserScore = projectActivityBasedOnUserScore;
     }
 
     public List<PointsWithDate> getProjectActivitiesOverTime() {
@@ -33,6 +33,6 @@ public class ProjectActivityDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "ProjectActivityDTO{" + "projectActivityToday=" + projectActivityToday + ", projectActivitiesOverTime=" + projectActivitiesOverTime + '}';
+        return "ProjectActivityDTO{" + "projectActivityToday=" + projectActivityBasedOnUserScore + ", projectActivitiesOverTime=" + projectActivitiesOverTime + '}';
     }
 }

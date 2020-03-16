@@ -42,6 +42,8 @@ public class UserGamification implements Serializable {
 
 
     public UserGamification(User user, Double activityScoreBasedOnPoints) {
+        this.user = user;
+        this.activityScoreBasedOnPoints =activityScoreBasedOnPoints;
     }
 
     public UserGamification() {

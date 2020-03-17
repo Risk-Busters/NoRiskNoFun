@@ -6,9 +6,9 @@ import java.io.Serializable;
 @Embeddable
 public class PointsWithDate implements Serializable {
 
-    private Double pointsScore;
-
     private String date;
+
+    private Double pointsScore;
 
     public PointsWithDate(Double pointsScore, CustomDate date) {
         this.pointsScore = pointsScore;
@@ -28,6 +28,6 @@ public class PointsWithDate implements Serializable {
 
     @Override
     public String toString() {
-        return "PointsWithDate{" + "pointsScore=" + pointsScore + ", date='" + date + '\'' + '}';
+        return "PointsWithDate{" + ", date='" + date + "pointsScore=" + pointsScore + '\'' + '}';
     }
 }

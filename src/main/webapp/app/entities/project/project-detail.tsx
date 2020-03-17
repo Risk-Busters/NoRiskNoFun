@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {Link, RouteComponentProps, useHistory, useParams} from 'react-router-dom';
-import {Button, Col, Nav, NavItem, NavLink, Progress, Row, TabContent, TabPane, Spinner} from 'reactstrap';
+import {Button, Col, Nav, NavItem, NavLink, Progress, Row, Spinner, TabContent, TabPane} from 'reactstrap';
 import {TextFormat, Translate} from 'react-jhipster';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
@@ -26,6 +26,7 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
 
   const [activeTab, setActiveTab] = useState('final');
   const [timeStatus, setTimeStatus] = useState(0);
+  const [diagramStatus, setDiagramStatus] = useState([]);
   const { risktype } = useParams();
   const history = useHistory();
 
@@ -67,6 +68,14 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
       setTimeStatus(percentageRounded);
     }
   }, [projectEntity]);
+
+  useEffect(() => {
+    if (projectActivityEntity.projectActivitiesOverTime !== undefined) {
+      const finalFormatForDiagram = projectActivityEntity.projectActivitiesOverTime.map(Object.values);
+      finalFormatForDiagram.unshift(['Date', 'Project Activity']);
+      setDiagramStatus(finalFormatForDiagram);
+    }
+  }, [projectActivityEntity.projectActivitiesOverTime]);
 
   return (
       <div>
@@ -134,16 +143,7 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
                 height={'300px'}
                 chartType="AreaChart"
                 loader={<Spinner color="primary" />}
-                data={[
-                  // TODO: following form is needed: convert it
-                  // ['Date', 'Project Activity'],
-                  // ['2013', 1000],
-                  // ['2014', 1170],
-                  // ['2015', 660],
-                  // ['2016', 1030],
-                  // is an Array with Objects
-                  // projectActivityEntity.projectActivitiesOverTime
-                ]}
+                data={diagramStatus}
                 options={{
                   title: 'Project Activity',
                   hAxis: { title: 'Time', titleTextStyle: { color: '#333' } },

@@ -4,7 +4,7 @@ import {IRootState} from 'app/shared/reducers';
 import {RouteComponentProps} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {Translate} from 'react-jhipster';
-import {Badge, Card, CardBody, CardSubtitle, CardText, CardTitle, Col, Media, Row, Spinner} from 'reactstrap';
+import {Badge, Card, CardBody, CardSubtitle, CardText, CardTitle, Col, Media, Row} from 'reactstrap';
 import './profile.scss';
 import {languages} from 'app/config/translation';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -18,8 +18,8 @@ import {faUsers} from '@fortawesome/free-solid-svg-icons/faUsers';
 import {faCrown} from '@fortawesome/free-solid-svg-icons/faCrown';
 import {faAward} from '@fortawesome/free-solid-svg-icons/faAward';
 import {getUserGamification} from "app/entities/user-gamification/user-gamification.reducer";
-import {Chart} from "react-google-charts";
 import {IUserGamification} from "app/shared/model/user-gamification.model";
+import {UserActivityGraph} from "app/modules/useractivity/useractivity";
 
 // TODO: Interface and Achievement List to be replaced when Gamification Concept is done.
 interface AchievementMock {
@@ -30,12 +30,24 @@ interface AchievementMock {
 
 // TODO: adapt amounts
 const achievementList: Array<AchievementMock> = [
-  { title: 'Project member', description: 'Achievement for being a respectable project member.', icon: faUsers },
-  { title: 'Risk owner', description: 'Achievement for owning TODO: XYZ risks (being the person in charge).', icon: faTrophy },
-  { title: 'Risk sage', description: 'Achievement for reviewing and contributing TODO: XYZ risks.', icon: faAward },
-  { title: 'Risk master', description: 'Achievement being active part of TODO: XYZ risk ranking processes.', icon: faAward },
-  { title: 'Risk buster', description: 'Achievement for successful contribution of TODO: XYZ risk responses.', icon: faMedal },
-  { title: 'Project manager', description: 'Your are a project manager!', icon: faCrown }
+  {title: 'Project member', description: 'Achievement for being a respectable project member.', icon: faUsers},
+  {
+    title: 'Risk owner',
+    description: 'Achievement for owning TODO: XYZ risks (being the person in charge).',
+    icon: faTrophy
+  },
+  {title: 'Risk sage', description: 'Achievement for reviewing and contributing TODO: XYZ risks.', icon: faAward},
+  {
+    title: 'Risk master',
+    description: 'Achievement being active part of TODO: XYZ risk ranking processes.',
+    icon: faAward
+  },
+  {
+    title: 'Risk buster',
+    description: 'Achievement for successful contribution of TODO: XYZ risk responses.',
+    icon: faMedal
+  },
+  {title: 'Project manager', description: 'Your are a project manager!', icon: faCrown}
 ];
 
 export interface IProfileProps extends StateProps, DispatchProps, IUserGamification, RouteComponentProps<{ login?: string }> {
@@ -58,7 +70,7 @@ export const Profile = (props: IProfileProps) => {
   }, []);
 
   useEffect(() => {
-     props.getUserGamification(props.user.id);
+    props.getUserGamification(props.user.id);
   }, []);
 
   const {user} = props;
@@ -139,24 +151,9 @@ export const Profile = (props: IProfileProps) => {
           </Media>
         </Media>
       </Row>
-      <h4>Your Activity</h4>
-      <Chart
-        width={'500px'}
-        height={'300px'}
-        chartType="AreaChart"
-        loader={<Spinner color="primary"/>}
-        data={diagramStatus}
-        options={{
-          title: 'Your Activity',
-          hAxis: {title: 'Time', titleTextStyle: {color: '#333'}},
-          vAxis: {title: 'Activity', minValue: 0},
-          // For the legend to fit, we make the chart area smaller
-          chartArea: {width: '50%', height: '70%'},
-          // lineWidth: 25
-        }}
-        // For tests
-        rootProps={{'data-testid': '1'}}
-      />
+      <UserActivityGraph history={props.history} location={props.location} match={props.match} user={props.user}
+                         currentLogin={props.currentLogin} userGamificationEntitiy={userGamificationEntitiy}
+                         getUser={props.getUser} getUserGamification={props.getUserGamification}/>
 
       <h4>Achievements</h4>
       <Row>{achievementCards(achievementList)}</Row>

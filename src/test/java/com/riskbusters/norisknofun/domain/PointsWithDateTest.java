@@ -29,7 +29,7 @@ class PointsWithDateTest {
 
     @Test
     void testToString() {
-        String expected = "PointsWithDate{pointsScore=42.0, date='" + LocalDate.now().toString() + "'}";
+        String expected = "PointsWithDate{date='" + LocalDate.now().toString() + ", pointsScore=42.0" + "'}";
         assertEquals(expected, pointsWithDate.toString());
     }
 }

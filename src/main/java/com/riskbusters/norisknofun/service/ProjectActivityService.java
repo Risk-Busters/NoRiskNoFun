@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Service Implementation for managing {@link com.riskbusters.norisknofun.domain.ProjectActivityOverTime}.
@@ -49,6 +46,8 @@ public class ProjectActivityService {
         for (ProjectActivityOverTime item : projectActivityOverTime) {
             allProjectActivitiesOverTime.add(new PointsWithDate(item.getProjectActivityScoreAtThisDay(), item.getDate()));
         }
+
+        Collections.reverse(allProjectActivitiesOverTime);
 
         return new ProjectActivityDTO(projectActivityBasedOnUserScore, allProjectActivitiesOverTime);
     }

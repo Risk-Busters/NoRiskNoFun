@@ -28,6 +28,6 @@ public class PointsWithDate implements Serializable {
 
     @Override
     public String toString() {
-        return "PointsWithDate{" + ", date='" + date + "pointsScore=" + pointsScore + '\'' + '}';
+        return "PointsWithDate{" + "date='" + date + ", pointsScore=" + pointsScore + '\'' + '}';
     }
 }

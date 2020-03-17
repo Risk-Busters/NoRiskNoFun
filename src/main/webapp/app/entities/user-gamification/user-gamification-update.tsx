@@ -7,7 +7,7 @@ import {getItemType, translate, Translate} from 'react-jhipster';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {IRootState} from 'app/shared/reducers';
 import {getUsers} from 'app/modules/administration/user-management/user-management.reducer';
-import {createEntity, getEntity, reset, updateEntity} from './user-gamification.reducer';
+import {createEntity, getUserGamification, reset, updateEntity} from './user-gamification.reducer';
 import { AchievementType } from 'app/shared/model/enumerations/achievment-type.model';
 import {mapIdList} from "app/shared/util/entity-utils";
 import value from "*.json";
@@ -42,7 +42,7 @@ export class UserGamificationUpdate extends React.Component<IUserGamificationUpd
     if (this.state.isNew) {
       this.props.reset();
     } else {
-      this.props.getEntity(this.props.match.params.id);
+      this.props.getUserGamification(this.props.match.params.id);
     }
 
     this.props.getUsers();
@@ -188,7 +188,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   getUsers,
-  getEntity,
+  getUserGamification,
   updateEntity,
   createEntity,
   reset

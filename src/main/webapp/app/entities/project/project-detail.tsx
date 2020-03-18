@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {Link, RouteComponentProps, useHistory, useParams} from 'react-router-dom';
 import {Button, Col, Nav, NavItem, NavLink, Progress, Row, Spinner, TabContent, TabPane} from 'reactstrap';
-import {TextFormat, Translate} from 'react-jhipster';
+import {TextFormat, translate, Translate} from 'react-jhipster';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 import {IRootState} from 'app/shared/reducers';
@@ -145,9 +145,14 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
                 loader={<Spinner color="primary" />}
                 data={diagramStatus}
                 options={{
-                  title: 'Project Activity',
-                  hAxis: { title: 'Time', titleTextStyle: { color: '#333' } },
-                  vAxis: { title: 'Activity', minValue: 0 },
+                  title: translate("noRiskNoFunApp.userGamification.diagrams.projectdiagramTitle"),
+                  hAxis: {
+                    title: translate("noRiskNoFunApp.userGamification.diagrams.time"),
+                    titleTextStyle: { color: '#333' }
+                    },
+                  vAxis: { title: translate("noRiskNoFunApp.userGamification.diagrams.activity")
+                    , minValue: 0
+                  },
                   // For the legend to fit, we make the chart area smaller
                   chartArea: { width: '50%', height: '70%' },
                   // lineWidth: 25

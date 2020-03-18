@@ -7,6 +7,7 @@ import {Spinner} from 'reactstrap';
 import {getUserGamification} from "app/entities/user-gamification/user-gamification.reducer";
 import {Chart} from "react-google-charts";
 import {IUserGamification} from "app/shared/model/user-gamification.model";
+import {translate} from "react-jhipster";
 
 export interface IUserActivityGraphProps extends StateProps, DispatchProps, IUserGamification, RouteComponentProps<{ login?: string }> {
 }
@@ -56,9 +57,14 @@ export const UserActivityGraph = (props: IUserActivityGraphProps) => {
         loader={<Spinner color="primary"/>}
         data={diagramStatus}
         options={{
-          title: 'Your Activity',
-          hAxis: {title: 'Time', titleTextStyle: {color: '#333'}},
-          vAxis: {title: 'Activity', minValue: 0},
+          title: translate("noRiskNoFunApp.userGamification.diagrams.userdiagramTitle"),
+          hAxis: {
+            title: translate("noRiskNoFunApp.userGamification.diagrams.time"),
+            titleTextStyle: {color: '#333'}
+          },
+          vAxis: {
+            title: translate("noRiskNoFunApp.userGamification.diagrams.activity"), minValue: 0
+          },
           // For the legend to fit, we make the chart area smaller
           chartArea: {width: '50%', height: '70%'},
           // lineWidth: 25

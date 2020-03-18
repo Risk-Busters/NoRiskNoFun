@@ -1,12 +1,11 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
-
-    <changeSet author="nk" id="load user gamification points over time fake data  ">
-        <loadData
-            file="config/liquibase/fake-data/user_gamification_points_over_time.csv"
-            separator=";"
-            tableName="user_gamification_points_over_time">
-        </loadData>
+    <changeSet author="st (generated)" id="1584366806812-4">
+        <addColumn tableName="user_gamification">
+            <column name="activity_score_based_on_points" type="float8"/>
+        </addColumn>
     </changeSet>
-
+    <changeSet author="st (generated)" id="1584366806812-5">
+        <dropColumn columnName="points_score" tableName="user_gamification"/>
+    </changeSet>
 </databaseChangeLog>

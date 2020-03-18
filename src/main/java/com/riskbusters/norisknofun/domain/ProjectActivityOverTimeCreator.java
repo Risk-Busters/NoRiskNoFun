@@ -28,7 +28,7 @@ public class ProjectActivityOverTimeCreator {
         List<User> allUsers = userRepository.findAll();
 
         for (User user : allUsers) {
-            PointsOverTime pointsOneDay = new PointsOverTime(user);
+            PointsOverTime pointsOneDay = new PointsOverTime(user, new CustomDate());
             pointsOverTimeRepository.save(pointsOneDay);
             log.debug("Points for one Day created object: {}", pointsOneDay);
         }

@@ -7,13 +7,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IUserGamification } from 'app/shared/model/user-gamification.model';
 import { IRootState } from 'app/shared/reducers';
-import { getEntity, deleteEntity } from './user-gamification.reducer';
+import { getUserGamification, deleteEntity } from './user-gamification.reducer';
 
 export interface IUserGamificationDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export class UserGamificationDeleteDialog extends React.Component<IUserGamificationDeleteDialogProps> {
   componentDidMount() {
-    this.props.getEntity(this.props.match.params.id);
+    this.props.getUserGamification(this.props.match.params.id);
   }
 
   confirmDelete = event => {
@@ -59,7 +59,7 @@ const mapStateToProps = ({ userGamification }: IRootState) => ({
   userGamificationEntity: userGamification.entity
 });
 
-const mapDispatchToProps = { getEntity, deleteEntity };
+const mapDispatchToProps = { getUserGamification, deleteEntity };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

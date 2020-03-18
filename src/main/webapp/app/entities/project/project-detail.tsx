@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {Link, RouteComponentProps, useHistory, useParams} from 'react-router-dom';
-import {Button, Col, Nav, NavItem, NavLink, Progress, Row, TabContent, TabPane} from 'reactstrap';
-import {TextFormat, Translate} from 'react-jhipster';
+import {Button, Col, Nav, NavItem, NavLink, Progress, Row, Spinner, TabContent, TabPane} from 'reactstrap';
+import {TextFormat, translate, Translate} from 'react-jhipster';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
 import {IRootState} from 'app/shared/reducers';
@@ -11,6 +11,7 @@ import {getProjectActivity} from './project-activity.reducer';
 import {APP_LOCAL_DATE_FORMAT} from 'app/config/constants';
 import ProjectRisks from "app/entities/project-risks/project-risks";
 import moment from "moment";
+import {Chart} from "react-google-charts";
 
 export interface IProjectDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
 }
@@ -25,6 +26,7 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
 
   const [activeTab, setActiveTab] = useState('final');
   const [timeStatus, setTimeStatus] = useState(0);
+  const [diagramStatus, setDiagramStatus] = useState([]);
   const { risktype } = useParams();
   const history = useHistory();
 
@@ -67,6 +69,14 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
     }
   }, [projectEntity]);
 
+  useEffect(() => {
+    if (projectActivityEntity.projectActivitiesOverTime !== undefined) {
+      const finalFormatForDiagram = projectActivityEntity.projectActivitiesOverTime.map(Object.values);
+      finalFormatForDiagram.unshift(['Date', 'Project Activity']);
+      setDiagramStatus(finalFormatForDiagram);
+    }
+  }, [projectActivityEntity.projectActivitiesOverTime]);
+
   return (
       <div>
         {projectEntity ? (
@@ -107,7 +117,7 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
                 <dt>
                   <Translate contentKey="noRiskNoFunApp.project.projectActivity" />
                 </dt>
-                <dd>{projectActivityEntity.projectActivityToday}</dd>
+                <dd>{projectActivityEntity.projectActivityBasedOnUserScore}</dd>
                 <dt>
                   <Translate contentKey="noRiskNoFunApp.project.owner">Owner</Translate>
                 </dt>
@@ -126,6 +136,31 @@ const ProjectDetail: React.FC<IProjectDetailProps> = (props) => {
                     : null}{' '}
                 </dd>
               </dl>
+
+
+              <Chart
+                width={'500px'}
+                height={'300px'}
+                chartType="AreaChart"
+                loader={<Spinner color="primary" />}
+                data={diagramStatus}
+                options={{
+                  title: translate("noRiskNoFunApp.userGamification.diagrams.projectdiagramTitle"),
+                  hAxis: {
+                    title: translate("noRiskNoFunApp.userGamification.diagrams.time"),
+                    titleTextStyle: { color: '#333' }
+                    },
+                  vAxis: { title: translate("noRiskNoFunApp.userGamification.diagrams.activity")
+                    , minValue: 0
+                  },
+                  // For the legend to fit, we make the chart area smaller
+                  chartArea: { width: '50%', height: '70%' },
+                  // lineWidth: 25
+                }}
+                // For tests
+                rootProps={{ 'data-testid': '1' }}
+              />
+
               <Button tag={Link} to="/entity/project" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />{' '}
                 <span className="d-none d-md-inline">

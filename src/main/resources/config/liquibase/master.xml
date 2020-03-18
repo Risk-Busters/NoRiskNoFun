@@ -23,6 +23,10 @@
     <include file="config/liquibase/changelog/20200311164641_changelog_change_date_column.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200312222239_changelog_multiple_risk_discussions.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200314181930_changelog_tables_for_project_activity_over_time.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200316135318_changelog_rename_field_in_user_gamification_table.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200316144237_changelog_rename_column_custom_date.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200316145728_changelog_delete_column_from_value_object.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200316194451_changelog_rename_column_change_type.xml" relativeToChangelogFile="false"/>
     <!-- Test data -->
     <!-- Needs update as domain changed -->
     <!-- <include file="config/liquibase/changelog/insert-test-data/20202701_load_project_risks_test_data.xml" relativeToChangelogFile="false"/> -->

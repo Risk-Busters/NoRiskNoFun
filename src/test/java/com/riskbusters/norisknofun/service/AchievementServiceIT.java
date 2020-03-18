@@ -62,7 +62,7 @@ public class AchievementServiceIT {
     public UserGamification createUserGamificationEntity(User user) {
         UserGamification userGamificationEntity = new UserGamification();
         userGamificationEntity.setUser(user);
-        userGamificationEntity.setPointsScore(new Points(0L));
+        userGamificationEntity.setActivityScoreBasedOnPoints(0.0);
         Set<Achievement> achievements = createAchievements();
         userGamificationEntity.setUserAchievements(achievements);
 
@@ -73,6 +73,7 @@ public class AchievementServiceIT {
     public void init() {
         pointsOverTimeRepository.deleteAll();
         userRepository.deleteAll();
+        userGamificationRepository.deleteAll();
         user = UserResourceIT.createEntity(em);
         userRepository.save(user);
         this.userId = user.getId();

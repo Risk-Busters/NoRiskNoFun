@@ -4,10 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PointsWithDateTest {
 
@@ -15,12 +13,12 @@ class PointsWithDateTest {
 
     @BeforeEach
     void setUp() {
-        pointsWithDate = new PointsWithDate(42L, new CustomDate());
+        pointsWithDate = new PointsWithDate(42.0, new CustomDate());
     }
 
     @Test
     void getPointsScore() {
-        assertEquals(Long.valueOf(42), pointsWithDate.getPointsScore());
+        assertEquals(Double.valueOf(42.0), pointsWithDate.getPointsScore());
     }
 
     @Test
@@ -31,7 +29,7 @@ class PointsWithDateTest {
 
     @Test
     void testToString() {
-        String expected = "PointsWithDate{pointsScore=42, date='" + LocalDate.now().toString() + "'}";
+        String expected = "PointsWithDate{date='" + LocalDate.now().toString() + ", pointsScore=42.0" + "'}";
         assertEquals(expected, pointsWithDate.toString());
     }
 }

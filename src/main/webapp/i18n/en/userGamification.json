@@ -27,7 +27,13 @@
         "RISK_BUSTER": "RISK_BUSTER",
         "PROJECT_MANAGER": "PROJECT_MANAGER"
       },
-      "pointsOverTime": "PointsOverTime"
+      "pointsOverTime": "PointsOverTime",
+      "diagrams": {
+        "projectdiagramTitle": "Project Activity",
+        "userdiagramTitle": "Your Activity",
+        "time": "Time",
+        "activity": "Activity"
+      }
     }
   }
 }

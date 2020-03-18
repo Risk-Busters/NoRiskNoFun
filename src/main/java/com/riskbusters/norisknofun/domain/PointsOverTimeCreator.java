@@ -2,6 +2,7 @@ package com.riskbusters.norisknofun.domain;
 
 import com.riskbusters.norisknofun.repository.UserRepository;
 import com.riskbusters.norisknofun.repository.gamification.PointsOverTimeRepository;
+import com.riskbusters.norisknofun.service.gamification.UserGamificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,10 +17,12 @@ public class PointsOverTimeCreator {
 
     private final UserRepository userRepository;
     private final PointsOverTimeRepository pointsOverTimeRepository;
+    private final UserGamificationService userGamificationService;
 
-    public PointsOverTimeCreator(UserRepository userRepository, PointsOverTimeRepository pointsOverTimeRepository) {
+    public PointsOverTimeCreator(UserRepository userRepository, PointsOverTimeRepository pointsOverTimeRepository, UserGamificationService userGamificationService) {
         this.userRepository = userRepository;
         this.pointsOverTimeRepository = pointsOverTimeRepository;
+        this.userGamificationService = userGamificationService;
     }
 
     @Scheduled(cron = "0 0 * * * *")
@@ -28,9 +31,11 @@ public class PointsOverTimeCreator {
         List<User> allUsers = userRepository.findAll();
 
         for (User user : allUsers) {
-            PointsOverTime pointsOneDay = new PointsOverTime(user);
+            PointsOverTime pointsOneDay = new PointsOverTime(user, new CustomDate());
             pointsOverTimeRepository.save(pointsOneDay);
             log.debug("Points for one Day created object: {}", pointsOneDay);
+            userGamificationService.calculateActivityScoreBasedOnPoints(user);
+            log.debug("Calculated and stored current activityScoreBasedOnPoints");
         }
     }
 }

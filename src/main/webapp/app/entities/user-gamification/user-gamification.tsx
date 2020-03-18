@@ -6,14 +6,14 @@ import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getUserGamification } from 'app/entities/user-gamification/user-gamification.reducer';
+import { getUserGamificationList } from 'app/entities/user-gamification/user-gamification.reducer';
 
 export interface IUserGamificationProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
 function UserGamification(props: IUserGamificationProps) {
 
   useEffect(() => {
-    props.getUserGamification();
+    props.getUserGamificationList();
   }, []);
 
   const {match} = props;
@@ -58,7 +58,7 @@ function UserGamification(props: IUserGamificationProps) {
                     {props.userGamification.id}
                   </Button>
                 </td>
-                <td>{props.userGamification.pointsScore}</td>
+                <td>{props.userGamification.activityScoreBasedOnPoints}</td>
                 <td>Its always you, dummy.</td>
                 <td>
                   {props.userGamification.userAchievements
@@ -121,7 +121,7 @@ const mapStateToProps = ({userGamification}: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  getUserGamification
+  getUserGamificationList
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

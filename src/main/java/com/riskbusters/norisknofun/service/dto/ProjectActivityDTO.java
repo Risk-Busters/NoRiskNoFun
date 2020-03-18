@@ -7,32 +7,37 @@ import java.util.List;
 
 public class ProjectActivityDTO implements Serializable {
 
-    private Long projectActivityToday;
-    private List<PointsWithDate> projectActivitiesOverTime;
+    private Double projectActivityBasedOnUserScore;
+    private PointsWithDate[] projectActivitiesOverTime;
 
-    public ProjectActivityDTO(Long projectActivityToday, List<PointsWithDate> projectActivitiesOverTime) {
-        this.projectActivityToday = projectActivityToday;
-        this.projectActivitiesOverTime = projectActivitiesOverTime;
+    public ProjectActivityDTO(Double projectActivityBasedOnUserScore, List<PointsWithDate> projectActivitiesOverTime) {
+        this.projectActivityBasedOnUserScore = projectActivityBasedOnUserScore;
+
+        this.projectActivitiesOverTime = new PointsWithDate[projectActivitiesOverTime.size()];
+
+        for (int i = 0; i < projectActivitiesOverTime.size(); i++) {
+            this.projectActivitiesOverTime[i] = projectActivitiesOverTime.get(i);
+        }
     }
 
-    public Long getProjectActivityToday() {
-        return projectActivityToday;
+    public Double getProjectActivityBasedOnUserScore() {
+        return projectActivityBasedOnUserScore;
     }
 
-    public void setProjectActivityToday(Long projectActivityToday) {
-        this.projectActivityToday = projectActivityToday;
+    public void setProjectActivityBasedOnUserScore(Double projectActivityBasedOnUserScore) {
+        this.projectActivityBasedOnUserScore = projectActivityBasedOnUserScore;
     }
 
-    public List<PointsWithDate> getProjectActivitiesOverTime() {
+    public PointsWithDate[] getProjectActivitiesOverTime() {
         return projectActivitiesOverTime;
     }
 
-    public void setProjectActivitiesOverTime(List<PointsWithDate> projectActivitiesOverTime) {
+    public void setProjectActivitiesOverTime(PointsWithDate[] projectActivitiesOverTime) {
         this.projectActivitiesOverTime = projectActivitiesOverTime;
     }
 
     @Override
     public String toString() {
-        return "ProjectActivityDTO{" + "projectActivityToday=" + projectActivityToday + ", projectActivitiesOverTime=" + projectActivitiesOverTime + '}';
+        return "ProjectActivityDTO{" + "projectActivityToday=" + projectActivityBasedOnUserScore + ", projectActivitiesOverTime=" + projectActivitiesOverTime + '}';
     }
 }

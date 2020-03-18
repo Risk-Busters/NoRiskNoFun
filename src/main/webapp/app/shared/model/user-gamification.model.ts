@@ -1,6 +1,6 @@
 export interface IUserGamification {
   id?: number;
-  pointsScore?: number;
+  activityScoreBasedOnPoints?: number;
   userAchievements?: { name: string }[];
   pointsOverTime?: { date: string; pointsScore: number }[];
 }

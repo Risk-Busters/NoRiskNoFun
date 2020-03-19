@@ -47,7 +47,8 @@ public class ProjectActivityService {
             allProjectActivitiesOverTime.add(new PointsWithDate(item.getProjectActivityScoreAtThisDay(), item.getDate()));
         }
 
-        Collections.reverse(allProjectActivitiesOverTime);
+        PointsWithDateComparator comparator = new PointsWithDateComparator();
+        allProjectActivitiesOverTime.sort(comparator);
 
         return new ProjectActivityDTO(projectActivityBasedOnUserScore, allProjectActivitiesOverTime);
     }

@@ -42,6 +42,10 @@ public class PointsOverTimeService {
         for (PointsOverTime item : allPointsOverTimeRowsFromDB) {
             allPointsOverTime.add(new PointsWithDate(item.getPointsAtThisDay().getPointsAsLong().doubleValue(), item.getDate()));
         }
+
+        PointsWithDateComparator comparator = new PointsWithDateComparator();
+        allPointsOverTime.sort(comparator);
+
         return allPointsOverTime;
     }
 

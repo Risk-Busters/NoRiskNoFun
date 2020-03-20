@@ -8,12 +8,12 @@ import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 
-public class PointsWithDateComparator implements Comparator<PointsWithDate> {
+public class PointWithDateComparator implements Comparator<PointWithDate> {
 
-    private final Logger log = LoggerFactory.getLogger(PointsWithDateComparator.class);
+    private final Logger log = LoggerFactory.getLogger(PointWithDateComparator.class);
 
     @Override
-    public int compare(PointsWithDate o1, PointsWithDate o2) {
+    public int compare(PointWithDate o1, PointWithDate o2) {
         try {
             Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(o1.getDate());
             Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(o2.getDate());

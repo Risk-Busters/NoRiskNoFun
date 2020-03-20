@@ -1,6 +1,6 @@
 package com.riskbusters.norisknofun.service.dto;
 
-import com.riskbusters.norisknofun.domain.PointsWithDate;
+import com.riskbusters.norisknofun.domain.PointWithDate;
 import com.riskbusters.norisknofun.domain.achievements.Achievement;
 
 import java.io.Serializable;
@@ -21,7 +21,7 @@ public class UserGamificationDTO implements Serializable {
 
     private Set<Achievement> userAchievements = new HashSet<>();
 
-    private List<PointsWithDate> pointsOverTime = new ArrayList<>();
+    private List<PointWithDate> pointsOverTime = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -63,11 +63,11 @@ public class UserGamificationDTO implements Serializable {
         this.userAchievements = userAchievements;
     }
 
-    public List<PointsWithDate> getPointsOverTime() {
+    public List<PointWithDate> getPointsOverTime() {
         return pointsOverTime;
     }
 
-    public void setPointsOverTime(List<PointsWithDate> pointsOverTime) {
+    public void setPointsOverTime(List<PointWithDate> pointsOverTime) {
         this.pointsOverTime = pointsOverTime;
     }
 

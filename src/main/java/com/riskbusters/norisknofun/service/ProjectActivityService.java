@@ -42,12 +42,12 @@ public class ProjectActivityService {
 
         List<ProjectActivityOverTime> projectActivityOverTime = projectActivityOverTimeRepository.findAllByProjectId(projectId);
 
-        List<PointsWithDate> allProjectActivitiesOverTime = new ArrayList<>();
+        List<PointWithDate> allProjectActivitiesOverTime = new ArrayList<>();
         for (ProjectActivityOverTime item : projectActivityOverTime) {
-            allProjectActivitiesOverTime.add(new PointsWithDate(item.getProjectActivityScoreAtThisDay(), item.getDate()));
+            allProjectActivitiesOverTime.add(new PointWithDate(item.getProjectActivityScoreAtThisDay(), item.getDate()));
         }
 
-        PointsWithDateComparator comparator = new PointsWithDateComparator();
+        PointWithDateComparator comparator = new PointWithDateComparator();
         allProjectActivitiesOverTime.sort(comparator);
 
         return new ProjectActivityDTO(projectActivityBasedOnUserScore, allProjectActivitiesOverTime);

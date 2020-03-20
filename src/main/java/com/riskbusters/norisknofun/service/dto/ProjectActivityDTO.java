@@ -1,6 +1,6 @@
 package com.riskbusters.norisknofun.service.dto;
 
-import com.riskbusters.norisknofun.domain.PointsWithDate;
+import com.riskbusters.norisknofun.domain.PointWithDate;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,12 +8,12 @@ import java.util.List;
 public class ProjectActivityDTO implements Serializable {
 
     private Double projectActivityBasedOnUserScore;
-    private PointsWithDate[] projectActivitiesOverTime;
+    private PointWithDate[] projectActivitiesOverTime;
 
-    public ProjectActivityDTO(Double projectActivityBasedOnUserScore, List<PointsWithDate> projectActivitiesOverTime) {
+    public ProjectActivityDTO(Double projectActivityBasedOnUserScore, List<PointWithDate> projectActivitiesOverTime) {
         this.projectActivityBasedOnUserScore = projectActivityBasedOnUserScore;
 
-        this.projectActivitiesOverTime = new PointsWithDate[projectActivitiesOverTime.size()];
+        this.projectActivitiesOverTime = new PointWithDate[projectActivitiesOverTime.size()];
 
         for (int i = 0; i < projectActivitiesOverTime.size(); i++) {
             this.projectActivitiesOverTime[i] = projectActivitiesOverTime.get(i);
@@ -28,11 +28,11 @@ public class ProjectActivityDTO implements Serializable {
         this.projectActivityBasedOnUserScore = projectActivityBasedOnUserScore;
     }
 
-    public PointsWithDate[] getProjectActivitiesOverTime() {
+    public PointWithDate[] getProjectActivitiesOverTime() {
         return projectActivitiesOverTime;
     }
 
-    public void setProjectActivitiesOverTime(PointsWithDate[] projectActivitiesOverTime) {
+    public void setProjectActivitiesOverTime(PointWithDate[] projectActivitiesOverTime) {
         this.projectActivitiesOverTime = projectActivitiesOverTime;
     }
 

@@ -8,11 +8,11 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class PointsWithDateComparatorTest {
+class PointWithDateComparatorTest {
 
-    private PointsWithDate youngerPoint;
-    private PointsWithDate olderPoint;
-    PointsWithDateComparator comparator;
+    private PointWithDate youngerPoint;
+    private PointWithDate olderPoint;
+    PointWithDateComparator comparator;
 
     @BeforeEach
     void setUp() {
@@ -20,9 +20,9 @@ class PointsWithDateComparatorTest {
         calendar.add(Calendar.DATE, -1);
         Date yesterdayDate = calendar.getTime();
 
-        youngerPoint = new PointsWithDate(2.0, new CustomDate());
-        olderPoint = new PointsWithDate(4.0, new CustomDate(yesterdayDate));
-        comparator = new PointsWithDateComparator();
+        youngerPoint = new PointWithDate(2.0, new CustomDate());
+        olderPoint = new PointWithDate(4.0, new CustomDate(yesterdayDate));
+        comparator = new PointWithDateComparator();
     }
 
     @Test

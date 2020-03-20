@@ -1,7 +1,7 @@
 package com.riskbusters.norisknofun.service.gamification;
 
 import com.riskbusters.norisknofun.domain.CustomDate;
-import com.riskbusters.norisknofun.domain.PointsWithDate;
+import com.riskbusters.norisknofun.domain.PointWithDate;
 import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.domain.achievements.Achievement;
@@ -82,7 +82,7 @@ public class UserGamificationService {
         log.debug("Request to get all UserGamifications for user: {}", user);
         calculateActivityScoreBasedOnPoints(user);
         Optional<UserGamification> userGamification = userGamificationRepository.findOneWithEagerRelationships(user);
-        List<PointsWithDate> pointsOverTimeAsList = pointsOverTimeService.getAllPointsOverTimeForOneUser(user);
+        List<PointWithDate> pointsOverTimeAsList = pointsOverTimeService.getAllPointsOverTimeForOneUser(user);
 
         return userGamification.map(gamification -> mapper.toUserGamificationDTO(gamification, pointsOverTimeAsList)).orElse(null);
     }
@@ -107,8 +107,10 @@ public class UserGamificationService {
     public Optional<UserGamificationDTO> findOne(Long id) {
         log.debug("Request to get UserGamification : {}", id);
         Optional<UserGamification> userGamification = userGamificationRepository.findOneWithEagerRelationships(id);
+        calculateActivityScoreBasedOnPoints(userGamification.get().getUser());
+        List<PointWithDate> pointsOverTimeAsList = pointsOverTimeService.getAllPointsOverTimeForOneUser(userGamification.get().getUser());
         if (userGamification.isPresent()) {
-            return Optional.ofNullable(mapper.toUserGamificationDTO(userGamification.get()));
+            return userGamification.map(gamification -> mapper.toUserGamificationDTO(gamification, pointsOverTimeAsList));
         } else {
             return Optional.empty();
         }
@@ -141,8 +143,8 @@ public class UserGamificationService {
         calendar.add(Calendar.DATE, -1);
         Date yesterdayDate = calendar.getTime();
 
-        PointsWithDate today = pointsOverTimeService.getPointsByUserAndDate(user, new CustomDate());
-        PointsWithDate yesterday = pointsOverTimeService.getPointsByUserAndDate(user, new CustomDate(yesterdayDate));
+        PointWithDate today = pointsOverTimeService.getPointsByUserAndDate(user, new CustomDate());
+        PointWithDate yesterday = pointsOverTimeService.getPointsByUserAndDate(user, new CustomDate(yesterdayDate));
 
         Double calculatedActivityScoreBasedOnPoints = slopeCalculation.calculateSlopeBetweenTwoPoints(yesterday, today);
 

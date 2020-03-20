@@ -1,8 +1,8 @@
 package com.riskbusters.norisknofun.domain.activityscore;
 
-import com.riskbusters.norisknofun.domain.PointsWithDate;
+import com.riskbusters.norisknofun.domain.PointWithDate;
 
 public interface SlopeCalculation {
 
-    Double calculateSlopeBetweenTwoPoints(PointsWithDate olderValue, PointsWithDate youngerValue);
+    Double calculateSlopeBetweenTwoPoints(PointWithDate olderValue, PointWithDate youngerValue);
 }

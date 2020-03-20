@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,19 +33,11 @@ public class PointsOverTimeService {
      * @param user for which the points over time should be returned.
      * @return the list of points
      */
-    public List<PointsWithDate> getAllPointsOverTimeForOneUser(User user) {
+    public List<PointWithDate> getAllPointsOverTimeForOneUser(User user) {
         log.debug("Request to get points over time for user: {}", user);
-
         List<PointsOverTime> allPointsOverTimeRowsFromDB = pointsOverTimeRepository.findAllByUserId(user.getId());
-        List<PointsWithDate> allPointsOverTime = new ArrayList<>();
-        for (PointsOverTime item : allPointsOverTimeRowsFromDB) {
-            allPointsOverTime.add(new PointsWithDate(item.getPointsAtThisDay().getPointsAsLong().doubleValue(), item.getDate()));
-        }
-
-        PointsWithDateComparator comparator = new PointsWithDateComparator();
-        allPointsOverTime.sort(comparator);
-
-        return allPointsOverTime;
+        PointsList pointsPerWeek = new PointsList(allPointsOverTimeRowsFromDB);
+        return pointsPerWeek.getFinalCumulatedPointsByWeek();
     }
 
     /**
@@ -56,11 +47,11 @@ public class PointsOverTimeService {
      * @param date for which the points over time should be returned.
      * @return the list of points
      */
-    public PointsWithDate getPointsByUserAndDate(User user, CustomDate date) {
+    public PointWithDate getPointsByUserAndDate(User user, CustomDate date) {
         log.debug("Request to get points over time for user: {} and date {}", user, date);
         createIfNotExists(user, date);
         PointsOverTime neededPointDBEntry = pointsOverTimeRepository.findAllByUserIdAndDate(user.getId(), date);
-        return new PointsWithDate(neededPointDBEntry.getPointsAtThisDay().getPointsAsLong().doubleValue(), neededPointDBEntry.getDate());
+        return new PointWithDate(neededPointDBEntry.getPointsAtThisDay().getPointsAsLong().doubleValue(), neededPointDBEntry.getDate());
     }
 
     /**

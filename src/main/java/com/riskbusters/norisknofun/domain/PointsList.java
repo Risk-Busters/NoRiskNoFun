@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,12 +30,16 @@ public class PointsList {
     public PointsList() {
     }
 
-    public void calculateFinalCumulatedPointsByWeek(List<PointWithDate> allPointsOverTime) {
-        List<PointWithDate> allPointsOverTimeSorted = sortListNewestElementFirst(allPointsOverTime);
+    public void calculateFinalCumulatedPointsByWeek(List<PointWithDate> allPoints) {
+        List<PointWithDate> allPointsOverTimeSorted = sortListNewest(allPoints);
+        reverseList(allPointsOverTimeSorted);
+        log.debug("ALL SORTED: {} ", allPointsOverTimeSorted);
         List<List<PointWithDate>> subListsPerWeek = sliceListIntoListsPerWeek(allPointsOverTimeSorted);
+        log.debug("SUBLISTS: {} ", subListsPerWeek);
         List<PointWithDate> pointsOverTimePerWeek = sumUpListsPerWeek(subListsPerWeek);
+        log.debug("SUM: {} ", pointsOverTimePerWeek);
 
-        this.finalCumulatedPointsByWeek = sortListNewestElementFirst(pointsOverTimePerWeek);
+        this.finalCumulatedPointsByWeek = sortListNewest(pointsOverTimePerWeek);
         log.debug("Grouped all points over time by week and calculate sum: {} ", this.finalCumulatedPointsByWeek);
     }
 
@@ -46,10 +51,14 @@ public class PointsList {
         return allPointsOverTime;
     }
 
-    private List<PointWithDate> sortListNewestElementFirst(List<PointWithDate> allPointsOverTime) {
+    private List<PointWithDate> sortListNewest(List<PointWithDate> allPointsOverTime) {
         PointWithDateComparator comparator = new PointWithDateComparator();
         allPointsOverTime.sort(comparator);
         return allPointsOverTime;
+    }
+
+    private void reverseList(List<PointWithDate> allPointsOverTime) {
+        Collections.reverse(allPointsOverTime);
     }
 
     private List<List<PointWithDate>> sliceListIntoListsPerWeek(List<PointWithDate> allPointsOverTimeSorted) {

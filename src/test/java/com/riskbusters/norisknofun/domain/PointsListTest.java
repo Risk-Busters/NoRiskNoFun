@@ -61,9 +61,8 @@ class PointsListTest {
         expected.add(new PointWithDate(10.0, new CustomDate(java.sql.Date.valueOf(LocalDate.of(2020, 1, 5)))));
 
         List<PointWithDate> result = pointsList.getFinalCumulatedPointsByWeek();
-        for (int i = 0; i < result.size(); i++) {
-            assertEquals(expected.get(i), result.get(i));
-        }
-        assertEquals(expected.size(), result.size());
+        result.sort(new PointWithDateComparator());
+        expected.sort(new PointWithDateComparator());
+        assertIterableEquals(expected, result);
     }
 }

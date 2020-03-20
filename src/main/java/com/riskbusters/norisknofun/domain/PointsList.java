@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -17,6 +19,10 @@ public class PointsList {
 
     public PointsList(List<PointsOverTime> allPointsOverTimeRowsFromDB) {
         List<PointWithDate> allPointsOverTime = mapDBRecordsToSuitableList(allPointsOverTimeRowsFromDB);
+        calculateFinalCumulatedPointsByWeek(allPointsOverTime);
+    }
+
+    public PointsList(List<PointWithDate> allPointsOverTime, int fixErasure) {
         calculateFinalCumulatedPointsByWeek(allPointsOverTime);
     }
 
@@ -43,7 +49,6 @@ public class PointsList {
     private List<PointWithDate> sortListNewestElementFirst(List<PointWithDate> allPointsOverTime) {
         PointWithDateComparator comparator = new PointWithDateComparator();
         allPointsOverTime.sort(comparator);
-        Collections.reverse(allPointsOverTime);
         return allPointsOverTime;
     }
 

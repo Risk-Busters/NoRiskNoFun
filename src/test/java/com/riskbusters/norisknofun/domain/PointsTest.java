@@ -23,4 +23,10 @@ class PointsTest {
         Points pointsScore = new Points(-2L);
         assertEquals(Long.valueOf(0L), pointsScore.getPointsAsLong());
     }
+
+    @Test
+    void testAddPoints() {
+        Points pointsScore = new Points(0L);
+        assertEquals(Long.valueOf(2L), pointsScore.addPoints(new Points(2L)));
+    }
 }

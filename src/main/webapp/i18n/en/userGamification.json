@@ -33,7 +33,9 @@
         "userdiagramTitle": "Your Activity",
         "time": "Time",
         "activity": "Activity"
-      }
+      },
+      "achievementsTitle": "Achievements",
+      "activityGraphTitle": "Your Activity"
     }
   }
 }

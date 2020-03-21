@@ -151,11 +151,16 @@ export const Profile = (props: IProfileProps) => {
           </Media>
         </Media>
       </Row>
+      <h4>
+        <Translate contentKey="noRiskNoFunApp.userGamification.activityGraphTitle" />
+      </h4>
       <UserActivityGraph history={props.history} location={props.location} match={props.match} user={props.user}
                          currentLogin={props.currentLogin} userGamificationEntitiy={userGamificationEntitiy}
                          getUser={props.getUser} getUserGamification={props.getUserGamification}/>
 
-      <h4>Achievements</h4>
+      <h4>
+        <Translate contentKey="noRiskNoFunApp.userGamification.achievementsTitle" />
+      </h4>
       <Row>{achievementCards(achievementList)}</Row>
     </div>
   );

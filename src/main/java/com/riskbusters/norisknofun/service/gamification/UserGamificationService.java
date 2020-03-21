@@ -18,10 +18,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link UserGamification}.
@@ -136,19 +138,22 @@ public class UserGamificationService {
      * @param user the user to calculate the activityScore for.
      */
     public void calculateActivityScoreBasedOnPoints(User user) {
+        LocalDate today = LocalDate.now();
+        LocalDate sixDaysBefore = LocalDate.now().minusDays(6);
+        LocalDate sevenDaysBefore = LocalDate.now().minusDays(7);
+        LocalDate fourteenDaysBefore = LocalDate.now().minusDays(13);
+        List<LocalDate> youngerWeek = sixDaysBefore.datesUntil(today.plusDays(1L)).collect(Collectors.toList());
+        List<LocalDate> olderWeek = fourteenDaysBefore.datesUntil(sevenDaysBefore.plusDays(1L)).collect(Collectors.toList());
 
-        // TODO: refactor process of getting points after discussion day vs. week
-        // hacky to get Date yesterday
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, -1);
-        Date yesterdayDate = calendar.getTime();
+        List<PointWithDate> pointsYoungerWeek = fillPointWithDateList(user, youngerWeek);
+        List<PointWithDate> pointsOlderWeek = fillPointWithDateList(user, olderWeek);
 
-        PointWithDate today = pointsOverTimeService.getPointsByUserAndDate(user, new CustomDate());
-        PointWithDate yesterday = pointsOverTimeService.getPointsByUserAndDate(user, new CustomDate(yesterdayDate));
+        PointWithDate youngerWeekSummedUp = sumUpWeekPoints(pointsYoungerWeek);
+        PointWithDate olderWeekSummedUp = sumUpWeekPoints(pointsOlderWeek);
 
-        Double calculatedActivityScoreBasedOnPoints = slopeCalculation.calculateSlopeBetweenTwoPoints(yesterday, today);
+        Double calculatedActivityScoreBasedOnPoints = slopeCalculation.calculateSlopeBetweenTwoPoints(olderWeekSummedUp, youngerWeekSummedUp);
 
-        log.debug("Calculated and stored activityScoreBasedOnPoints (result = {}) for user with id {} for olderPoints: {} and youngerPoint: {}", calculatedActivityScoreBasedOnPoints, user.getId(), yesterday, today);
+        log.debug("Calculated and stored activityScoreBasedOnPoints (summed up per week) (result = {}) for user with id {} for olderPoints: {} and youngerPoint: {}", calculatedActivityScoreBasedOnPoints, user.getId(), olderWeekSummedUp, youngerWeekSummedUp);
 
         Optional<UserGamification> userGamification = userGamificationRepository.findOneWithEagerRelationships(user);
         if (userGamification.isPresent()) {
@@ -158,5 +163,22 @@ public class UserGamificationService {
             UserGamification newUserGamification = new UserGamification(user, calculatedActivityScoreBasedOnPoints);
             userGamificationRepository.save(newUserGamification);
         }
+    }
+
+    private List<PointWithDate> fillPointWithDateList(User user, List<LocalDate> dates) {
+        List<PointWithDate> pointsOneWeek = new ArrayList<>();
+        for (LocalDate localDate : dates) {
+            Date date = java.sql.Date.valueOf(localDate);
+            pointsOneWeek.add(pointsOverTimeService.getPointsByUserAndDate(user, new CustomDate(date)));
+        }
+        return pointsOneWeek;
+    }
+
+    private PointWithDate sumUpWeekPoints(List<PointWithDate> pointsOfWeek) {
+        Double sum = 0.0;
+        for (PointWithDate point : pointsOfWeek) {
+            sum += point.getPointsScore();
+        }
+        return new PointWithDate(sum, new CustomDate(java.sql.Date.valueOf(pointsOfWeek.get(pointsOfWeek.size() - 1).getDate())));
     }
 }

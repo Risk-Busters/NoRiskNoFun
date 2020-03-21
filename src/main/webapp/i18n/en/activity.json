@@ -20,7 +20,8 @@
       "description": "Description",
       "targetUrl": "Target Url",
       "date": "Date",
-      "user": "User"
+      "user": "User",
+      "reward": "Congratulation! You revieved points for your action."
     }
   }
 }

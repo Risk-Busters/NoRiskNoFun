@@ -18,7 +18,6 @@ class PointsListTest {
 
     @BeforeEach
     void setUp() {
-        pointsList = new PointsList();
         allPointsOverTime = new ArrayList<>();
 
         List<LocalDate> dates = generateDates();
@@ -41,7 +40,7 @@ class PointsListTest {
 
     @Test
     void testCalculationOfFinalCumulatedPointsByWeek() {
-        pointsList.calculateFinalCumulatedPointsByWeek(allPointsOverTime);
+        pointsList = new PointsList(allPointsOverTime);
 
         List<PointWithDate> expected = new ArrayList<>();
         expected.add(new PointWithDate(595.0, new CustomDate(java.sql.Date.valueOf(LocalDate.of(2020, 3, 29)))));

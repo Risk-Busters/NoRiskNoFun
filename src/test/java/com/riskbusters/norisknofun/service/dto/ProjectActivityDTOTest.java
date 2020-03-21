@@ -5,10 +5,10 @@ import com.riskbusters.norisknofun.domain.PointWithDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProjectActivityDTOTest {
 
@@ -39,16 +39,20 @@ class ProjectActivityDTOTest {
 
     @Test
     void setAndGetProjectActivitiesOverTime() {
-        // TODO
-        // point1 = new PointWithDate(3.0, new CustomDate());
-        // PointWithDate[] test  = (PointWithDate[]) List.of(point1).toArray();
-        // projectActivityDTO.setProjectActivitiesOverTime(test);
-        // assertEquals(test, projectActivityDTO.getProjectActivitiesOverTime());
-
+        PointWithDate[] pointsWithDateArray = new PointWithDate[1];
+        pointsWithDateArray[0] = point1;
+        projectActivityDTO.setProjectActivitiesOverTime(pointsWithDateArray);
+        assertArrayEquals(pointsWithDateArray, projectActivityDTO.getProjectActivitiesOverTime());
     }
 
     @Test
     void testToString() {
-        // TODO
+        PointWithDate[] pointsWithDateArray = new PointWithDate[1];
+        pointsWithDateArray[0] = point1;
+        projectActivityDTO.setProjectActivitiesOverTime(pointsWithDateArray);
+        projectActivityDTO.setProjectActivityBasedOnUserScore(22.0);
+
+        String expected = "ProjectActivityDTO{projectActivityToday=22.0, projectActivitiesOverTime=[PointWithDate{date='2020-03-21, pointsScore=3.0'}]}";
+        assertEquals(expected, projectActivityDTO.toString());
     }
 }

@@ -170,7 +170,7 @@ public class ProjectRiskService {
 
     private void sendNotification(User user) {
         Activity activity = new Activity();
-        activity.setActivityDescriptionKey("noRiskNoFunApp.activity.reward");
+        activity.setActivityDescriptionKey("activity.reward");
         activity.setTargetUrl("/profile");
         Set<User> users = new HashSet<>();
         users.add(user);

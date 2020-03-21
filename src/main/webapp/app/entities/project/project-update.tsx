@@ -1,14 +1,14 @@
 import React from 'react';
+import './project-update.scss';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Row, Col, Label } from 'reactstrap';
-import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
+import { Button, Col, Label, Row } from 'reactstrap';
+import { AvCheckbox, AvCheckboxGroup, AvField, AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
 import { Translate, translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
-
 import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './project.reducer';
+import { createEntity, getEntity, reset, updateEntity } from './project.reducer';
 import { mapIdList } from 'app/shared/util/entity-utils';
 
 export interface IProjectUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
@@ -19,15 +19,16 @@ export interface IProjectUpdateState {
   ownerId: string;
 }
 
-export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProjectUpdateState> {
+class ProjectUpdate extends React.Component<IProjectUpdateProps, IProjectUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
       idsuser: [],
       ownerId: '0',
-      isNew: !this.props.match.params || !this.props.match.params.id
+      isNew: !this.props.match.params || !this.props.match.params.id,
     };
   }
+
 
   UNSAFE_componentWillUpdate(nextProps, nextState) {
     if (nextProps.updateSuccess !== this.props.updateSuccess && nextProps.updateSuccess) {
@@ -62,9 +63,12 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
     }
   };
 
+
+
   handleClose = () => {
     this.props.history.push('/entity/project');
   };
+
 
   render() {
     const { projectEntity, users, loading, updating } = this.props;
@@ -157,25 +161,19 @@ export class ProjectUpdate extends React.Component<IProjectUpdateProps, IProject
                 </AvGroup>
                 <AvGroup>
                   <Label for="project-user">
-                    <Translate contentKey="noRiskNoFunApp.project.user">User</Translate>
-                  </Label>
-                  <AvInput
-                    id="project-user"
-                    type="select"
-                    multiple
-                    className="form-control"
-                    name="users"
-                    value={projectEntity.users && projectEntity.users.map(e => e.id)}
-                  >
-                    <option value="" key="0" />
-                    {users
-                      ? users.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.firstName && otherEntity.lastName ? `${otherEntity.firstName} ${otherEntity.lastName}` : otherEntity.login}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
+                    <Translate contentKey="noRiskNoFunApp.project.user"/>
+                  </Label><br/>
+                </AvGroup>
+                <AvGroup>
+                  <div className="members">
+                   <AvCheckboxGroup name="users" value={projectEntity.users && projectEntity.users.map(e => e.id)}>
+                        {users
+                          ? users.map(otherEntity => (
+                            <AvCheckbox key={otherEntity.id} label={otherEntity.firstName && otherEntity.lastName ? `${otherEntity.firstName} ${otherEntity.lastName}` : otherEntity.login} value={otherEntity.id}/>
+                          ))
+                          : null}
+                      </AvCheckboxGroup>
+                  </div>
                 </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/project" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />

@@ -54,7 +54,6 @@ class MessagingServiceT {
 
     @BeforeEach
     public void init() {
-        final MessagingService messagingService = new MessagingService(activityRepository, deviceTokenRepository, messageSource);
         deviceToken = new DeviceToken();
         deviceTokenTwo = new DeviceToken();
 

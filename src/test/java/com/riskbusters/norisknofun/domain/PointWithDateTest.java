@@ -39,7 +39,15 @@ class PointWithDateTest {
 
     @Test
     void testEqualsNull() {
-        assertNotEquals(null, pointWithDate);
+        assertFalse(pointWithDate.equals(null));
+    }
+
+    @Test
+    void testHashCode() {
+        PointWithDate point1 = new PointWithDate();
+        PointWithDate point2 = new PointWithDate();
+        assertTrue(point1.equals(point2) && point2.equals(point1));
+        assertEquals(point1.hashCode(), point2.hashCode());
     }
 
     @Test

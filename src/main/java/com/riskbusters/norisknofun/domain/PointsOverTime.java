@@ -78,7 +78,11 @@ public class PointsOverTime implements Serializable {
     }
 
     public Points addPointsForCurrentDay(Points points) {
-        this.pointsAtThisDay.addPoints(points);
+        if (this.pointsAtThisDay == null) {
+            this.pointsAtThisDay = points;
+        } else {
+            this.pointsAtThisDay.addPoints(points);
+        }
         return this.pointsAtThisDay;
     }
 

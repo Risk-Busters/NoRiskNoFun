@@ -7,6 +7,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -43,7 +44,7 @@ public class UserGamification implements Serializable {
 
     public UserGamification(User user, Double activityScoreBasedOnPoints) {
         this.user = user;
-        this.activityScoreBasedOnPoints =activityScoreBasedOnPoints;
+        this.activityScoreBasedOnPoints = activityScoreBasedOnPoints;
     }
 
     public UserGamification() {
@@ -61,22 +62,12 @@ public class UserGamification implements Serializable {
         return activityScoreBasedOnPoints;
     }
 
-    public UserGamification pointsScore(Double activityScoreBasedOnPoints) {
-        this.activityScoreBasedOnPoints = activityScoreBasedOnPoints;
-        return this;
-    }
-
     public void setActivityScoreBasedOnPoints(Double activityScoreBasedOnPoints) {
         this.activityScoreBasedOnPoints = activityScoreBasedOnPoints;
     }
 
     public User getUser() {
         return user;
-    }
-
-    public UserGamification user(User user) {
-        this.user = user;
-        return this;
     }
 
     public void setUser(User user) {
@@ -105,7 +96,7 @@ public class UserGamification implements Serializable {
 
     @Override
     public int hashCode() {
-        return 31;
+        return Objects.hash(id, user, activityScoreBasedOnPoints, userAchievements);
     }
 
     @Override

@@ -39,4 +39,11 @@ public abstract class Achievement implements Serializable {
     public AchievementType getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "Achievement{" +
+            "name=" + name +
+            '}';
+    }
 }

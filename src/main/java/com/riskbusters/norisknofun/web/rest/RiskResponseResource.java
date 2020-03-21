@@ -6,7 +6,6 @@ import com.riskbusters.norisknofun.repository.ProjectRisksBaseRepository;
 import com.riskbusters.norisknofun.repository.RiskResponseRepository;
 import com.riskbusters.norisknofun.service.ProjectRiskService;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
-
 import com.riskbusters.norisknofun.web.rest.vm.NewRiskResponseVM;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.Optional;
 
 /**

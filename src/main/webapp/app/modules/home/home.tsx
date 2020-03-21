@@ -1,13 +1,12 @@
 import './home.scss';
 
 import React from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Translate } from 'react-jhipster';
-import { connect } from 'react-redux';
-import { Alert, Col, Row, Container } from 'reactstrap';
-import { Notification } from 'app/modules/notification/notification';
+import {Link, RouteComponentProps} from 'react-router-dom';
+import {Translate} from 'react-jhipster';
+import {connect} from 'react-redux';
+import {Alert, Col, Container, Row} from 'reactstrap';
+import {Notification} from 'app/modules/notification/notification';
 import ActivityStream from 'app/modules/home/activity-stream';
-import {UserActivityGraph} from "app/modules/useractivity/useractivity";
 
 export interface IHomeProp extends StateProps, RouteComponentProps<{ url: string }> {}
 

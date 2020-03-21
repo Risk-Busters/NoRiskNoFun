@@ -1,7 +1,5 @@
 package com.riskbusters.norisknofun.repository;
 
-import com.riskbusters.norisknofun.domain.Activity;
-import com.riskbusters.norisknofun.domain.Authority;
 import com.riskbusters.norisknofun.domain.DeviceToken;
 import com.riskbusters.norisknofun.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;

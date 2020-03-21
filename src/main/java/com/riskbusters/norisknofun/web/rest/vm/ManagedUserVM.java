@@ -1,6 +1,7 @@
 package com.riskbusters.norisknofun.web.rest.vm;
 
 import com.riskbusters.norisknofun.service.dto.UserDTO;
+
 import javax.validation.constraints.Size;
 
 /**

@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Link, RouteComponentProps, useParams} from 'react-router-dom';
-import {Button, Col, Row, Input} from 'reactstrap';
+import {Button, Col, Row} from 'reactstrap';
 import {Translate} from 'react-jhipster';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 import {IRootState} from 'app/shared/reducers';
-import {getEntity, updateEntity as updateProjectRisk, addPersonInChargeForProjectRisk} from './project-risks.reducer';
+import {addPersonInChargeForProjectRisk, getEntity, updateEntity as updateProjectRisk} from './project-risks.reducer';
 import RiskResponse from "app/entities/risk-response/risk-response";
 import "./project-risks.scss"
 import {IProjectRisks} from "app/shared/model/project-risks.model";

@@ -3,7 +3,8 @@ package com.riskbusters.norisknofun.web.rest.vm;
 import com.riskbusters.norisknofun.domain.enumeration.ProbabilityType;
 import com.riskbusters.norisknofun.domain.enumeration.SeverityType;
 
-import javax.persistence.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 
 public class DiscussRiskVM {

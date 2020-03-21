@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Table } from 'reactstrap';
-import { Translate } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, {useEffect} from 'react';
+import {connect} from 'react-redux';
+import {Link, RouteComponentProps} from 'react-router-dom';
+import {Button, Table} from 'reactstrap';
+import {Translate} from 'react-jhipster';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
-import { IRootState } from 'app/shared/reducers';
-import { getUserGamificationList } from 'app/entities/user-gamification/user-gamification.reducer';
+import {IRootState} from 'app/shared/reducers';
+import {getUserGamificationList} from 'app/entities/user-gamification/user-gamification.reducer';
 
 export interface IUserGamificationProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 

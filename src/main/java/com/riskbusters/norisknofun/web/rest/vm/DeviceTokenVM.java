@@ -1,7 +1,5 @@
 package com.riskbusters.norisknofun.web.rest.vm;
 
-import com.riskbusters.norisknofun.domain.DeviceToken;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 

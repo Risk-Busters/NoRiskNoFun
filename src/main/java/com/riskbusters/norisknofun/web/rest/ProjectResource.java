@@ -1,7 +1,6 @@
 package com.riskbusters.norisknofun.web.rest;
 
 import com.google.firebase.messaging.FirebaseMessagingException;
-import com.riskbusters.norisknofun.domain.Activity;
 import com.riskbusters.norisknofun.domain.Project;
 import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.repository.ProjectRepository;
@@ -20,10 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * REST controller for managing {@link com.riskbusters.norisknofun.domain.Project}.

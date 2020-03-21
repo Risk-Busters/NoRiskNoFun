@@ -8,10 +8,12 @@ import com.riskbusters.norisknofun.service.MailService;
 import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.service.dto.PasswordChangeDTO;
 import com.riskbusters.norisknofun.service.dto.UserDTO;
-import com.riskbusters.norisknofun.web.rest.errors.*;
+import com.riskbusters.norisknofun.web.rest.errors.EmailAlreadyUsedException;
+import com.riskbusters.norisknofun.web.rest.errors.EmailNotFoundException;
+import com.riskbusters.norisknofun.web.rest.errors.InvalidPasswordException;
+import com.riskbusters.norisknofun.web.rest.errors.LoginAlreadyUsedException;
 import com.riskbusters.norisknofun.web.rest.vm.KeyAndPasswordVM;
 import com.riskbusters.norisknofun.web.rest.vm.ManagedUserVM;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.Optional;
 
 /**
  * REST controller for managing the current user's account.

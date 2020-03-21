@@ -1,25 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import {Provider} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 
 import DevTools from './config/devtools';
 import initStore from './config/store';
-import { registerLocale } from './config/translation';
+import {registerLocale} from './config/translation';
 import setupAxiosInterceptors from './config/axios-interceptor';
-import { clearAuthentication } from './shared/reducers/authentication';
+import {clearAuthentication} from './shared/reducers/authentication';
 import ErrorBoundary from './shared/error/error-boundary';
 import AppComponent from './app';
-import { loadIcons } from './config/icon-loader';
-import {
-  initFirebaseMessaging, onMessageHandler,
-  onTokenRefreshHandler,
-  requestNotificationPermission
-} from "app/shared/util/notification-utils";
-
-
-
+import {loadIcons} from './config/icon-loader';
+import {initFirebaseMessaging, onMessageHandler, onTokenRefreshHandler} from "app/shared/util/notification-utils";
 
 
 const devTools = process.env.NODE_ENV === 'development' ? <DevTools /> : null;

@@ -1,7 +1,6 @@
 package com.riskbusters.norisknofun.web.rest;
 
 import com.riskbusters.norisknofun.service.AuditEventService;
-
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.springframework.boot.actuate.audit.AuditEvent;

@@ -1,15 +1,14 @@
 import React from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
-import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Jumbotron, Col, Row } from 'reactstrap';
-import { Translate, TextFormat, getSortState, IPaginationBaseState } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {connect} from 'react-redux';
+import {Link, RouteComponentProps} from 'react-router-dom';
+import {Button, Jumbotron} from 'reactstrap';
+import {getSortState, IPaginationBaseState, TextFormat, Translate} from 'react-jhipster';
 
-import { IRootState } from 'app/shared/reducers';
-import { getEntities, reset } from '../../entities/activity/activity.reducer';
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
-import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
+import {IRootState} from 'app/shared/reducers';
+import {getEntities, reset} from '../../entities/activity/activity.reducer';
+import {APP_LOCAL_DATE_FORMAT} from 'app/config/constants';
+import {ITEMS_PER_PAGE} from 'app/shared/util/pagination.constants';
 
 export interface IActivityProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 

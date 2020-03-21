@@ -1,6 +1,6 @@
 import React from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import {useParams, useHistory} from 'react-router-dom';
+import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
+import {useHistory, useParams} from 'react-router-dom';
 import {Translate} from 'react-jhipster';
 
 function ProjectRisksTaskQueue() {

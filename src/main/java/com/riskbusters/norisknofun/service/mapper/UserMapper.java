@@ -3,10 +3,12 @@ package com.riskbusters.norisknofun.service.mapper;
 import com.riskbusters.norisknofun.domain.Authority;
 import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.service.dto.UserDTO;
-
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**

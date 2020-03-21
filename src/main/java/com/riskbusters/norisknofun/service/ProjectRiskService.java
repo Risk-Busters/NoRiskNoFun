@@ -4,7 +4,9 @@ import com.riskbusters.norisknofun.domain.*;
 import com.riskbusters.norisknofun.domain.enumeration.ProbabilityType;
 import com.riskbusters.norisknofun.domain.enumeration.RiskDiscussionState;
 import com.riskbusters.norisknofun.domain.enumeration.SeverityType;
-import com.riskbusters.norisknofun.repository.*;
+import com.riskbusters.norisknofun.repository.ProjectRisksBaseRepository;
+import com.riskbusters.norisknofun.repository.RiskDiscussionRepository;
+import com.riskbusters.norisknofun.repository.RiskRepository;
 import com.riskbusters.norisknofun.service.gamification.PointsOverTimeService;
 import org.springframework.stereotype.Service;
 

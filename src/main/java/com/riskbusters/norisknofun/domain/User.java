@@ -1,8 +1,7 @@
 package com.riskbusters.norisknofun.domain;
 
-import com.riskbusters.norisknofun.config.Constants;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.riskbusters.norisknofun.config.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;

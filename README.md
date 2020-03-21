@@ -1,3 +1,8 @@
+[![Build Status](https://travis-ci.com/Risk-Busters/NoRiskNoFun.svg?branch=master)](https://travis-ci.com/Risk-Busters/NoRiskNoFun)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=NoRiskNoFun&metric=coverage)](https://sonarcloud.io/dashboard?id=NoRiskNoFun)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=NoRiskNoFun&metric=alert_status)](https://sonarcloud.io/dashboard?id=NoRiskNoFun)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=NoRiskNoFun&metric=ncloc)](https://sonarcloud.io/dashboard?id=NoRiskNoFun)
+
 # NoRiskNoFun
 
 This application was generated using JHipster 6.6.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.6.0](https://www.jhipster.tech/documentation-archive/v6.6.0).

@@ -1,6 +1,6 @@
 package com.riskbusters.norisknofun.service.mapper;
 
-import com.riskbusters.norisknofun.domain.PointsWithDate;
+import com.riskbusters.norisknofun.domain.PointWithDate;
 import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.repository.UserRepository;
 import com.riskbusters.norisknofun.service.dto.UserGamificationDTO;
@@ -25,7 +25,7 @@ public class UserGamificationMapper {
         return userGamificationDTO;
     }
 
-    public UserGamificationDTO toUserGamificationDTO(UserGamification userGamification, List<PointsWithDate> pointsOverTime) {
+    public UserGamificationDTO toUserGamificationDTO(UserGamification userGamification, List<PointWithDate> pointsOverTime) {
         UserGamificationDTO userGamificationDTO = new UserGamificationDTO();
         userGamificationDTO.setId(userGamification.getId());
         userGamificationDTO.setActivityScoreBasedOnPoints(userGamification.getActivityScoreBasedOnPoints());

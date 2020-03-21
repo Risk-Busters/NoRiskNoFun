@@ -1,9 +1,9 @@
 package com.riskbusters.norisknofun.web.rest;
 
 import com.riskbusters.norisknofun.domain.User;
-import com.riskbusters.norisknofun.service.gamification.UserGamificationService;
 import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.service.dto.UserGamificationDTO;
+import com.riskbusters.norisknofun.service.gamification.UserGamificationService;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -56,8 +56,9 @@ public class UserGamificationResource {
         if(user.isPresent()) {
             Long userId = user.get().getId();
             UserGamificationDTO result = userGamificationService.save(userGamificationDTO, userId);
-            return ResponseEntity.created(new URI("/api/user-gamifications/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            return ResponseEntity
+                .created(new URI("/api/user-gamifications/" + result.getId()))
+                .headers(HeaderUtil.createAlert(applicationName, "userGamificationManagement.created", result.getId().toString()))
                 .body(result);
         } else {
             return null;

@@ -12,7 +12,7 @@ public class Points implements Serializable {
     }
 
     public Points(Long pointsScore) {
-        if(pointsScore >= 0) {
+        if (pointsScore >= 0) {
             this.pointsScore = pointsScore;
         } else {
             this.pointsScore = 0L;
@@ -23,7 +23,8 @@ public class Points implements Serializable {
         return pointsScore;
     }
 
-    public void addPoints(Points pointsScore) {
+    public Long addPoints(Points pointsScore) {
         this.pointsScore += pointsScore.getPointsAsLong();
+        return this.pointsScore;
     }
 }

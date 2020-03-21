@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Service Implementation for managing {@link com.riskbusters.norisknofun.domain.ProjectActivityOverTime}.
@@ -41,15 +44,16 @@ public class ProjectActivityService {
         Double projectActivityBasedOnUserScore = calculateProjectActivityScore(projectId);
 
         List<ProjectActivityOverTime> projectActivityOverTime = projectActivityOverTimeRepository.findAllByProjectId(projectId);
+        log.debug("Get project activity for project with id: {}", projectActivityOverTime);
 
-        List<PointsWithDate> allProjectActivitiesOverTime = new ArrayList<>();
+        List<PointWithDate> allProjectActivitiesOverTime = new ArrayList<>();
         for (ProjectActivityOverTime item : projectActivityOverTime) {
-            allProjectActivitiesOverTime.add(new PointsWithDate(item.getProjectActivityScoreAtThisDay(), item.getDate()));
+            allProjectActivitiesOverTime.add(new PointWithDate(item.getProjectActivityScoreAtThisDay(), item.getDate()));
         }
 
-        Collections.reverse(allProjectActivitiesOverTime);
+        PointsList pointsPerWeek = new PointsList(allProjectActivitiesOverTime, 42);
 
-        return new ProjectActivityDTO(projectActivityBasedOnUserScore, allProjectActivitiesOverTime);
+        return new ProjectActivityDTO(projectActivityBasedOnUserScore, pointsPerWeek.getFinalCumulatedPointsByWeek());
     }
 
     private Double calculateProjectActivityScore(Long projectId) {

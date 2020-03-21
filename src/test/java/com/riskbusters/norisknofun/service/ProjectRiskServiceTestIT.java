@@ -88,7 +88,7 @@ class ProjectRiskServiceTestIT {
 
         assertEquals(projectRisk.getRisk().getName(), PROPOSED_RISK_TITLE);
         assertEquals(projectRisk.getRisk().getDescription(), PROPOSED_RISK_DESC);
-        assertEquals(projectRisk.riskDiscussionStatus, "proposed");
+        assertEquals("proposed", projectRisk.riskDiscussionStatus);
         assertEquals(projectRisk.getProject(), demoProject);
     }
 
@@ -97,12 +97,12 @@ class ProjectRiskServiceTestIT {
     @Transactional
     void riskDiscussion() {
         ProjectRisks projectRisk = projectRiskService.proposeProjectRisk(PROPOSED_RISK_TITLE,PROPOSED_RISK_DESC, demoProject, demoUser);
-        assertEquals(projectRisk.riskDiscussionStatus, "proposed");
+        assertEquals("proposed", projectRisk.riskDiscussionStatus);
 
         for (int i = 0; i < 10; i++) {
             projectRisk = projectRiskService.addLikeToProposedProjectRisk(projectRisk, demoUser);
         }
-        assertEquals(projectRisk.riskDiscussionStatus, "toBeDiscussed");
+        assertEquals("toBeDiscussed", projectRisk.riskDiscussionStatus);
 
         projectRiskService.saveProjectRiskDiscussion(SeverityType.OK, ProbabilityType.MAYBE, projectRisk, demoUser);
         projectRiskService.saveProjectRiskDiscussion(SeverityType.OK, ProbabilityType.MAYBE, projectRisk, demoUserTwo);
@@ -123,7 +123,7 @@ class ProjectRiskServiceTestIT {
 
         projectRiskService.updateDiscussionStatus(projectRisk);
         projectRisksBaseRepository.findById(projectRisk.getId()).ifPresentOrElse(projectRisks -> {
-            assertEquals(projectRisks.riskDiscussionStatus, "final");
+            assertEquals("final", projectRisks.riskDiscussionStatus);
         }, () -> {
             fail("Project Risk went missing during the discussion process.");
         });

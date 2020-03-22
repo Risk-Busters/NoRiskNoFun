@@ -48,7 +48,7 @@ public class ProjectRiskService {
         proposedProjectRisk.setHasOccured(false);
 
         rewardUser(PointsPerAction.PROPOSED_A_RISK, userWhoProposed);
-        sendNotification(userWhoProposed);
+        sendNotification(userWhoProposed, "propose");
 
         return  projectRisksBaseRepository.save(proposedProjectRisk);
     }
@@ -144,7 +144,7 @@ public class ProjectRiskService {
     public ProjectRisks addLikeToProposedProjectRisk(ProjectRisks proposedProjectRisk, User userWhoHasLiked) {
         proposedProjectRisk.addLike();
         rewardUser(PointsPerAction.REVIEWED_A_RISK, userWhoHasLiked);
-        sendNotification(userWhoHasLiked);
+        sendNotification(userWhoHasLiked, "review");
         updateDiscussionStatus(proposedProjectRisk);
         return saveProjectRisk(proposedProjectRisk);
     }
@@ -159,7 +159,7 @@ public class ProjectRiskService {
     public ProjectRisks addPersonInCharge(ProjectRisks discussedProjectRisk, User userInCharge) {
         discussedProjectRisk.setPersonInCharge(userInCharge);
         rewardUser(PointsPerAction.BE_PERSON_IN_CHARGE, userInCharge);
-        sendNotification(userInCharge);
+        sendNotification(userInCharge, "bepersonincharge");
         updateDiscussionStatus(discussedProjectRisk);
         return saveProjectRisk(discussedProjectRisk);
     }
@@ -168,9 +168,9 @@ public class ProjectRiskService {
         pointsOverTimeService.addPointsForToday(pointsToBeAdded, userWhoProposed);
     }
 
-    private void sendNotification(User user) {
+    private void sendNotification(User user, String action) {
         Activity activity = new Activity();
-        activity.setActivityDescriptionKey("activity.reward");
+        activity.setActivityDescriptionKey("activity.reward." + action);
         activity.setTargetUrl("/profile");
         Set<User> users = new HashSet<>();
         users.add(user);

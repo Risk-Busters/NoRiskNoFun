@@ -64,7 +64,7 @@ class ProjectActivityOverTimeTest {
         ProjectActivityOverTime activity = new ProjectActivityOverTime(project, 2.0, date);
         activity.setId(3L);
 
-        String expected = "ProjectActivity{id=3, projectId=1, date=2020-03-21, activityAtThisDay=2.0}";
+        String expected = "ProjectActivity{id=3, projectId=1, date=" + date.getDateFormatted() + ", activityAtThisDay=2.0}";
         assertEquals(expected, activity.toString());
     }
 }

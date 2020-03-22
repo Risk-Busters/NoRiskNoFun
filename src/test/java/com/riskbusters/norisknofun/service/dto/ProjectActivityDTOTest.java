@@ -52,7 +52,7 @@ class ProjectActivityDTOTest {
         projectActivityDTO.setProjectActivitiesOverTime(pointsWithDateArray);
         projectActivityDTO.setProjectActivityBasedOnUserScore(22.0);
 
-        String expected = "ProjectActivityDTO{projectActivityToday=22.0, projectActivitiesOverTime=[PointWithDate{date='2020-03-21, pointsScore=3.0'}]}";
+        String expected = "ProjectActivityDTO{projectActivityToday=22.0, projectActivitiesOverTime=[PointWithDate{date='" + new CustomDate().getDateFormatted() + ", pointsScore=3.0'}]}";
         assertEquals(expected, projectActivityDTO.toString());
     }
 }

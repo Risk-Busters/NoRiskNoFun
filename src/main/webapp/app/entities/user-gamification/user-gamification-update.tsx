@@ -156,7 +156,7 @@ export class UserGamificationUpdate extends React.Component<IUserGamificationUpd
                       value="PROJECT_MANAGER">{translate('noRiskNoFunApp.userGamification.achievements.PROJECT_MANAGER')}</option>
                   </AvInput>
                 </AvGroup>
-                <Button tag={Link} id="cancel-save" to="/entity/user-gamifications" replace color="info">
+                <Button id="cancel-save" onClick={() => this.handleClose()} replace color="info">
                   <FontAwesomeIcon icon="arrow-left"/>
                   &nbsp;
                   <span className="d-none d-md-inline">

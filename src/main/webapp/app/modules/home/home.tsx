@@ -17,24 +17,18 @@ export const Home = (props: IHomeProp) => {
     <Container fluid>
       {account && account.login ? (
         <>
-          <Row sm="12">
+          <Row>
             <h2>
               <Translate contentKey="home.logged.title" interpolate={{ username: account.login }} />
             </h2>
           </Row>
-          <Row sm="12" className="flex-md-row-reverse">
-            <Col sm="12" md="12" lg="4">
-              <h2>
-                <Translate contentKey="home.logged.information">Information</Translate>
-                <p className="lead">
-                  <Translate contentKey="home.logged.informationText">
-                    Valuable information about your application can be found here!
-                  </Translate>
-                </p>
-              </h2>
+          <Row>
+            <Col sm="12" md="10" lg="8">
               <Notification />
             </Col>
-            <Col sm="12" md="12" lg="8">
+          </Row>
+          <Row>
+            <Col sm="12" md="12" lg="12">
               <ActivityStream match={props.match} location={props.location} history={props.history} />
             </Col>
           </Row>

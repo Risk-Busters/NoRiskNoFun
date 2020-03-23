@@ -1,8 +1,8 @@
 package com.riskbusters.norisknofun.service;
 
-import io.github.jhipster.config.JHipsterProperties;
 import com.riskbusters.norisknofun.config.audit.AuditEventConverter;
 import com.riskbusters.norisknofun.repository.PersistenceAuditEventRepository;
+import io.github.jhipster.config.JHipsterProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.audit.AuditEvent;

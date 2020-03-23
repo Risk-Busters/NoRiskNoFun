@@ -84,7 +84,7 @@ public class MessagingService {
         log.debug("Notifications send succesfully: {}", response.getSuccessCount());
     }
 
-    private List<String> getUserDeviceTokens(Set<User> users) {
+    public List<String> getUserDeviceTokens(Set<User> users) {
         return deviceTokenRepository.findAllByTokenOwnerIn(users).stream()
             .map(DeviceToken::getDeviceToken)
             .collect(Collectors.toList());

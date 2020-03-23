@@ -8,9 +8,7 @@ import com.riskbusters.norisknofun.repository.UserRepository;
 import com.riskbusters.norisknofun.security.AuthoritiesConstants;
 import com.riskbusters.norisknofun.security.SecurityUtils;
 import com.riskbusters.norisknofun.service.dto.UserDTO;
-
 import io.github.jhipster.security.RandomUtil;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;

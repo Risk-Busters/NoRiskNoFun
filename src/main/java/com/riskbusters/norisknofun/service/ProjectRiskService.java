@@ -4,9 +4,14 @@ import com.riskbusters.norisknofun.domain.*;
 import com.riskbusters.norisknofun.domain.enumeration.ProbabilityType;
 import com.riskbusters.norisknofun.domain.enumeration.RiskDiscussionState;
 import com.riskbusters.norisknofun.domain.enumeration.SeverityType;
-import com.riskbusters.norisknofun.repository.*;
+import com.riskbusters.norisknofun.repository.ProjectRisksBaseRepository;
+import com.riskbusters.norisknofun.repository.RiskDiscussionRepository;
+import com.riskbusters.norisknofun.repository.RiskRepository;
 import com.riskbusters.norisknofun.service.gamification.PointsOverTimeService;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /*
  * Service for handling project risks.
@@ -19,12 +24,14 @@ public class ProjectRiskService {
     private RiskRepository riskRepository;
     private RiskDiscussionRepository riskDiscussionRepository;
     private PointsOverTimeService pointsOverTimeService;
+    private MessagingService messagingService;
 
-    public ProjectRiskService(ProjectRisksBaseRepository projectRisksBaseRepository, RiskRepository riskRepository, RiskDiscussionRepository riskDiscussionRepository, PointsOverTimeService pointsOverTimeService) {
+    public ProjectRiskService(ProjectRisksBaseRepository projectRisksBaseRepository, RiskRepository riskRepository, RiskDiscussionRepository riskDiscussionRepository, PointsOverTimeService pointsOverTimeService, MessagingService messagingService) {
         this.projectRisksBaseRepository = projectRisksBaseRepository;
         this.riskRepository = riskRepository;
         this.riskDiscussionRepository = riskDiscussionRepository;
         this.pointsOverTimeService = pointsOverTimeService;
+        this.messagingService = messagingService;
     }
 
     public ProjectRisks proposeProjectRisk(String title, String description, Project project, User userWhoProposed) {
@@ -41,6 +48,7 @@ public class ProjectRiskService {
         proposedProjectRisk.setHasOccured(false);
 
         rewardUser(PointsPerAction.PROPOSED_A_RISK, userWhoProposed);
+        sendNotification(userWhoProposed, "propose");
 
         return  projectRisksBaseRepository.save(proposedProjectRisk);
     }
@@ -136,6 +144,7 @@ public class ProjectRiskService {
     public ProjectRisks addLikeToProposedProjectRisk(ProjectRisks proposedProjectRisk, User userWhoHasLiked) {
         proposedProjectRisk.addLike();
         rewardUser(PointsPerAction.REVIEWED_A_RISK, userWhoHasLiked);
+        sendNotification(userWhoHasLiked, "review");
         updateDiscussionStatus(proposedProjectRisk);
         return saveProjectRisk(proposedProjectRisk);
     }
@@ -150,11 +159,22 @@ public class ProjectRiskService {
     public ProjectRisks addPersonInCharge(ProjectRisks discussedProjectRisk, User userInCharge) {
         discussedProjectRisk.setPersonInCharge(userInCharge);
         rewardUser(PointsPerAction.BE_PERSON_IN_CHARGE, userInCharge);
+        sendNotification(userInCharge, "bepersonincharge");
         updateDiscussionStatus(discussedProjectRisk);
         return saveProjectRisk(discussedProjectRisk);
     }
 
     private void rewardUser(Points pointsToBeAdded,User userWhoProposed) {
         pointsOverTimeService.addPointsForToday(pointsToBeAdded, userWhoProposed);
+    }
+
+    private void sendNotification(User user, String action) {
+        Activity activity = new Activity();
+        activity.setActivityDescriptionKey("activity.reward." + action);
+        activity.setTargetUrl("/profile");
+        Set<User> users = new HashSet<>();
+        users.add(user);
+        activity.setUsers(users);
+        messagingService.addActivityWithNotification(activity);
     }
 }

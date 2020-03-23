@@ -1,22 +1,16 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Row, Col, Label } from 'reactstrap';
-import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IRootState } from 'app/shared/reducers';
-
-import { IRiskResponse } from 'app/shared/model/risk-response.model';
-import { getEntities as getRiskResponses } from 'app/entities/risk-response/risk-response.reducer';
-import { IProject } from 'app/shared/model/project.model';
-import { getEntities as getProjects } from 'app/entities/project/project.reducer';
-import { IRisk } from 'app/shared/model/risk.model';
-import { getEntities as getRisks } from 'app/entities/risk/risk.reducer';
-import { getEntity, updateEntity, createEntity, reset, createDiscussion } from './project-risks.reducer';
+import {connect} from 'react-redux';
+import {Link, RouteComponentProps} from 'react-router-dom';
+import {Button, Col, Label, Row} from 'reactstrap';
+import {AvForm, AvGroup, AvInput} from 'availity-reactstrap-validation';
+import {Translate, translate} from 'react-jhipster';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {IRootState} from 'app/shared/reducers';
+import {getEntities as getRiskResponses} from 'app/entities/risk-response/risk-response.reducer';
+import {getEntities as getProjects} from 'app/entities/project/project.reducer';
+import {getEntities as getRisks} from 'app/entities/risk/risk.reducer';
+import {createDiscussion, createEntity, getEntity, reset, updateEntity} from './project-risks.reducer';
 import {IProjectRisks, IRiskDiscussionVM} from 'app/shared/model/project-risks.model';
-import { convertDateTimeFromServer, convertDateTimeToServer } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
 
 export interface IProjectRisksUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ riskId: string, id: string, risktype: string }> {}
 

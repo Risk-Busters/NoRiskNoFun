@@ -3,7 +3,6 @@ package com.riskbusters.norisknofun.web.rest;
 import com.riskbusters.norisknofun.domain.Risk;
 import com.riskbusters.norisknofun.repository.RiskRepository;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
-
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 

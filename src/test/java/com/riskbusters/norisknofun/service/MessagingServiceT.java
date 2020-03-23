@@ -17,10 +17,14 @@ import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+
 @SpringBootTest(classes = NoRiskNoFunApp.class)
 class MessagingServiceT {
 
@@ -50,7 +54,6 @@ class MessagingServiceT {
 
     @BeforeEach
     public void init() {
-        final MessagingService messagingService = new MessagingService(activityRepository, deviceTokenRepository, messageSource);
         deviceToken = new DeviceToken();
         deviceTokenTwo = new DeviceToken();
 
@@ -83,14 +86,16 @@ class MessagingServiceT {
 
         int databaseSizeAfterAdd = activityRepository.findAll().size();
         assertThat(databaseSizeAfterAdd).isEqualTo(databaseSize+1);
-        // TODO: Check how to test FCM
     }
 
     @Test
     @Transactional
-    void testAddActivityWithNotificationWithCustomMessage() {
-        // TODO: Check how to test FCM
-    }
+    void testGetDeviceTokenForUsers() {
+        List<String> deviceTokens = messagingService.getUserDeviceTokens(userSet);
+        List<String> deviceTokenSet = new ArrayList<>();
+        deviceTokenSet.add(deviceToken.getDeviceToken());
+        deviceTokenSet.add(deviceTokenTwo.getDeviceToken());
 
-    // TODO: Test upcoming token lifecycle methods
+        assertIterableEquals(deviceTokens, deviceTokenSet);
+    }
 }

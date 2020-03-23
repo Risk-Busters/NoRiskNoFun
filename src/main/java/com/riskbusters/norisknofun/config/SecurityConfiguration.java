@@ -1,10 +1,8 @@
 package com.riskbusters.norisknofun.config;
 
-import com.riskbusters.norisknofun.security.*;
-import com.riskbusters.norisknofun.security.jwt.*;
-
-import org.springframework.beans.factory.BeanInitializationException;
-import org.springframework.beans.factory.InitializingBean;
+import com.riskbusters.norisknofun.security.AuthoritiesConstants;
+import com.riskbusters.norisknofun.security.jwt.JWTConfigurer;
+import com.riskbusters.norisknofun.security.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;

@@ -51,7 +51,7 @@ public class ProjectActivityService {
             allProjectActivitiesOverTime.add(new PointWithDate(item.getProjectActivityScoreAtThisDay(), item.getDate()));
         }
 
-        PointsList pointsPerWeek = new PointsList(allProjectActivitiesOverTime, 42);
+        PointsList pointsPerWeek = new PointsList(allProjectActivitiesOverTime);
 
         return new ProjectActivityDTO(projectActivityBasedOnUserScore, pointsPerWeek.getFinalCumulatedPointsByWeek());
     }

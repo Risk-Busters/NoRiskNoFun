@@ -1,15 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Row, Col, Label } from 'reactstrap';
-import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
-import { Translate, translate } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IRootState } from 'app/shared/reducers';
+import {connect} from 'react-redux';
+import {RouteComponentProps} from 'react-router-dom';
+import {Button, Col, Label, Row} from 'reactstrap';
+import {AvField, AvForm, AvGroup, AvInput} from 'availity-reactstrap-validation';
+import {Translate, translate} from 'react-jhipster';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {IRootState} from 'app/shared/reducers';
 
-import { getEntities as getRisks } from 'app/entities/risk/risk.reducer';
-import { getEntities as getProjectRisks } from 'app/entities/project-risks/project-risks.reducer';
-import {getEntity, updateEntity, createEntity, reset, createEntityForProject} from './risk-response.reducer';
+import {getEntities as getRisks} from 'app/entities/risk/risk.reducer';
+import {getEntities as getProjectRisks} from 'app/entities/project-risks/project-risks.reducer';
+import {createEntity, createEntityForProject, getEntity, reset, updateEntity} from './risk-response.reducer';
 
 export interface IRiskResponseUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ riskId: string; responseId: string }> {}
 

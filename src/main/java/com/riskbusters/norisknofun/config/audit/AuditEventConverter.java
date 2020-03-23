@@ -1,7 +1,6 @@
 package com.riskbusters.norisknofun.config.audit;
 
 import com.riskbusters.norisknofun.domain.PersistentAuditEvent;
-
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;

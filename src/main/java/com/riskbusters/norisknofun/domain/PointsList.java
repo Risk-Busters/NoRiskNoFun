@@ -18,12 +18,7 @@ public class PointsList {
 
     private List<PointWithDate> finalCumulatedPointsByWeek;
 
-    public PointsList(List<PointsOverTime> allPointsOverTimeRowsFromDB) {
-        List<PointWithDate> allPointsOverTime = mapDBRecordsToSuitableList(allPointsOverTimeRowsFromDB);
-        calculateFinalCumulatedPointsByWeek(allPointsOverTime);
-    }
-
-    public PointsList(List<PointWithDate> allPointsOverTime, int fixErasure) {
+    public PointsList(List<PointWithDate> allPointsOverTime) {
         calculateFinalCumulatedPointsByWeek(allPointsOverTime);
     }
 
@@ -41,14 +36,6 @@ public class PointsList {
 
         this.finalCumulatedPointsByWeek = sortListNewest(pointsOverTimePerWeek);
         log.debug("Grouped all points over time by week and calculate sum: {} ", this.finalCumulatedPointsByWeek);
-    }
-
-    private List<PointWithDate> mapDBRecordsToSuitableList(List<PointsOverTime> allPointsOverTimeRowsFromDB) {
-        List<PointWithDate> allPointsOverTime = new ArrayList<>();
-        for (PointsOverTime item : allPointsOverTimeRowsFromDB) {
-            allPointsOverTime.add(new PointWithDate(item.getPointsAtThisDay().getPointsAsLong().doubleValue(), item.getDate()));
-        }
-        return allPointsOverTime;
     }
 
     private List<PointWithDate> sortListNewest(List<PointWithDate> allPointsOverTime) {

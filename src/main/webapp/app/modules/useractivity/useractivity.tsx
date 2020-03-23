@@ -49,7 +49,6 @@ export const UserActivityGraph = (props: IUserActivityGraphProps) => {
 
   return (
     <div>
-      <h4>Your Activity</h4>
       <Chart
         width={'500px'}
         height={'300px'}

@@ -1,7 +1,6 @@
 package com.riskbusters.norisknofun.repository;
 
 import com.riskbusters.norisknofun.domain.Authority;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

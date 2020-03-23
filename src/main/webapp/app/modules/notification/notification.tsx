@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {Button, Alert} from 'reactstrap';
+import React, {useEffect, useState} from 'react';
+import {Alert, Button} from 'reactstrap';
 import {Translate} from 'react-jhipster';
 import {isPermissionGranted, requestNotificationPermission} from "app/shared/util/notification-utils";
 import {store} from "app/index";

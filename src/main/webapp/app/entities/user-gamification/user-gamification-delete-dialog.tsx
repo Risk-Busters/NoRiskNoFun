@@ -1,13 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import { Translate, ICrudGetAction, ICrudDeleteAction } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { IUserGamification } from 'app/shared/model/user-gamification.model';
-import { IRootState } from 'app/shared/reducers';
-import { getUserGamification, deleteEntity } from './user-gamification.reducer';
+import {connect} from 'react-redux';
+import {RouteComponentProps} from 'react-router-dom';
+import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
+import {Translate} from 'react-jhipster';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {IRootState} from 'app/shared/reducers';
+import {deleteEntity, getUserGamification} from './user-gamification.reducer';
 
 export interface IUserGamificationDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +37,13 @@ public class PointsOverTimeService {
     public List<PointWithDate> getAllPointsOverTimeForOneUser(User user) {
         log.debug("Request to get points over time for user: {}", user);
         List<PointsOverTime> allPointsOverTimeRowsFromDB = pointsOverTimeRepository.findAllByUserId(user.getId());
-        PointsList pointsPerWeek = new PointsList(allPointsOverTimeRowsFromDB);
+
+        List<PointWithDate> allPointsOverTime = new ArrayList<>();
+        for (PointsOverTime item : allPointsOverTimeRowsFromDB) {
+            allPointsOverTime.add(new PointWithDate(item.getPointsAtThisDay().getPointsAsLong().doubleValue(), item.getDate()));
+        }
+
+        PointsList pointsPerWeek = new PointsList(allPointsOverTime);
         return pointsPerWeek.getFinalCumulatedPointsByWeek();
     }
 

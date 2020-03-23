@@ -1,13 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Table } from 'reactstrap';
-import { Translate } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { updateEntity as updateProjectRisks } from './project-risks.reducer';
-import { addLikeForProjectRisk as addLikeForProjectRisk } from './project-risks.reducer';
-import { IRootState } from 'app/shared/reducers';
-import {getEntities, getProposedProjectRisks, getToBeDiscussedProjectRisks} from "app/entities/project-risks/project-risks.reducer";
+import {connect} from 'react-redux';
+import {Link, RouteComponentProps} from 'react-router-dom';
+import {Button, Table} from 'reactstrap';
+import {Translate} from 'react-jhipster';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {
+  addLikeForProjectRisk as addLikeForProjectRisk,
+  updateEntity as updateProjectRisks
+} from './project-risks.reducer';
+import {IRootState} from 'app/shared/reducers';
+import {
+  getEntities,
+  getProposedProjectRisks,
+  getToBeDiscussedProjectRisks
+} from "app/entities/project-risks/project-risks.reducer";
 import {IProjectRisks} from "app/shared/model/project-risks.model";
 
 type ProjectRisksProps = {

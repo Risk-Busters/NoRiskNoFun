@@ -1,17 +1,8 @@
 import axios from 'axios';
-import {
-  parseHeaderForLinks,
-  loadMoreDataWhenScrolled,
-  ICrudGetAction,
-  ICrudGetAllAction,
-  ICrudPutAction,
-  ICrudDeleteAction
-} from 'react-jhipster';
+import { ICrudDeleteAction, ICrudGetAction, ICrudGetAllAction, loadMoreDataWhenScrolled, parseHeaderForLinks } from 'react-jhipster';
+import { FAILURE, REQUEST, SUCCESS } from 'app/shared/reducers/action-type.util';
 
-import { cleanEntity } from 'app/shared/util/entity-utils';
-import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
-
-import { IActivity, defaultValue } from 'app/shared/model/activity.model';
+import { defaultValue, IActivity } from 'app/shared/model/activity.model';
 
 export const ACTION_TYPES = {
   FETCH_ACTIVITY_LIST: 'activity/FETCH_ACTIVITY_LIST',

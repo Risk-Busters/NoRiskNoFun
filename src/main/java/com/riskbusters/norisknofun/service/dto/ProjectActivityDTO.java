@@ -3,6 +3,7 @@ package com.riskbusters.norisknofun.service.dto;
 import com.riskbusters.norisknofun.domain.PointWithDate;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 public class ProjectActivityDTO implements Serializable {
@@ -38,6 +39,6 @@ public class ProjectActivityDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "ProjectActivityDTO{" + "projectActivityToday=" + projectActivityBasedOnUserScore + ", projectActivitiesOverTime=" + projectActivitiesOverTime + '}';
+        return "ProjectActivityDTO{" + "projectActivityToday=" + projectActivityBasedOnUserScore + ", projectActivitiesOverTime=" + Arrays.toString(projectActivitiesOverTime) + '}';
     }
 }

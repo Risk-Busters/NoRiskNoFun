@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
-import { Input, Row, Table } from 'reactstrap';
-import { Translate, TextFormat, JhiPagination, JhiItemCount, getSortState, IPaginationBaseState } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {RouteComponentProps} from 'react-router-dom';
+import {Input, Row, Table} from 'reactstrap';
+import {getSortState, JhiItemCount, JhiPagination, TextFormat, Translate} from 'react-jhipster';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
-import { APP_TIMESTAMP_FORMAT } from 'app/config/constants';
-import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
+import {APP_TIMESTAMP_FORMAT} from 'app/config/constants';
+import {ITEMS_PER_PAGE} from 'app/shared/util/pagination.constants';
 
-import { IRootState } from 'app/shared/reducers';
-import { getAudits } from '../administration.reducer';
+import {IRootState} from 'app/shared/reducers';
+import {getAudits} from '../administration.reducer';
 
 export interface IAuditsPageProps extends StateProps, DispatchProps, RouteComponentProps<{}> {}
 

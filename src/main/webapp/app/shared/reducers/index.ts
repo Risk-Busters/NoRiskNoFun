@@ -13,28 +13,19 @@ import password, { PasswordState } from 'app/modules/account/password/password.r
 import settings, { SettingsState } from 'app/modules/account/settings/settings.reducer';
 import passwordReset, { PasswordResetState } from 'app/modules/account/password-reset/password-reset.reducer';
 // prettier-ignore
-import risk, {
-  RiskState
-} from 'app/entities/risk/risk.reducer';
+import risk, {RiskState} from 'app/entities/risk/risk.reducer';
 // prettier-ignore
-import riskResponse, {
-  RiskResponseState
-} from 'app/entities/risk-response/risk-response.reducer';
+import riskResponse, {RiskResponseState} from 'app/entities/risk-response/risk-response.reducer';
 // prettier-ignore
-import project, {
-  ProjectState
-} from 'app/entities/project/project.reducer';
+import project, {ProjectState} from 'app/entities/project/project.reducer';
 // prettier-ignore
-import projectActivity, {
-  ProjectActivityState
-} from 'app/entities/project/project-activity.reducer';
+import projectActivity, {ProjectActivityState} from 'app/entities/project/project-activity.reducer';
 // prettier-ignore
-import projectRisks, {
-  ProjectRisksState
-} from 'app/entities/project-risks/project-risks.reducer';
+import projectRisks, {ProjectRisksState} from 'app/entities/project-risks/project-risks.reducer';
 import userGamification, { UserGamificationState } from 'app/entities/user-gamification/user-gamification.reducer';
 import activity, { ActivityState } from 'app/entities/activity/activity.reducer';
 import notification, { NotificationState } from 'app/shared/reducers/notification';
+
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {

@@ -1,6 +1,5 @@
 package com.riskbusters.norisknofun.web.rest.vm;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 

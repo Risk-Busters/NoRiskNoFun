@@ -3,15 +3,12 @@ import {connect} from 'react-redux';
 import {Link, RouteComponentProps} from 'react-router-dom';
 import {Button, Col, Label, Row} from 'reactstrap';
 import {AvField, AvForm, AvGroup, AvInput} from 'availity-reactstrap-validation';
-import {getItemType, translate, Translate} from 'react-jhipster';
+import {translate, Translate} from 'react-jhipster';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {IRootState} from 'app/shared/reducers';
 import {getUsers} from 'app/modules/administration/user-management/user-management.reducer';
 import {createEntity, getUserGamification, reset, updateEntity} from './user-gamification.reducer';
-import { AchievementType } from 'app/shared/model/enumerations/achievment-type.model';
-import {mapIdList} from "app/shared/util/entity-utils";
-import value from "*.json";
-import {IUserGamification} from "app/shared/model/user-gamification.model";
+import {AchievementType} from 'app/shared/model/enumerations/achievment-type.model';
 
 export interface IUserGamificationUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
 }

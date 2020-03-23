@@ -7,6 +7,7 @@ import com.riskbusters.norisknofun.repository.ProjectRepository;
 import com.riskbusters.norisknofun.service.MessagingService;
 import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
+import com.riskbusters.norisknofun.web.rest.errors.InvalidDateException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -58,6 +59,8 @@ public class ProjectResource {
         log.debug("REST request to save Project : {}", project);
         if (project.getId() != null) {
             throw new BadRequestAlertException("A new project cannot already have an ID", ENTITY_NAME, "idexists");
+        }else if (project.getStart().isAfter(project.getEnd())){
+            throw new InvalidDateException();
         }
         Project result = projectRepository.save(project);
         return ResponseEntity.created(new URI("/api/projects/" + result.getId()))

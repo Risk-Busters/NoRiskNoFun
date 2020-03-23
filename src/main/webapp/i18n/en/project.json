@@ -26,6 +26,7 @@
       "projectActivity": "Project activity status today",
       "projectRisks": "Project Risks",
       "user": "User",
+      "userPick": "Select team members",
       "toProjectRisks": "to Project Risks",
       "riskCategories": {
         "final": "Final risks",

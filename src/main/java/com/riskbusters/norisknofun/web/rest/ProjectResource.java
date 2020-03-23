@@ -1,13 +1,13 @@
 package com.riskbusters.norisknofun.web.rest;
 
 import com.google.firebase.messaging.FirebaseMessagingException;
-import com.riskbusters.norisknofun.domain.Activity;
 import com.riskbusters.norisknofun.domain.Project;
 import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.repository.ProjectRepository;
 import com.riskbusters.norisknofun.service.MessagingService;
 import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
+import com.riskbusters.norisknofun.web.rest.errors.InvalidDateException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -20,10 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * REST controller for managing {@link com.riskbusters.norisknofun.domain.Project}.
@@ -61,6 +59,8 @@ public class ProjectResource {
         log.debug("REST request to save Project : {}", project);
         if (project.getId() != null) {
             throw new BadRequestAlertException("A new project cannot already have an ID", ENTITY_NAME, "idexists");
+        }else if (project.getStart().isAfter(project.getEnd())){
+            throw new InvalidDateException();
         }
         Project result = projectRepository.save(project);
         return ResponseEntity.created(new URI("/api/projects/" + result.getId()))

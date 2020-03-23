@@ -7,11 +7,11 @@
         "createOrEditLabel": "Create or edit a Project",
         "notFound": "No Projects found"
       },
-      "created": "A new Project is created with identifier {{ param }}",
-      "updated": "A Project is updated with identifier {{ param }}",
-      "deleted": "A Project is deleted with identifier {{ param }}",
+      "created": "You created a new project!",
+      "updated": "You updated a project!",
+      "deleted": "You deleted a project!",
       "delete": {
-        "question": "Are you sure you want to delete Project {{ id }}?"
+        "question": "Are you sure you want to delete this project?"
       },
       "detail": {
         "title": "Project",

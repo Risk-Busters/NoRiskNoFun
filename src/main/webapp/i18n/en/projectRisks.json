@@ -19,11 +19,11 @@
         "finalLabel": "Final Risk",
         "notFound": "No Project Risks found"
       },
-      "created": "A new Project Risks is created with identifier {{ param }}",
-      "updated": "A Project Risks is updated with identifier {{ param }}",
-      "deleted": "A Project Risks is deleted with identifier {{ param }}",
+      "created": "You created a new Project Risk!",
+      "updated": "You updated a Project Risk!",
+      "deleted": "You deleted a Project Risk!",
       "delete": {
-        "question": "Are you sure you want to delete Project Risks {{ id }}?"
+        "question": "Are you sure you want to delete this Project Risks?"
       },
       "detail": {
         "title": "Project Risk",

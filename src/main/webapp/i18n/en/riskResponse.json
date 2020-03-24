@@ -7,11 +7,11 @@
         "createOrEditLabel": "Create or edit a Risk Response",
         "notFound": "No Risk Responses found"
       },
-      "created": "A new Risk Response is created with identifier {{ param }}",
-      "updated": "A Risk Response is updated with identifier {{ param }}",
-      "deleted": "A Risk Response is deleted with identifier {{ param }}",
+      "created": "You created a new Risk Response!",
+      "updated": "You updated a Risk Response!",
+      "deleted": "You deleted a Risk Response!",
       "delete": {
-        "question": "Are you sure you want to delete Risk Response {{ id }}?"
+        "question": "Are you sure you want to delete this Risk Response?"
       },
       "detail": {
         "title": "Risk Response"

@@ -93,10 +93,10 @@ export default () => next => action => {
               break;
 
             default:
-              if (data !== '' && data.message) {
+              if (data !== '' && data.message.length > 0) {
                 addErrorAlert(data.message);
               } else {
-                addErrorAlert(data);
+                console.log('Unexpected error: no message!');
               }
           }
         }

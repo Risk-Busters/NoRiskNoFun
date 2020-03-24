@@ -61,7 +61,7 @@ export class RiskUpdate extends React.Component<IRiskUpdateProps, IRiskUpdateSta
   };
 
   handleClose = () => {
-    this.props.history.push('/entity/risk');
+    this.props.history.goBack();
   };
 
   render() {
@@ -118,7 +118,7 @@ export class RiskUpdate extends React.Component<IRiskUpdateProps, IRiskUpdateSta
                   />
                 </AvGroup>
 
-                <Button tag={Link} id="cancel-save" to="/entity/risk" replace color="info">
+                <Button id="cancel-save" onClick={() => this.handleClose()} replace color="info">
                   <FontAwesomeIcon icon="arrow-left"/>
                   &nbsp;
                   <span className="d-none d-md-inline">

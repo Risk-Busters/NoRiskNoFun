@@ -66,7 +66,7 @@ class ProjectUpdate extends React.Component<IProjectUpdateProps, IProjectUpdateS
 
 
   handleClose = () => {
-    this.props.history.push('/entity/project');
+    this.props.history.goBack();
   };
 
 
@@ -175,7 +175,7 @@ class ProjectUpdate extends React.Component<IProjectUpdateProps, IProjectUpdateS
                       </AvCheckboxGroup>
                   </div>
                 </AvGroup>
-                <Button tag={Link} id="cancel-save" to="/entity/project" replace color="info">
+                <Button id="cancel-save" onClick={() => this.handleClose()} replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />
                   &nbsp;
                   <span className="d-none d-md-inline">

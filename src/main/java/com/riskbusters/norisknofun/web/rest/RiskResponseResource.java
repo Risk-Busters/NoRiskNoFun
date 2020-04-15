@@ -2,9 +2,13 @@ package com.riskbusters.norisknofun.web.rest;
 
 import com.riskbusters.norisknofun.domain.ProjectRisks;
 import com.riskbusters.norisknofun.domain.RiskResponse;
+import com.riskbusters.norisknofun.domain.User;
+import com.riskbusters.norisknofun.domain.achievements.Achievement;
 import com.riskbusters.norisknofun.repository.ProjectRisksBaseRepository;
 import com.riskbusters.norisknofun.repository.RiskResponseRepository;
+import com.riskbusters.norisknofun.service.AchievementService;
 import com.riskbusters.norisknofun.service.ProjectRiskService;
+import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
 import com.riskbusters.norisknofun.web.rest.vm.NewRiskResponseVM;
 import io.github.jhipster.web.util.HeaderUtil;
@@ -38,11 +42,15 @@ public class RiskResponseResource {
     private final RiskResponseRepository riskResponseRepository;
     private final ProjectRisksBaseRepository projectRisksBaseRepository;
     private final ProjectRiskService projectRiskService;
+    private final UserService userService;
+    private final AchievementService achievementService;
 
-    public RiskResponseResource(RiskResponseRepository riskResponseRepository, ProjectRisksBaseRepository projectRisksBaseRepository, ProjectRiskService projectRiskService) {
+    public RiskResponseResource(RiskResponseRepository riskResponseRepository, ProjectRisksBaseRepository projectRisksBaseRepository, ProjectRiskService projectRiskService, UserService userService, AchievementService achievementService) {
         this.riskResponseRepository = riskResponseRepository;
         this.projectRisksBaseRepository = projectRisksBaseRepository;
         this.projectRiskService = projectRiskService;
+        this.userService = userService;
+        this.achievementService = achievementService;
     }
 
     /**
@@ -71,6 +79,11 @@ public class RiskResponseResource {
                 projectRiskService.updateDiscussionStatus(projectRisks);
             });
         }
+        if (userService.getUserWithAuthorities().isPresent()) {
+            User user = userService.getUserWithAuthorities().get();
+            achievementService.handleBusterAchievement(user);
+        }
+
         return ResponseEntity.created(new URI("/api/risk-responses/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);

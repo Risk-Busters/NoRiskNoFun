@@ -92,6 +92,8 @@ public class ProjectRiskService {
         projectRisk.getDiscussions().add(discussion);
         projectRisksBaseRepository.save(projectRisk);
 
+        achievementService.handleSageAchievement(user);
+
         return discussion;
     }
 

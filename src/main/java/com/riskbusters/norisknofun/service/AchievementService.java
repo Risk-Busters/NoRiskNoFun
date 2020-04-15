@@ -2,10 +2,7 @@ package com.riskbusters.norisknofun.service;
 
 import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.UserGamification;
-import com.riskbusters.norisknofun.domain.achievements.Achievement;
-import com.riskbusters.norisknofun.domain.achievements.ProjectManager;
-import com.riskbusters.norisknofun.domain.achievements.ProjectMember;
-import com.riskbusters.norisknofun.domain.achievements.RiskOwner;
+import com.riskbusters.norisknofun.domain.achievements.*;
 import com.riskbusters.norisknofun.repository.achievements.AchievementBaseRepository;
 import com.riskbusters.norisknofun.repository.gamification.UserGamificationRepository;
 import org.slf4j.Logger;
@@ -85,5 +82,17 @@ public class AchievementService {
         Set<Achievement> riskOwnerAchievements = userGamificationRepository.findByUserId(userInCharge.getId()).getUserAchievements();
         riskOwnerAchievements.add(new RiskOwner());
         this.addAchievementsForUser(riskOwnerAchievements, userInCharge.getId());
+    }
+
+    public void handleSageAchievement(User user) {
+        Set<Achievement> userAchievements = userGamificationRepository.findByUserId(user.getId()).getUserAchievements();
+        userAchievements.add(new RiskSage());
+        this.addAchievementsForUser(userAchievements, user.getId());
+    }
+
+    public void handleBusterAchievement(User user) {
+        Set<Achievement> userAchievements = userGamificationRepository.findByUserId(user.getId()).getUserAchievements();
+        userAchievements.add(new RiskBuster());
+        this.addAchievementsForUser(userAchievements, user.getId());
     }
 }

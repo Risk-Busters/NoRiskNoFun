@@ -4,6 +4,7 @@ import com.riskbusters.norisknofun.domain.enumeration.AchievementType;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import java.util.Objects;
 
 @Entity
 @DiscriminatorValue("riskMaster")

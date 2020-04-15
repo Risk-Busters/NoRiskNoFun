@@ -5,6 +5,7 @@ import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.domain.achievements.Achievement;
 import com.riskbusters.norisknofun.domain.achievements.ProjectManager;
 import com.riskbusters.norisknofun.domain.achievements.ProjectMember;
+import com.riskbusters.norisknofun.domain.achievements.RiskOwner;
 import com.riskbusters.norisknofun.repository.achievements.AchievementBaseRepository;
 import com.riskbusters.norisknofun.repository.gamification.UserGamificationRepository;
 import org.slf4j.Logger;
@@ -79,4 +80,10 @@ public class AchievementService {
             ownerAchievements.add(new ProjectManager());
             this.addAchievementsForUser(ownerAchievements, owner.getId());
         }
+
+    public void handleRiskOwnerAchievement(User userInCharge) {
+        Set<Achievement> riskOwnerAchievements = userGamificationRepository.findByUserId(userInCharge.getId()).getUserAchievements();
+        riskOwnerAchievements.add(new RiskOwner());
+        this.addAchievementsForUser(riskOwnerAchievements, userInCharge.getId());
+    }
 }

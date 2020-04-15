@@ -25,13 +25,15 @@ public class ProjectRiskService {
     private RiskDiscussionRepository riskDiscussionRepository;
     private PointsOverTimeService pointsOverTimeService;
     private MessagingService messagingService;
+    private AchievementService achievementService;
 
-    public ProjectRiskService(ProjectRisksBaseRepository projectRisksBaseRepository, RiskRepository riskRepository, RiskDiscussionRepository riskDiscussionRepository, PointsOverTimeService pointsOverTimeService, MessagingService messagingService) {
+    public ProjectRiskService(ProjectRisksBaseRepository projectRisksBaseRepository, RiskRepository riskRepository, RiskDiscussionRepository riskDiscussionRepository, PointsOverTimeService pointsOverTimeService, MessagingService messagingService, AchievementService achievementService) {
         this.projectRisksBaseRepository = projectRisksBaseRepository;
         this.riskRepository = riskRepository;
         this.riskDiscussionRepository = riskDiscussionRepository;
         this.pointsOverTimeService = pointsOverTimeService;
         this.messagingService = messagingService;
+        this.achievementService = achievementService;
     }
 
     public ProjectRisks proposeProjectRisk(String title, String description, Project project, User userWhoProposed) {
@@ -159,6 +161,7 @@ public class ProjectRiskService {
     public ProjectRisks addPersonInCharge(ProjectRisks discussedProjectRisk, User userInCharge) {
         discussedProjectRisk.setPersonInCharge(userInCharge);
         rewardUser(PointsPerAction.BE_PERSON_IN_CHARGE, userInCharge);
+        achievementService.handleRiskOwnerAchievement(userInCharge);
         sendNotification(userInCharge, "bepersonincharge");
         updateDiscussionStatus(discussedProjectRisk);
         return saveProjectRisk(discussedProjectRisk);

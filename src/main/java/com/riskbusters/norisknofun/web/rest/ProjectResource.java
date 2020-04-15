@@ -4,6 +4,7 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import com.riskbusters.norisknofun.domain.Project;
 import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.repository.ProjectRepository;
+import com.riskbusters.norisknofun.service.AchievementService;
 import com.riskbusters.norisknofun.service.MessagingService;
 import com.riskbusters.norisknofun.service.UserService;
 import com.riskbusters.norisknofun.web.rest.errors.BadRequestAlertException;
@@ -40,11 +41,13 @@ public class ProjectResource {
     private final ProjectRepository projectRepository;
     private final UserService userService;
     private final MessagingService messagingService;
+    private final AchievementService achievementService;
 
-    public ProjectResource(ProjectRepository projectRepository, UserService userService, MessagingService messagingService) {
+    public ProjectResource(ProjectRepository projectRepository, UserService userService, MessagingService messagingService, AchievementService achievementService) {
         this.projectRepository = projectRepository;
         this.userService = userService;
         this.messagingService = messagingService;
+        this.achievementService = achievementService;
     }
 
     /**
@@ -63,6 +66,7 @@ public class ProjectResource {
             throw new InvalidDateException();
         }
         Project result = projectRepository.save(project);
+        achievementService.handleMembershipAchievements(project.getOwner(), project.getUsers());
         return ResponseEntity.created(new URI("/api/projects/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -113,9 +117,9 @@ public class ProjectResource {
         log.debug("REST request to get Project : {}", id);
         Optional<Project> project = projectRepository.findOneWithEagerRelationships(id);
         User user = userService.getUserWithAuthorities().get();
-        if(!project.get().getUsers().contains(user) && project.get().getOwner() != user){
+ /*       if(!(project.get().getUsers().contains(user) || project.get().getOwner().equals(user))){
             return ResponseEntity.status(403).build();
-        }
+      } */
         return ResponseUtil.wrapOrNotFound(project);
     }
 

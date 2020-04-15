@@ -27,4 +27,6 @@ public interface RiskRepository extends JpaRepository<Risk, Long> {
     @Query("select risk from Risk risk left join fetch risk.riskResponses where risk.id =:id")
     Optional<Risk> findOneWithEagerRelationships(@Param("id") Long id);
 
+
+
 }

@@ -13,4 +13,20 @@ public class RiskOwner extends Achievement {
         super();
         this.name = AchievementType.RISK_OWNER;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ProjectManager)) {
+            return false;
+        }
+        return name != null && name.equals(((ProjectManager) o).name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }

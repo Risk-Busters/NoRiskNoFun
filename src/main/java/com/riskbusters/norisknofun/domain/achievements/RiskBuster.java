@@ -13,4 +13,20 @@ public class RiskBuster extends Achievement {
         super();
         this.name = AchievementType.RISK_BUSTER;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ProjectManager)) {
+            return false;
+        }
+        return name != null && name.equals(((ProjectManager) o).name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }

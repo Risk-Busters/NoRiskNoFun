@@ -1,0 +1,26 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="ib (generated)" id="1584794265853-5">
+        <addColumn tableName="project">
+            <column name="end" type="date"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ib (generated)" id="1584794265853-6">
+        <dropColumn columnName="jhi_end" tableName="project"/>
+    </changeSet>
+    <changeSet author="ib (generated)" id="1584794265853-1">
+        <dropNotNullConstraint columnDataType="date" columnName="start" tableName="project"/>
+    </changeSet>
+    <changeSet author="ib (generated)" id="1584794265853-2">
+        <dropUniqueConstraint constraintName="UC_JHI_USEREMAIL_COL" tableName="jhi_user"/>
+        <addUniqueConstraint columnNames="email" constraintName="UC_JHI_USEREMAIL_COL" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="ib (generated)" id="1584794265853-3">
+        <dropUniqueConstraint constraintName="UC_JHI_USERLOGIN_COL" tableName="jhi_user"/>
+        <addUniqueConstraint columnNames="login" constraintName="UC_JHI_USERLOGIN_COL" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="ib (generated)" id="1584794265853-4">
+        <dropUniqueConstraint constraintName="UC_USER_GAMIFICATIONUSER_ID_COL" tableName="user_gamification"/>
+        <addUniqueConstraint columnNames="user_id" constraintName="UC_USER_GAMIFICATIONUSER_ID_COL" tableName="user_gamification"/>
+    </changeSet>
+</databaseChangeLog>

@@ -13,4 +13,19 @@ public class ProjectMember extends Achievement {
         super();
         this.name = AchievementType.PROJECT_MEMBER;
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ProjectManager)) {
+            return false;
+        }
+        return name != null && name.equals(((ProjectManager) o).name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }

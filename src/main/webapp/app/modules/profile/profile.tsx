@@ -4,51 +4,17 @@ import {IRootState} from 'app/shared/reducers';
 import {RouteComponentProps} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {Translate} from 'react-jhipster';
-import {Badge, Card, CardBody, CardSubtitle, CardText, CardTitle, Col, Media, Row} from 'reactstrap';
+import {Badge, Container, Media, Row} from 'reactstrap';
 import './profile.scss';
 import {languages} from 'app/config/translation';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faLanguage} from '@fortawesome/free-solid-svg-icons/faLanguage';
 import {faCalendarAlt} from '@fortawesome/free-solid-svg-icons/faCalendarAlt';
 import {convertDateTimeFromServer} from 'app/shared/util/date-utils';
-import {IconDefinition} from '@fortawesome/fontawesome-svg-core';
-import {faMedal} from '@fortawesome/free-solid-svg-icons/faMedal';
-import {faTrophy} from '@fortawesome/free-solid-svg-icons/faTrophy';
-import {faUsers} from '@fortawesome/free-solid-svg-icons/faUsers';
-import {faCrown} from '@fortawesome/free-solid-svg-icons/faCrown';
-import {faAward} from '@fortawesome/free-solid-svg-icons/faAward';
 import {getUserGamification} from "app/entities/user-gamification/user-gamification.reducer";
 import {IUserGamification} from "app/shared/model/user-gamification.model";
 import {UserActivityGraph} from "app/modules/useractivity/useractivity";
-
-// TODO: Interface and Achievement List to be replaced when Gamification Concept is done.
-interface AchievementMock {
-  title: string;
-  description: string;
-  icon: IconDefinition;
-}
-
-// TODO: adapt amounts
-const achievementList: Array<AchievementMock> = [
-  {title: 'Project member', description: 'Achievement for being a respectable project member.', icon: faUsers},
-  {
-    title: 'Risk owner',
-    description: 'Achievement for owning TODO: XYZ risks (being the person in charge).',
-    icon: faTrophy
-  },
-  {title: 'Risk sage', description: 'Achievement for reviewing and contributing TODO: XYZ risks.', icon: faAward},
-  {
-    title: 'Risk master',
-    description: 'Achievement being active part of TODO: XYZ risk ranking processes.',
-    icon: faAward
-  },
-  {
-    title: 'Risk buster',
-    description: 'Achievement for successful contribution of TODO: XYZ risk responses.',
-    icon: faMedal
-  },
-  {title: 'Project manager', description: 'Your are a project manager!', icon: faCrown}
-];
+import {AchievementContainer} from "app/modules/profile/achievements";
 
 export interface IProfileProps extends StateProps, DispatchProps, IUserGamification, RouteComponentProps<{ login?: string }> {
 }
@@ -88,25 +54,7 @@ export const Profile = (props: IProfileProps) => {
     return user.firstName && user.lastName ? `${user.firstName} ${user.lastName} (${user.login})` : user.login;
   };
 
-  const achievementCards = (achievements: Array<AchievementMock>) => {
-    return achievements.map((achievement, index) => {
-      return (
-        <Col key={`achievement-id-${index}`} sm="6" md="4" lg="3">
-          <Card className="achievement">
-            <CardBody>
-              <CardTitle>
-                <FontAwesomeIcon icon={achievement.icon} size="10x"/>
-              </CardTitle>
-              <CardSubtitle>
-                <b>{achievement.title}</b>
-              </CardSubtitle>
-              <CardText>{achievement.description}</CardText>
-            </CardBody>
-          </Card>
-        </Col>
-      );
-    });
-  };
+  const achievementCards = <AchievementContainer userAchievements={userGamificationEntitiy.userAchievements}/>
 
   return (
     <div>
@@ -115,7 +63,7 @@ export const Profile = (props: IProfileProps) => {
           <Media left href="">
             <Media
               object
-              src="../../../content/images/jhipster_family_member_0_head-192.png"
+              src="../../../content/images/logo.svg"
               alt="No Profile Picture Available"
               className="picture"
             />
@@ -161,7 +109,7 @@ export const Profile = (props: IProfileProps) => {
       <h4>
         <Translate contentKey="noRiskNoFunApp.userGamification.achievementsTitle" />
       </h4>
-      <Row>{achievementCards(achievementList)}</Row>
+      <div>{achievementCards}</div>
     </div>
   );
 };

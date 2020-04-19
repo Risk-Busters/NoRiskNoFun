@@ -35,7 +35,23 @@
         "activity": "Activity"
       },
       "achievementsTitle": "Achievements",
-      "activityGraphTitle": "Your Activity"
+      "activityGraphTitle": "Your Activity",
+      "achievementDescriptions": {
+        "memberDescription": "You joined a project",
+        "ownerDescription": "You're a risk owner",
+        "sageDescription": "You contributed your risk insight",
+        "masterDescription": "You put risks in their spots",
+        "busterDescription": "You know your risk responses",
+        "pmDescription": "Somebody has to manage the project"
+      },
+      "achievementNames": {
+        "PROJECT_MEMBER": "Project Member",
+        "RISK_SAGE": "Risk Sage",
+        "RISK_OWNER": "Risk Owner",
+        "RISK_MASTER": "Risk Master",
+        "RISK_BUSTER": "Risk Buster",
+        "PROJECT_MANAGER": "Project Manager"
+      }
     }
   }
 }

@@ -20,10 +20,10 @@ public class RiskOwner extends Achievement {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ProjectManager)) {
+        if (!(o instanceof RiskOwner)) {
             return false;
         }
-        return name != null && name.equals(((ProjectManager) o).name);
+        return name != null && name.equals(((RiskOwner) o).name);
     }
 
     @Override

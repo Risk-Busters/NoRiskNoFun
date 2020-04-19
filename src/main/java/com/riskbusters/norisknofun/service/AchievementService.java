@@ -68,6 +68,7 @@ public class AchievementService {
             Set<Achievement> userAchievements = userGamificationRepository.findByUserId(user.getId()).getUserAchievements();
             userAchievements.add(new ProjectMember());
             this.addAchievementsForUser(userAchievements, user.getId());
+            log.debug("User: "+user+"Achievements: "+userAchievements.toString());
         }
 
     }

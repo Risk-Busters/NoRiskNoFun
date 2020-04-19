@@ -19,10 +19,10 @@ public class ProjectMember extends Achievement {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ProjectManager)) {
+        if (!(o instanceof ProjectMember)) {
             return false;
         }
-        return name != null && name.equals(((ProjectManager) o).name);
+        return name != null && name.equals(((ProjectMember) o).name);
     }
 
     @Override

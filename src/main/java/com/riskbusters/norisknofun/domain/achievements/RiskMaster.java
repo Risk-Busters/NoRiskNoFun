@@ -20,10 +20,10 @@ public class RiskMaster extends Achievement {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ProjectManager)) {
+        if (!(o instanceof RiskMaster)) {
             return false;
         }
-        return name != null && name.equals(((ProjectManager) o).name);
+        return name != null && name.equals(((RiskMaster) o).name);
     }
 
     @Override

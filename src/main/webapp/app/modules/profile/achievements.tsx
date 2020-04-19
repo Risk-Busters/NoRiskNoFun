@@ -13,7 +13,11 @@ export const AchievementContainer = (props: IAchievementProps) => {
 
   const achievements = new Map([
     ['PROJECT_MEMBER', { Description: 'memberDescription', Icon: 'ProjectMemberBadge.svg' }],
-    ['PROJECT_MANAGER', { Description: 'pmDescription', Icon: 'ProjectManagerBadge.svg' }]
+    ['PROJECT_MANAGER', { Description: 'pmDescription', Icon: 'ProjectManagerBadge.svg' }],
+    ['RISK_SAGE', { Description: 'sageDescription', Icon: 'RiskSageBadge.svg' }],
+    ['RISK_OWNER', { Description: 'ownerDescription', Icon: 'RiskOwnerBadge.svg' }],
+    ['RISK_BUSTER', { Description: 'busterDescription', Icon: 'RiskBusterBadge.svg' }],
+    ['RISK_MASTER', { Description: 'masterDescription', Icon: 'RiskMasterBadge.svg' }],
   ]);
 
   function buildAchievementTile(AchievementTitle) {

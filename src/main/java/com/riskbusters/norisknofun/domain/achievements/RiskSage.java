@@ -19,10 +19,10 @@ public class RiskSage extends Achievement {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ProjectManager)) {
+        if (!(o instanceof RiskSage)) {
             return false;
         }
-        return name != null && name.equals(((ProjectManager) o).name);
+        return name != null && name.equals(((RiskSage) o).name);
     }
 
     @Override

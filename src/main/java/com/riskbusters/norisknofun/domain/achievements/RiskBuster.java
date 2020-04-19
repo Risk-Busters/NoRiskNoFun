@@ -20,10 +20,10 @@ public class RiskBuster extends Achievement {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ProjectManager)) {
+        if (!(o instanceof RiskBuster)) {
             return false;
         }
-        return name != null && name.equals(((ProjectManager) o).name);
+        return name != null && name.equals(((RiskBuster) o).name);
     }
 
     @Override

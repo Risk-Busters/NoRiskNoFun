@@ -38,7 +38,7 @@
       "activityGraphTitle": "Your Activity",
       "achievementDescriptions": {
         "memberDescription": "You joined a project",
-        "ownerDescription": "You're a risk owner",
+        "ownerDescription": "You owned these risks",
         "sageDescription": "You contributed your risk insight",
         "masterDescription": "You put risks in their spots",
         "busterDescription": "You know your risk responses",

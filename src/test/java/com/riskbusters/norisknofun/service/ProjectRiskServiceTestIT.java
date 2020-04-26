@@ -57,6 +57,10 @@ class ProjectRiskServiceTestIT {
     @Autowired
     private EntityManager em;
 
+    private static void accept(ProjectRisks projectRisks) {
+        assertEquals("final", projectRisks.riskDiscussionStatus);
+    }
+
     @BeforeEach
     void setUp() {
         demoUser = UserResourceIT.createEntity(em);
@@ -87,9 +91,8 @@ class ProjectRiskServiceTestIT {
     }
 
     private void addGamification(User user) {
-        UserGamification gamification = new UserGamification();
-        gamification.setUser(user);
-        gamification.setUserAchievements(new HashSet<Achievement>());
+        UserGamification gamification = new UserGamification(user, 0.0);
+        gamification.setUserAchievements(new HashSet<>());
         gamificationRepository.save(gamification);
     }
 
@@ -140,11 +143,7 @@ class ProjectRiskServiceTestIT {
         }
 
         projectRiskService.updateDiscussionStatus(projectRisk);
-        projectRisksBaseRepository.findById(projectRisk.getId()).ifPresentOrElse(projectRisks -> {
-            assertEquals("final", projectRisks.riskDiscussionStatus);
-        }, () -> {
-            fail("Project Risk went missing during the discussion process.");
-        });
+        projectRisksBaseRepository.findById(projectRisk.getId()).ifPresentOrElse(ProjectRiskServiceTestIT::accept, () -> fail("Project Risk went missing during the discussion process."));
 
     }
 

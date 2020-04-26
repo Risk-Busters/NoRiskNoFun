@@ -63,6 +63,9 @@ public class UserService {
                 user.setActivationKey(null);
                 this.clearUserCaches(user);
                 log.debug("Activated user: {}", user);
+                UserGamification gamification = new UserGamification(user, 0.0);
+                gamification.setUserAchievements(new HashSet<>());
+                gamificationRepository.save(gamification);
                 return user;
             });
     }
@@ -124,10 +127,6 @@ public class UserService {
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
-        UserGamification gamification = new UserGamification();
-        gamification.setUser(newUser);
-        gamification.setUserAchievements(new HashSet<Achievement>());
-        gamificationRepository.save(gamification);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
@@ -171,9 +170,8 @@ public class UserService {
             user.setAuthorities(authorities);
         }
         userRepository.save(user);
-        UserGamification gamification = new UserGamification();
-        gamification.setUser(user);
-        gamification.setUserAchievements(new HashSet<Achievement>());
+        UserGamification gamification = new UserGamification(user, 0.0);
+        gamification.setUserAchievements(new HashSet<>());
         gamificationRepository.save(gamification);
         this.clearUserCaches(user);
         log.debug("Created Information for User: {}", user);

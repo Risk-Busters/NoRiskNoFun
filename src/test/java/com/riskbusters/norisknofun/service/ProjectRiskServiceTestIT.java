@@ -105,7 +105,7 @@ class ProjectRiskServiceTestIT {
         assertEquals("toBeDiscussed", projectRisk.riskDiscussionStatus);
 
         projectRiskService.saveProjectRiskDiscussion(SeverityType.OK, ProbabilityType.MAYBE, projectRisk, demoUser);
-        projectRiskService.saveProjectRiskDiscussion(SeverityType.OK, ProbabilityType.MAYBE, projectRisk, demoUserTwo);
+        //projectRiskService.saveProjectRiskDiscussion(SeverityType.OK, ProbabilityType.MAYBE, projectRisk, demoUserTwo);
         projectRiskService.saveProjectRiskDiscussion(SeverityType.OK, ProbabilityType.MAYBE, projectRisk, demoUserThree);
         projectRiskService.saveProjectRiskDiscussion(SeverityType.OK, ProbabilityType.MAYBE, projectRisk, demoUserFour);
 

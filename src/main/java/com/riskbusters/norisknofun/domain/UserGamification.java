@@ -25,7 +25,7 @@ public class UserGamification implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.REMOVE)
     @JoinColumn(unique = true)
     private User user;
 

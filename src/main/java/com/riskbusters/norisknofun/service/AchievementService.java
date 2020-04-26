@@ -65,35 +65,32 @@ public class AchievementService {
 
     private void setProjectmemberAchievement(Set<User> users) {
         for (User user: users) {
-            Set<Achievement> userAchievements = userGamificationRepository.findByUserId(user.getId()).getUserAchievements();
-            userAchievements.add(new ProjectMember());
-            this.addAchievementsForUser(userAchievements, user.getId());
-            log.debug("User: "+user+"Achievements: "+userAchievements.toString());
+            this.addAchievementsForUser(addOrCreate(new ProjectMember(), user), user.getId());
         }
 
     }
 
     private void setProjectmanagerAchievement(User owner) {
-        Set<Achievement> ownerAchievements = userGamificationRepository.findByUserId(owner.getId()).getUserAchievements();
-            ownerAchievements.add(new ProjectManager());
-            this.addAchievementsForUser(ownerAchievements, owner.getId());
+            this.addAchievementsForUser(addOrCreate(new ProjectManager(), owner), owner.getId());
         }
 
     public void handleRiskOwnerAchievement(User userInCharge) {
-        Set<Achievement> riskOwnerAchievements = userGamificationRepository.findByUserId(userInCharge.getId()).getUserAchievements();
-        riskOwnerAchievements.add(new RiskOwner());
-        this.addAchievementsForUser(riskOwnerAchievements, userInCharge.getId());
+        this.addAchievementsForUser(addOrCreate(new RiskOwner(), userInCharge), userInCharge.getId());
     }
 
     public void handleSageAchievement(User user) {
-        Set<Achievement> userAchievements = userGamificationRepository.findByUserId(user.getId()).getUserAchievements();
-        userAchievements.add(new RiskSage());
-        this.addAchievementsForUser(userAchievements, user.getId());
+        this.addAchievementsForUser(addOrCreate(new RiskSage(), user), user.getId());
     }
 
     public void handleBusterAchievement(User user) {
-        Set<Achievement> userAchievements = userGamificationRepository.findByUserId(user.getId()).getUserAchievements();
-        userAchievements.add(new RiskBuster());
-        this.addAchievementsForUser(userAchievements, user.getId());
+        this.addAchievementsForUser(addOrCreate(new RiskBuster(), user), user.getId());
+    }
+
+    public Set<Achievement> addOrCreate(Achievement achievement, User user){
+        Set<Achievement> userAchievements = new HashSet<Achievement>();
+        if (userGamificationRepository.findByUserId(user.getId()).getUserAchievements()!=null){
+        userAchievements = userGamificationRepository.findByUserId(user.getId()).getUserAchievements();}
+        userAchievements.add(achievement);
+        return userAchievements;
     }
 }

@@ -1,5 +1,6 @@
 package com.riskbusters.norisknofun.service;
 
+import com.riskbusters.norisknofun.domain.Activity;
 import com.riskbusters.norisknofun.domain.User;
 import com.riskbusters.norisknofun.domain.UserGamification;
 import com.riskbusters.norisknofun.domain.achievements.*;
@@ -10,9 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Service Implementation for managing {@link Achievement}.
@@ -25,10 +24,12 @@ public class AchievementService {
 
     private final AchievementBaseRepository achievementBaseRepository;
     private final UserGamificationRepository userGamificationRepository;
+    private final MessagingService messagingService;
 
-    public AchievementService(AchievementBaseRepository achievementBaseRepository, UserGamificationRepository userGamificationRepository) {
+    public AchievementService(AchievementBaseRepository achievementBaseRepository, UserGamificationRepository userGamificationRepository, MessagingService messagingService) {
         this.achievementBaseRepository = achievementBaseRepository;
         this.userGamificationRepository = userGamificationRepository;
+        this.messagingService = messagingService;
     }
 
     /**
@@ -91,7 +92,16 @@ public class AchievementService {
         if (userGamificationRepository.findByUserId(user.getId()).getUserAchievements()!=null){
             userAchievements = userGamificationRepository.findByUserId(user.getId()).getUserAchievements();
         }
-        userAchievements.add(achievement);
+        if (userAchievements.add(achievement)) { sendNotification(achievement, user); }
         return userAchievements;
+    }
+
+    public void sendNotification(Achievement achievement, User user) {
+        Activity activity = new Activity();
+        activity.setActivityDescriptionKey("activity.reward." + achievement);
+        activity.setUsers(new HashSet<>(Collections.singletonList(user)));
+        activity.setTargetUrl("/profile");
+        activity.setDate(new Date());
+        messagingService.addActivityWithNotification(activity);
     }
 }

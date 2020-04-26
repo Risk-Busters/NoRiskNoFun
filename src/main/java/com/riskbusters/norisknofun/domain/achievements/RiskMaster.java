@@ -30,4 +30,9 @@ public class RiskMaster extends Achievement {
     public int hashCode() {
         return Objects.hash(name);
     }
+
+    @Override
+    public String toString() {
+        return "master";
+    }
 }

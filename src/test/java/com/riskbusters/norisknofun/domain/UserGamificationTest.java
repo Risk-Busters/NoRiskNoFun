@@ -89,7 +89,7 @@ class UserGamificationTest {
         userGamification.setActivityScoreBasedOnPoints(44.0);
         userGamification.setUserAchievements(achievements);
 
-        String expected = "UserGamification{id=3userId=1, activityScoreBasedOnPoints=44.0, achievements=[Achievement{name=RISK_BUSTER}]}";
+        String expected = "UserGamification{id=3userId=1, activityScoreBasedOnPoints=44.0, achievements=[buster]}";
         assertEquals(expected, userGamification.toString());
     }
 

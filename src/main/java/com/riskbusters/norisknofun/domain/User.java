@@ -38,6 +38,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserGamification gamification;
 
+    public UserGamification getGamification() {
+        return gamification;
+    }
+
+    public void setGamification(UserGamification gamification) {
+        this.gamification = gamification;
+    }
+
     @NotNull
     @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 50)

@@ -35,7 +35,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @OneToOne(mappedBy="user", cascade=CascadeType.REMOVE) UserGamification gamification;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserGamification gamification;
 
     @NotNull
     @Pattern(regexp = Constants.LOGIN_REGEX)

@@ -2,6 +2,7 @@ package com.riskbusters.norisknofun.service;
 
 import com.riskbusters.norisknofun.NoRiskNoFunApp;
 import com.riskbusters.norisknofun.domain.*;
+import com.riskbusters.norisknofun.domain.achievements.Achievement;
 import com.riskbusters.norisknofun.domain.enumeration.ProbabilityType;
 import com.riskbusters.norisknofun.domain.enumeration.RiskResponseType;
 import com.riskbusters.norisknofun.domain.enumeration.SeverityType;
@@ -9,6 +10,7 @@ import com.riskbusters.norisknofun.domain.enumeration.StatusType;
 import com.riskbusters.norisknofun.repository.ProjectRisksBaseRepository;
 import com.riskbusters.norisknofun.repository.RiskRepository;
 import com.riskbusters.norisknofun.repository.RiskResponseRepository;
+import com.riskbusters.norisknofun.repository.gamification.UserGamificationRepository;
 import com.riskbusters.norisknofun.web.rest.UserResourceIT;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -44,6 +47,9 @@ class ProjectRiskServiceTestIT {
 
     @Autowired
     private RiskResponseRepository riskResponseRepository;
+
+    @Autowired
+    private UserGamificationRepository gamificationRepository;
 
     @Autowired
     private ProjectRiskService projectRiskService;
@@ -73,6 +79,18 @@ class ProjectRiskServiceTestIT {
         em.persist(demoUserThree);
         em.persist(demoUserFour);
         em.persist(demoProject);
+
+        addGamification(demoUser);
+        addGamification(demoUserTwo);
+        addGamification(demoUserThree);
+        addGamification(demoUserFour);
+    }
+
+    private void addGamification(User user) {
+        UserGamification gamification = new UserGamification();
+        gamification.setUser(user);
+        gamification.setUserAchievements(new HashSet<Achievement>());
+        gamificationRepository.save(gamification);
     }
 
     @Test

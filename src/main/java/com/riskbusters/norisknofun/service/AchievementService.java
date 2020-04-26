@@ -89,7 +89,8 @@ public class AchievementService {
     public Set<Achievement> addOrCreate(Achievement achievement, User user){
         Set<Achievement> userAchievements = new HashSet<Achievement>();
         if (userGamificationRepository.findByUserId(user.getId()).getUserAchievements()!=null){
-        userAchievements = userGamificationRepository.findByUserId(user.getId()).getUserAchievements();}
+            userAchievements = userGamificationRepository.findByUserId(user.getId()).getUserAchievements();
+        }
         userAchievements.add(achievement);
         return userAchievements;
     }

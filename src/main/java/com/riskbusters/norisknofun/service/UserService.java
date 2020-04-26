@@ -3,8 +3,11 @@ package com.riskbusters.norisknofun.service;
 import com.riskbusters.norisknofun.config.Constants;
 import com.riskbusters.norisknofun.domain.Authority;
 import com.riskbusters.norisknofun.domain.User;
+import com.riskbusters.norisknofun.domain.UserGamification;
+import com.riskbusters.norisknofun.domain.achievements.Achievement;
 import com.riskbusters.norisknofun.repository.AuthorityRepository;
 import com.riskbusters.norisknofun.repository.UserRepository;
+import com.riskbusters.norisknofun.repository.gamification.UserGamificationRepository;
 import com.riskbusters.norisknofun.security.AuthoritiesConstants;
 import com.riskbusters.norisknofun.security.SecurityUtils;
 import com.riskbusters.norisknofun.service.dto.UserDTO;
@@ -41,11 +44,14 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    private final UserGamificationRepository gamificationRepository;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager, UserGamificationRepository gamificationRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.gamificationRepository = gamificationRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -118,6 +124,10 @@ public class UserService {
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
+        UserGamification gamification = new UserGamification();
+        gamification.setUser(newUser);
+        gamification.setUserAchievements(new HashSet<Achievement>());
+        gamificationRepository.save(gamification);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
@@ -161,6 +171,10 @@ public class UserService {
             user.setAuthorities(authorities);
         }
         userRepository.save(user);
+        UserGamification gamification = new UserGamification();
+        gamification.setUser(user);
+        gamification.setUserAchievements(new HashSet<Achievement>());
+        gamificationRepository.save(gamification);
         this.clearUserCaches(user);
         log.debug("Created Information for User: {}", user);
         return user;

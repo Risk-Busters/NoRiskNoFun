@@ -8,7 +8,7 @@ import appConfig from 'app/config/constants';
 
 export const BrandIcon = props => (
   <div {...props} className="brand-icon">
-    <img src="content/images/TODO.svg" alt="Logo"/>
+    <img src="content/images/Logo256.png" alt="Logo"/>
   </div>
 );
 

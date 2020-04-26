@@ -2,10 +2,12 @@ package com.riskbusters.norisknofun.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.riskbusters.norisknofun.config.Constants;
+import com.riskbusters.norisknofun.repository.gamification.UserGamificationRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -32,6 +34,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
+
+    @OneToOne(mappedBy="user", cascade=CascadeType.REMOVE) UserGamification gamification;
 
     @NotNull
     @Pattern(regexp = Constants.LOGIN_REGEX)

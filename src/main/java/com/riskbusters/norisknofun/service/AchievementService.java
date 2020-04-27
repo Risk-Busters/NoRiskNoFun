@@ -99,7 +99,9 @@ public class AchievementService {
     public void sendNotification(Achievement achievement, User user) {
         Activity activity = new Activity();
         activity.setActivityDescriptionKey("activity.reward." + achievement);
-        activity.setUsers(new HashSet<>(Collections.singletonList(user)));
+        Set<User> users = new HashSet<>();
+        users.add(user);
+        activity.setUsers(users);
         activity.setTargetUrl("/profile");
         activity.setDate(new Date());
         messagingService.addActivityWithNotification(activity);

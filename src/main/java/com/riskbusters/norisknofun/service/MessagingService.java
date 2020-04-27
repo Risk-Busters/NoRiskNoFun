@@ -59,6 +59,8 @@ public class MessagingService {
     public void addActivityWithNotification(Activity activity) {
         activityRepository.save(activity);
 
+        if (activity.getUsers() == null || activity.getUsers().size() == 0) return;
+
         GroupUserUtil.groupByLang(activity.getUsers()).forEach((langKey, userList) -> {
             String message = messageSource.getMessage(activity.getActivityDescriptionKey(), null, Locale.forLanguageTag(langKey));
             try {

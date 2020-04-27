@@ -17,6 +17,6 @@ public class GroupUserUtil {
      * Groups Users by Language Key
      */
     public static Map<String, List<User>> groupByLang(Set<User> users) {
-        return users.stream().filter(Objects::nonNull).collect(Collectors.groupingBy(User::getLangKey));
+        return users.stream().filter(user -> user.getLangKey() != null).collect(Collectors.groupingBy(User::getLangKey));
     }
 }

@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.com/Risk-Busters/NoRiskNoFun.svg?branch=master)](https://travis-ci.com/Risk-Busters/NoRiskNoFun)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=NoRiskNoFun&metric=coverage)](https://sonarcloud.io/dashboard?id=NoRiskNoFun)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=NoRiskNoFun&metric=alert_status)](https://sonarcloud.io/dashboard?id=NoRiskNoFun)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=NoRiskNoFun&metric=ncloc)](https://sonarcloud.io/dashboard?id=NoRiskNoFun)
+<!---[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=NoRiskNoFun&metric=alert_status)](https://sonarcloud.io/dashboard?id=NoRiskNoFun)-->
 
 # NoRiskNoFun
 
@@ -9,36 +9,45 @@ This application was generated using JHipster 6.6.0, you can find documentation 
 
 ## Development
 
+tl;dr
+
+```shell script
+docker-compose -f src/main/docker/postgresql.yml up
+./mvnw spring-boot:run -Dspring.profiles.active=dev,tls,swagger
+npm install && npm start-tls
+```
+
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
-1. [Node.js][]: We use Node to run a development web server and build the project.
+1. [Node.js](https://nodejs.org/en/): We use Node to run a development web server and build the project.
    Depending on your system, you can install Node either from source or as a pre-packaged bundle.
+   
+2. [Docker (Compose)](https://www.docker.com/): We use docker to quickly run a development h2 database. You can use your own h2 database and configure it in the spring profiles.
 
-After installing Node, you should be able to run the following command to install development tools.
-You will only need to run this command when dependencies change in [package.json](package.json).
+3. [Firebase Messaging](https://firebase.google.com/docs/admin/setup#initialize-sdk): We use Firebase Messaging for Push Notifications, you will need to create an enviroment called `GOOGLE_APPLICATION_CREDENTIALS` which refers to a private key of a service account of your Firebase project. Also change the `firebaseConfig` in `src/main/webapp/app/config/constants.ts`. If you want to use this functionality, you need to run everything with TLS enabled as the service worker can only register over https.
+
+4. [Local SMTP Server](): Furthermore, if you want to use the `MailService`, make sure to run a fake SMTP server. The scripts within `src/main/docker` help you to set one up with the correct port.
+
+After installing Node, you should be able to run the following command to install the required dependencies.
+You will only need to run this command when dependencies change in [package.json](package.json) or initially.
 
     npm install
-
-We use npm scripts and [Webpack][] as our build system.
-
-As we use Firebase Messaging for Push Notifications, you will need to create an enviroment called `GOOGLE_APPLICATION_CREDENTIALS` which refers to a private key of a service account of your Firebase project.
-Also change the `firebaseConfig` in `src/main/webapp/app/config/constants.ts`. For more details and how to download the private key, please refer to the [official documentation](https://firebase.google.com/docs/admin/setup#initialize-sdk). If you want to use this functionality, you need to run everything with TLS enabled as the service worker can only register over https.
-
-Furthermore, if you want to use the `MailService`, make sure to run a fake SMTP server. The scripts within `src/main/docker` help you to set one up with the correct port.
-
-Run the following commands in two separate terminals to create a blissful development experience where your browser
+   
+Run the following commands in three separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
 
-Note: If you want to use Firebase Messaging, instead of running only the `./mvnw` command, make sure to start your application with the `tls` profile enabled. For example in IntelliJ, under `Run Configuration` add `tls` to the active spring profiles.
-
-    ./mvnw
+    docker-compose -f src/main/docker/postgresql.yml up
+    ./mvnw spring-boot:run -Dspring.profiles.active=dev,tls,swagger
     npm start-tls
 
 Npm is also used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
 specifying a newer version in [package.json](package.json). You can also run `npm update` and `npm install` to manage dependencies.
 Add the `help` flag on any command to see how you can use it. For example, `npm help update`.
 
-The `npm run` command will list all of the scripts available to run for this project.
+The following command will list all of the scripts available to run for this project.
+```
+npm run
+```
 
 ### PWA Support
 
@@ -176,6 +185,8 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 ## Continuous Integration (optional)
 
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
+
+For this repository, the CI is already setup within `.travis.yml`.
 
 [jhipster homepage and latest documentation]: https://www.jhipster.tech
 [jhipster 6.6.0 archive]: https://www.jhipster.tech/documentation-archive/v6.6.0

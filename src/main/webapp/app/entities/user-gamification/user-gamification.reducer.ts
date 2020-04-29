@@ -54,11 +54,6 @@ export default (state: UserGamificationState = initialState, action): UserGamifi
         errorMessage: action.payload
       };
     case SUCCESS(ACTION_TYPES.FETCH_USERGAMIFICATION_LIST):
-      return {
-        ...state,
-        loading: false,
-        entity: action.payload.data
-      };
     case SUCCESS(ACTION_TYPES.FETCH_USERGAMIFICATION):
       return {
         ...state,

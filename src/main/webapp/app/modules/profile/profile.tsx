@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {getUser} from '../administration/user-management/user-management.reducer';
 import {IRootState} from 'app/shared/reducers';
 import {RouteComponentProps} from 'react-router-dom';
@@ -21,14 +21,12 @@ import {getUserGamification} from "app/entities/user-gamification/user-gamificat
 import {IUserGamification} from "app/shared/model/user-gamification.model";
 import {UserActivityGraph} from "app/modules/useractivity/useractivity";
 
-// TODO: Interface and Achievement List to be replaced when Gamification Concept is done.
 interface AchievementMock {
   title: string;
   description: string;
   icon: IconDefinition;
 }
 
-// TODO: adapt amounts
 const achievementList: Array<AchievementMock> = [
   {title: 'Project member', description: 'Achievement for being a respectable project member.', icon: faUsers},
   {
@@ -55,8 +53,6 @@ export interface IProfileProps extends StateProps, DispatchProps, IUserGamificat
 
 export const Profile = (props: IProfileProps) => {
 
-  const [diagramStatus, setDiagramStatus] = useState([]);
-
   const getUserLogin = (): string => {
     if (props.match.params.login) {
       return props.match.params.login;
@@ -75,14 +71,6 @@ export const Profile = (props: IProfileProps) => {
 
   const {user} = props;
   const {userGamificationEntitiy} = props;
-
-  useEffect(() => {
-    if (userGamificationEntitiy.pointsOverTime !== undefined) {
-      const finalFormatForDiagram = userGamificationEntitiy.pointsOverTime.map(Object.values);
-      finalFormatForDiagram.unshift(['Date', 'Your Activity']);
-      setDiagramStatus(finalFormatForDiagram);
-    }
-  }, [userGamificationEntitiy.pointsOverTime]);
 
   const getProfileName = (): string => {
     return user.firstName && user.lastName ? `${user.firstName} ${user.lastName} (${user.login})` : user.login;
@@ -156,7 +144,7 @@ export const Profile = (props: IProfileProps) => {
       </h4>
       <UserActivityGraph history={props.history} location={props.location} match={props.match} user={props.user}
                          currentLogin={props.currentLogin} userGamificationEntitiy={userGamificationEntitiy}
-                         getUser={props.getUser} getUserGamification={props.getUserGamification}/>
+                         getUser={props.getUser} />
 
       <h4>
         <Translate contentKey="noRiskNoFunApp.userGamification.achievementsTitle" />

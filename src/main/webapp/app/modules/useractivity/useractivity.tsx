@@ -4,7 +4,6 @@ import {IRootState} from 'app/shared/reducers';
 import {RouteComponentProps} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {Spinner} from 'reactstrap';
-import {getUserGamification} from "app/entities/user-gamification/user-gamification.reducer";
 import {Chart} from "react-google-charts";
 import {IUserGamification} from "app/shared/model/user-gamification.model";
 import {translate} from "react-jhipster";
@@ -29,23 +28,12 @@ export const UserActivityGraph = (props: IUserActivityGraphProps) => {
   }, []);
 
   useEffect(() => {
-    props.getUserGamification(props.user.id);
-  }, []);
-
-  const {user} = props;
-  const {userGamificationEntitiy} = props;
-
-  useEffect(() => {
-    if (userGamificationEntitiy.pointsOverTime !== undefined) {
-      const finalFormatForDiagram = userGamificationEntitiy.pointsOverTime.map(Object.values);
+    if (props.userGamificationEntitiy.pointsOverTime !== undefined) {
+      const finalFormatForDiagram = props.userGamificationEntitiy.pointsOverTime.map(Object.values);
       finalFormatForDiagram.unshift(['Date', 'Your Activity']);
       setDiagramStatus(finalFormatForDiagram);
     }
-  }, [userGamificationEntitiy.pointsOverTime]);
-
-  const getProfileName = (): string => {
-    return user.firstName && user.lastName ? `${user.firstName} ${user.lastName} (${user.login})` : user.login;
-  };
+  }, [props.userGamificationEntitiy.pointsOverTime]);
 
   return (
     <div>
@@ -75,15 +63,14 @@ export const UserActivityGraph = (props: IUserActivityGraphProps) => {
   );
 };
 
-const mapStateToProps = (storeState: IRootState, {userGamification}: IRootState) => ({
+const mapStateToProps = (storeState: IRootState) => ({
   user: storeState.userManagement.user,
   currentLogin: storeState.authentication.account.login,
   userGamificationEntitiy: storeState.userGamification.entity
 });
 
 const mapDispatchToProps = {
-  getUser,
-  getUserGamification
+  getUser
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
